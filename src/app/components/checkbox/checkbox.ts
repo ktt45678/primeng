@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { ChangeDetectionStrategy, ChangeDetectorRef, Component, ElementRef, EventEmitter, forwardRef, Input, NgModule, Output, ViewChild, ViewEncapsulation } from '@angular/core';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, ElementRef, EventEmitter, forwardRef, Input, NgModule, OnInit, Output, ViewChild, ViewEncapsulation } from '@angular/core';
 import { ControlValueAccessor, FormControl, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { ObjectUtils } from 'primeng/utils';
 
@@ -45,6 +45,8 @@ export const CHECKBOX_VALUE_ACCESSOR: any = {
             [attr.for]="inputId"
             >{{ label }}</label
         >
+        <i *ngIf="icon" class="tw-cursor-pointer" [class]="icon" [ngClass]="{ 'p-disabled': disabled }"
+            (click)="onClick($event, cb, true)"></i>
     `,
     providers: [CHECKBOX_VALUE_ACCESSOR],
     changeDetection: ChangeDetectionStrategy.OnPush,
@@ -54,7 +56,7 @@ export const CHECKBOX_VALUE_ACCESSOR: any = {
         class: 'p-element'
     }
 })
-export class Checkbox implements ControlValueAccessor {
+export class Checkbox implements OnInit, ControlValueAccessor {
     @Input() value: any;
 
     @Input() name: string;
@@ -91,19 +93,25 @@ export class Checkbox implements ControlValueAccessor {
 
     @Input() falseValue: any = false;
 
+    @Input() icon?: string;
+
     @ViewChild('cb') inputViewChild: ElementRef;
 
     @Output() onChange: EventEmitter<any> = new EventEmitter();
 
     model: any;
 
-    onModelChange: Function = () => {};
+    onModelChange: Function = () => { };
 
-    onModelTouched: Function = () => {};
+    onModelTouched: Function = () => { };
 
     focused: boolean = false;
 
-    constructor(public cd: ChangeDetectorRef) {}
+    constructor(public cd: ChangeDetectorRef) { }
+
+    ngOnInit(): void {
+        this.model = this.value;
+    }
 
     onClick(event, checkbox, focus: boolean) {
         event.preventDefault();
@@ -188,4 +196,4 @@ export class Checkbox implements ControlValueAccessor {
     exports: [Checkbox],
     declarations: [Checkbox]
 })
-export class CheckboxModule {}
+export class CheckboxModule { }

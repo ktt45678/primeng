@@ -219,9 +219,9 @@ export class InputNumber implements OnInit, ControlValueAccessor {
 
     value: number;
 
-    onModelChange: Function = () => {};
+    onModelChange: Function = () => { };
 
-    onModelTouched: Function = () => {};
+    onModelTouched: Function = () => { };
 
     focused: boolean;
 
@@ -271,7 +271,7 @@ export class InputNumber implements OnInit, ControlValueAccessor {
         if (this.timer) this.clearTimer();
     }
 
-    constructor(public el: ElementRef, private cd: ChangeDetectorRef) {}
+    constructor(public el: ElementRef, private cd: ChangeDetectorRef) { }
 
     ngOnChanges(simpleChange: SimpleChanges) {
         const props = ['locale', 'localeMatcher', 'mode', 'currency', 'currencyDisplay', 'useGrouping', 'minFractionDigits', 'maxFractionDigits', 'prefix', 'suffix'];
@@ -930,10 +930,14 @@ export class InputNumber implements OnInit, ControlValueAccessor {
         }
 
         if (this.min != null && value < this.min) {
+            if (this.max)
+                return this.max;
             return this.min;
         }
 
         if (this.max != null && value > this.max) {
+            if (this.min)
+                return this.min;
             return this.max;
         }
 
@@ -1106,4 +1110,4 @@ export class InputNumber implements OnInit, ControlValueAccessor {
     exports: [InputNumber],
     declarations: [InputNumber]
 })
-export class InputNumberModule {}
+export class InputNumberModule { }

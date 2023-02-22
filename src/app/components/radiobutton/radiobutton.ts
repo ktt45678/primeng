@@ -75,6 +75,8 @@ export class RadioControlRegistry {
             [attr.for]="inputId"
             >{{ label }}</label
         >
+        <i *ngIf="icon" class="tw-cursor-pointer" [class]="icon" [ngClass]="{ 'p-disabled': disabled }"
+            (click)="select($event)"></i>
     `,
     providers: [RADIO_VALUE_ACCESSOR],
     changeDetection: ChangeDetectionStrategy.OnPush,
@@ -106,6 +108,8 @@ export class RadioButton implements ControlValueAccessor, OnInit, OnDestroy {
     @Input() styleClass: string;
 
     @Input() labelStyleClass: string;
+
+    @Input() icon?: string;
 
     @Output() onClick: EventEmitter<any> = new EventEmitter();
 

@@ -53,10 +53,10 @@ const hideAnimation = animation([animate('{{transition}}', style({ transform: '{
             <div class="p-sidebar-header">
                 <ng-container *ngTemplateOutlet="headerTemplate"></ng-container>
                 <button type="button" class="p-sidebar-close p-sidebar-icon p-link" (click)="close($event)" (keydown.enter)="close($event)" [attr.aria-label]="ariaCloseLabel" *ngIf="showCloseIcon" pRipple>
-                    <span class="p-sidebar-close-icon pi pi-times"></span>
+                    <span class="p-sidebar-close-icon ms ms-close"></span>
                 </button>
             </div>
-            <div class="p-sidebar-content">
+            <div class="p-sidebar-content" [class]="contentStyleClass" [id]="contentId">
                 <ng-content></ng-content>
                 <ng-container *ngTemplateOutlet="contentTemplate"></ng-container>
             </div>
@@ -97,6 +97,10 @@ export class Sidebar implements AfterViewInit, AfterContentInit, OnDestroy {
     @Input() closeOnEscape: boolean = true;
 
     @Input() transitionOptions: string = '150ms cubic-bezier(0, 0, 0.2, 1)';
+
+    @Input() contentStyleClass?: string;
+
+    @Input() contentId?: string;
 
     @ContentChildren(PrimeTemplate) templates: QueryList<any>;
 

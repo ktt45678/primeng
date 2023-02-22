@@ -1,14 +1,24 @@
 import { NgModule, Component, ChangeDetectionStrategy, ViewEncapsulation, Input } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { RouterLink, RouterModule } from '@angular/router';
 
 @Component({
     selector: 'p-tag',
     template: `
-        <span [ngClass]="containerClass()" [class]="styleClass" [ngStyle]="style">
-            <ng-content></ng-content>
+        <ng-container *ngIf="link; else noLink">
+            <a class="p-tag p-component" [class]="styleClass" [ngStyle]="style" [routerLink]="link">
+                <ng-container [ngTemplateOutlet]="tagContent"></ng-container>
+            </a>
+        </ng-container>
+        <ng-template #noLink>
+            <span class="p-tag p-component" [class]="styleClass" [ngStyle]="style">
+                <ng-container [ngTemplateOutlet]="tagContent"></ng-container>
+            </span>
+        </ng-template>
+        <ng-template #tagContent>
             <span class="p-tag-icon" [ngClass]="icon" *ngIf="icon"></span>
             <span class="p-tag-value">{{ value }}</span>
-        </span>
+        </ng-template>
     `,
     changeDetection: ChangeDetectionStrategy.OnPush,
     encapsulation: ViewEncapsulation.None,
@@ -22,29 +32,16 @@ export class Tag {
 
     @Input() style: any;
 
-    @Input() severity: string;
-
     @Input() value: string;
 
     @Input() icon: string;
 
-    @Input() rounded: boolean;
-
-    containerClass() {
-        return {
-            'p-tag p-component': true,
-            'p-tag-info': this.severity === 'info',
-            'p-tag-success': this.severity === 'success',
-            'p-tag-warning': this.severity === 'warning',
-            'p-tag-danger': this.severity === 'danger',
-            'p-tag-rounded': this.rounded
-        };
-    }
+    @Input() link: RouterLink['routerLink'];
 }
 
 @NgModule({
-    imports: [CommonModule],
+    imports: [CommonModule, RouterModule],
     exports: [Tag],
     declarations: [Tag]
 })
-export class TagModule {}
+export class TagModule { }

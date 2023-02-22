@@ -43,7 +43,7 @@ export const SELECTBUTTON_VALUE_ACCESSOR: any = {
     `,
     providers: [SELECTBUTTON_VALUE_ACCESSOR],
     changeDetection: ChangeDetectionStrategy.OnPush,
-    encapsulation: ViewEncapsulation.None,
+    encapsulation: ViewEncapsulation.Emulated,
     styleUrls: ['../button/button.css'],
     host: {
         class: 'p-element'
@@ -80,11 +80,11 @@ export class SelectButton implements ControlValueAccessor {
 
     value: any;
 
-    onModelChange: Function = () => {};
+    onModelChange: Function = () => { };
 
-    onModelTouched: Function = () => {};
+    onModelTouched: Function = () => { };
 
-    constructor(public cd: ChangeDetectorRef) {}
+    constructor(public cd: ChangeDetectorRef) { }
 
     getOptionLabel(option: any) {
         return this.optionLabel ? ObjectUtils.resolveFieldData(option, this.optionLabel) : option.label != undefined ? option.label : option;
@@ -186,4 +186,4 @@ export class SelectButton implements ControlValueAccessor {
     exports: [SelectButton],
     declarations: [SelectButton]
 })
-export class SelectButtonModule {}
+export class SelectButtonModule { }

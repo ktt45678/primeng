@@ -70,7 +70,7 @@ export class Tooltip implements AfterViewInit, OnDestroy {
     @Input() tooltipOptions: TooltipOptions;
 
     _tooltipOptions: TooltipOptions = {
-        tooltipPosition: 'right',
+        tooltipPosition: 'top',
         tooltipEvent: 'hover',
         appendTo: 'body',
         tooltipZIndex: 'auto',

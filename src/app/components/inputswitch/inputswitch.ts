@@ -85,7 +85,8 @@ export class InputSwitch implements ControlValueAccessor {
         if (!this.disabled && !this.readonly) {
             event.preventDefault();
             this.toggle(event);
-            cb.focus();
+            // Prevent focus visible
+            //cb.focus();
         }
     }
 

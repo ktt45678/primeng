@@ -150,7 +150,7 @@ export class TabMenu implements AfterContentInit, AfterViewInit, AfterViewChecke
 
     private timerIdForInitialAutoScroll: number | null = null;
 
-    constructor(private router: Router, private route: ActivatedRoute, private cd: ChangeDetectorRef) {}
+    constructor(private router: Router, private route: ActivatedRoute, private cd: ChangeDetectorRef) { }
 
     ngAfterContentInit() {
         this.templates.forEach((item) => {
@@ -186,10 +186,10 @@ export class TabMenu implements AfterContentInit, AfterViewInit, AfterViewChecke
     isActive(item: MenuItem) {
         if (item.routerLink) {
             const routerLink = Array.isArray(item.routerLink) ? item.routerLink : [item.routerLink];
-
-            return this.router.isActive(this.router.createUrlTree(routerLink, { relativeTo: this.route }).toString(), item.routerLinkActiveOptions?.exact ?? item.routerLinkActiveOptions ?? false);
+            const router = (this as any).router;
+            return router.isActive(router.createUrlTree(routerLink, { relativeTo: (this as any).route }).toString(),
+                item.routerLinkActiveOptions?.exact ?? item.routerLinkActiveOptions ?? false);
         }
-
         return item === this.activeItem;
     }
 
@@ -307,4 +307,4 @@ export class TabMenu implements AfterContentInit, AfterViewInit, AfterViewChecke
     exports: [TabMenu, RouterModule, SharedModule, TooltipModule],
     declarations: [TabMenu]
 })
-export class TabMenuModule {}
+export class TabMenuModule { }
