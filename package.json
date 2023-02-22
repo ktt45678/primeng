@@ -1,5 +1,5 @@
 {
-    "name": "primeng",
+    "name": "@ktt45678/primeng",
     "version": "15.2.0",
     "license": "MIT",
     "scripts": {
@@ -13,13 +13,15 @@
         "format": "prettier --write \"**/*.{js,ts,d.ts}\"",
         "format:check": "prettier --check \"**/*.{js,ts,d.ts}\"",
         "build:lib": "npm run build:check && npm run build:package",
-        "build:package": "BROWSERSLIST_ENV=library ng build primeng-library && gulp build-assets",
+        "build:package": "set BROWSERSLIST_ENV=library && ng build primeng-library && gulp build-assets",
         "build:check": "npm run format:check && npm run security:check && npm run test:headless",
-        "security:check": "npm audit --production --audit-level high"
+        "security:check": "npm audit --production --audit-level high",
+        "postbuild:package": "node postbuild-package.js",
+        "publish:package": "npm run build:package && npm run postbuild:package && npm publish ./dist --access public"
     },
     "repository": {
         "type": "git",
-        "url": "https://github.com/primefaces/primeng.git"
+        "url": "https://github.com/ktt45678/primeng.git"
     },
     "devDependencies": {
         "@angular-devkit/build-angular": "~15.1.0",
