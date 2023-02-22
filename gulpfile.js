@@ -2,9 +2,11 @@
 
 var gulp = require('gulp'),
     concat = require('gulp-concat'),
+    postcss = require('gulp-postcss'),
     uglifycss = require('gulp-uglifycss'),
     rename = require('gulp-rename'),
-    flatten = require('gulp-flatten');
+    flatten = require('gulp-flatten'),
+    tailwindcss = require('tailwindcss');
 
 gulp.task('build-css', function () {
     return gulp.src(['src/app/components/common/common.css', 'src/app/components/**/*.css']).pipe(concat('primeng.css')).pipe(gulp.dest('dist/resources'));
@@ -32,6 +34,17 @@ gulp.task('build-css-prod', function () {
         .pipe(gulp.dest('dist/resources'));
 });
 
+gulp.task('build-css-tailwind-prod', function () {
+    return gulp
+        .src(['src/app/components/common/tailwind.css'])
+        .pipe(postcss([tailwindcss()]))
+        .pipe(concat('primeng-tailwind.css'))
+        .pipe(gulp.dest('dist/resources'))
+        .pipe(uglifycss({ uglyComments: true }))
+        .pipe(rename('primeng-tailwind.min.css'))
+        .pipe(gulp.dest('dist/resources'));
+});
+
 gulp.task('copy-component-css', function () {
     return gulp.src(['src/app/components/**/*.css', 'src/app/components/**/images/*.png', 'src/app/components/**/images/*.gif']).pipe(gulp.dest('dist/resources/components'));
 });
@@ -52,4 +65,4 @@ gulp.task('readme', function () {
 });
 
 //Building project with run sequence
-gulp.task('build-assets', gulp.series('copy-component-css', 'build-css-prod', 'images', 'themes', 'readme'));
+gulp.task('build-assets', gulp.series('copy-component-css', 'build-css-prod', 'build-css-tailwind-prod', 'images', 'themes', 'readme'));
