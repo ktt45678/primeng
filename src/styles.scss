@@ -1,8 +1,14 @@
 $gutter:1rem;
 
+@import url("https://fonts.sandbox.google.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24..48,300,0..1,0");
+@import "assets/showcase/styles/material-symbols.css";
 @import "assets/showcase/styles/primeng.css";
 @import "../node_modules/primeicons/primeicons.css";
 @import "../node_modules/primeflex/primeflex.scss";
 @import "../node_modules/prismjs/themes/prism-coy.css";
 @import "../node_modules/quill/dist/quill.snow.css";
 @import "assets/showcase/styles/flags.css";
+
+* {
+  box-sizing: border-box;
+}

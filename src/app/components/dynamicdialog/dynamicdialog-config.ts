@@ -1,3 +1,5 @@
+import { ViewContainerRef } from '@angular/core';
+
 export class DynamicDialogConfig<T = any> {
     data?: T;
     header?: string;
@@ -26,5 +28,6 @@ export class DynamicDialogConfig<T = any> {
     maximizeIcon?: string;
     minimizeIcon?: string;
     position?: string;
-    minimal?: string;
+    minimal?: boolean;
+    viewContainerRef?: ViewContainerRef;
 }

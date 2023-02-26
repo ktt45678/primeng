@@ -136,3 +136,16 @@
     display: flex;
     align-items: center;
 }
+
+.p-dialog.p-dialog-minimal {
+    max-height: 90vh;
+}
+
+.p-dialog.p-dialog-minimal > .p-dialog-minimal-content, .p-dialog.p-dialog-minimal > .p-dialog-minimal-content > * {
+    max-height: inherit;
+}
+
+.p-dialog.p-dialog-minimal > .p-dialog-minimal-content > * {
+    display: flex;
+    flex-direction: column;
+}

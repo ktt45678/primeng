@@ -4,14 +4,15 @@ import { CommonModule } from '@angular/common';
 @Component({
     selector: 'p-chip',
     template: `
-        <div [ngClass]="{ 'p-chip p-component': true, 'p-chip-image': image != null }" class="tw-group" [class]="styleClass" [ngStyle]="style" *ngIf="visible"
+        <div [ngClass]="{ 'p-chip-image': image != null, 'p-chip-removable': removable }"
+            class="p-chip p-component" [class]="styleClass" [ngStyle]="style" *ngIf="visible" [tabindex]="removable ? 0 : -1"
             (click)="removable && close($event)" (keydown.enter)="removable && close($event)">
             <ng-content></ng-content>
             <img [src]="image" *ngIf="image; else iconTemplate" (error)="imageError($event)" />
             <ng-template #iconTemplate><span *ngIf="icon" class="p-chip-icon" [class]="icon"></span></ng-template>
             <div class="p-chip-text" [class]="textStyleClass" [ngClass]="{ 'tw-cursor-pointer': removable }"
                 *ngIf="label">{{ label }}</div>
-            <span *ngIf="removable" tabindex="0" class="pi-chip-remove-icon tw-hidden group-hover:tw-block" [class]="removeIcon"></span>
+            <span *ngIf="removable" class="pi-chip-remove-icon" [class]="removeIcon"></span>
         </div>
     `,
     changeDetection: ChangeDetectionStrategy.OnPush,

@@ -2,6 +2,7 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { DynamicDialogModule } from '../../../components/dynamicdialog/dynamicdialog';
 import { ProductListDemo } from './productlistdemo';
+import { ProductListDemoMinimal } from './productlistdemo-minimal';
 import { DynamicDialogDemo } from './dynamicdialogdemo';
 import { DynamicDialogDemoRoutingModule } from './dynamicdialogdemo-routing.module';
 import { ToastModule } from 'primeng/toast';
@@ -13,7 +14,7 @@ import { AppDemoActionsModule } from '../../app.demoactions.component';
 
 @NgModule({
     imports: [CommonModule, DynamicDialogDemoRoutingModule, DynamicDialogModule, ToastModule, TableModule, ButtonModule, TabViewModule, AppDemoActionsModule, AppCodeModule],
-    declarations: [DynamicDialogDemo, ProductListDemo],
-    entryComponents: [ProductListDemo]
+    declarations: [DynamicDialogDemo, ProductListDemo, ProductListDemoMinimal],
+    entryComponents: [ProductListDemo, ProductListDemoMinimal]
 })
-export class DynamicDialogDemoModule {}
+export class DynamicDialogDemoModule { }

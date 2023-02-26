@@ -10,24 +10,24 @@
     <div class="card">
         <h5>Tags</h5>
         <p-tag styleClass="mr-2" value="Primary"></p-tag>
-        <p-tag styleClass="mr-2" severity="success" value="Success"></p-tag>
-        <p-tag styleClass="mr-2" severity="info" value="Info"></p-tag>
-        <p-tag styleClass="mr-2" severity="warning" value="Warning"></p-tag>
-        <p-tag severity="danger" value="Danger"></p-tag>
+        <p-tag styleClass="mr-2 p-tag-success" value="Success"></p-tag>
+        <p-tag styleClass="mr-2 p-tag-info" value="Info"></p-tag>
+        <p-tag styleClass="mr-2 p-tag-warning" value="Warning"></p-tag>
+        <p-tag styleClass="p-tag-danger" value="Danger"></p-tag>
 
         <h5>Pills</h5>
-        <p-tag styleClass="mr-2" value="Primary" [rounded]="true"></p-tag>
-        <p-tag styleClass="mr-2" severity="success" value="Success" [rounded]="true"></p-tag>
-        <p-tag styleClass="mr-2" severity="info" value="Info" [rounded]="true"></p-tag>
-        <p-tag styleClass="mr-2" severity="warning" value="Warning" [rounded]="true"></p-tag>
-        <p-tag severity="danger" value="Danger" [rounded]="true"></p-tag>
+        <p-tag styleClass="mr-2 border-round-sm" value="Primary"></p-tag>
+        <p-tag styleClass="mr-2 border-round-sm p-tag-success" value="Success"></p-tag>
+        <p-tag styleClass="mr-2 border-round-sm p-tag-info" value="Info"></p-tag>
+        <p-tag styleClass="mr-2 border-round-sm p-tag-warning" value="Warning"></p-tag>
+        <p-tag styleClass="p-tag-danger" value="Danger"></p-tag>
 
         <h5>Icons</h5>
         <p-tag styleClass="mr-2" icon="pi pi-user" value="Primary"></p-tag>
-        <p-tag styleClass="mr-2" icon="pi pi-check" severity="success" value="Success"></p-tag>
-        <p-tag styleClass="mr-2" icon="pi pi-info-circle" severity="info" value="Info"></p-tag>
-        <p-tag styleClass="mr-2" icon="pi pi-exclamation-triangle" severity="warning" value="Warning"></p-tag>
-        <p-tag icon="pi pi-times" severity="danger" value="Danger"></p-tag>
+        <p-tag styleClass="mr-2 p-tag-success" icon="pi pi-check" value="Success"></p-tag>
+        <p-tag styleClass="mr-2 p-tag-info" icon="pi pi-info-circle" value="Info"></p-tag>
+        <p-tag styleClass="mr-2 p-tag-warning" icon="pi pi-exclamation-triangle" value="Warning"></p-tag>
+        <p-tag styleClass="p-tag-danger" icon="pi pi-times" value="Danger"></p-tag>
     </div>
 </div>
 
@@ -120,7 +120,7 @@ import &#123; TagModule &#125; from 'primeng/tag';
 						</tbody>
 					</table>
                 </div>
-                
+
 				<h5>Styling</h5>
 				<p>Following is the list of structural style classes, for theming classes visit <a href="#" [routerLink]="['/theming']">theming</a> page.</p>
 				<div class="doc-tablewrapper">
@@ -163,28 +163,28 @@ import &#123; TagModule &#125; from 'primeng/tag';
             <a href="https://stackblitz.com/edit/primeng-tag-demo" class="btn-viewsource" style="margin-left: .5em;" target="_blank">
                 <span>Edit in StackBlitz</span>
             </a>
-            
+
 <app-code lang="markup" ngNonBindable ngPreserveWhitespaces>
 &lt;h5&gt;Tags&lt;/h5&gt;
 &lt;p-tag styleClass="mr-2" value="Primary"&gt;&lt;/p-tag&gt;
-&lt;p-tag styleClass="mr-2" severity="success" value="Success"&gt;&lt;/p-tag&gt;
-&lt;p-tag styleClass="mr-2" severity="info" value="Info"&gt;&lt;/p-tag&gt;
-&lt;p-tag styleClass="mr-2" severity="warning" value="Warning"&gt;&lt;/p-tag&gt;
-&lt;p-tag severity="danger" value="Danger"&gt;&lt;/p-tag&gt;
+&lt;p-tag styleClass="mr-2 p-tag-success" value="Success"&gt;&lt;/p-tag&gt;
+&lt;p-tag styleClass="mr-2 p-tag-info" value="Info"&gt;&lt;/p-tag&gt;
+&lt;p-tag styleClass="mr-2 p-tag-warning" value="Warning"&gt;&lt;/p-tag&gt;
+&lt;p-tag styleClass="p-tag-danger" value="Danger"&gt;&lt;/p-tag&gt;
 
 &lt;h5&gt;Pills&lt;/h5&gt;
-&lt;p-tag styleClass="mr-2" value="Primary" [rounded]="true"&gt;&lt;/p-tag&gt;
-&lt;p-tag styleClass="mr-2" severity="success" value="Success" [rounded]="true"&gt;&lt;/p-tag&gt;
-&lt;p-tag styleClass="mr-2" severity="info" value="Info" [rounded]="true"&gt;&lt;/p-tag&gt;
-&lt;p-tag styleClass="mr-2" severity="warning" value="Warning" [rounded]="true"&gt;&lt;/p-tag&gt;
-&lt;p-tag severity="danger" value="Danger" [rounded]="true"&gt;&lt;/p-tag&gt;
+&lt;p-tag styleClass="mr-2 border-round-sm" value="Primary"&gt;&lt;/p-tag&gt;
+&lt;p-tag styleClass="mr-2 border-round-sm p-tag-success" value="Success"&gt;&lt;/p-tag&gt;
+&lt;p-tag styleClass="mr-2 border-round-sm p-tag-info" value="Info"&gt;&lt;/p-tag&gt;
+&lt;p-tag styleClass="mr-2 border-round-sm p-tag-warning" value="Warning"&gt;&lt;/p-tag&gt;
+&lt;p-tag styleClass="p-tag-danger" value="Danger"&gt;&lt;/p-tag&gt;
 
 &lt;h5&gt;Icons&lt;/h5&gt;
 &lt;p-tag styleClass="mr-2" icon="pi pi-user" value="Primary"&gt;&lt;/p-tag&gt;
-&lt;p-tag styleClass="mr-2" icon="pi pi-check" severity="success" value="Success"&gt;&lt;/p-tag&gt;
-&lt;p-tag styleClass="mr-2" icon="pi pi-info-circle" severity="info" value="Info"&gt;&lt;/p-tag&gt;
-&lt;p-tag styleClass="mr-2" icon="pi pi-exclamation-triangle" severity="warning" value="Warning"&gt;&lt;/p-tag&gt;
-&lt;p-tag icon="pi pi-times" severity="danger" value="Danger"&gt;&lt;/p-tag&gt;
+&lt;p-tag styleClass="mr-2 p-tag-success" icon="pi pi-check" value="Success"&gt;&lt;/p-tag&gt;
+&lt;p-tag styleClass="mr-2 p-tag-info" icon="pi pi-info-circle" value="Info"&gt;&lt;/p-tag&gt;
+&lt;p-tag styleClass="mr-2 p-tag-warning" icon="pi pi-exclamation-triangle" value="Warning"&gt;&lt;/p-tag&gt;
+&lt;p-tag styleClass="p-tag-danger" icon="pi pi-times" value="Danger"&gt;&lt;/p-tag&gt;
 </app-code>
         </p-tabPanel>
         <p-tabPanel header="StackBlitz">
