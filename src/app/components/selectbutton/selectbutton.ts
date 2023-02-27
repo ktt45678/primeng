@@ -72,6 +72,10 @@ export class SelectButton implements ControlValueAccessor {
 
     @Input() dataKey: string;
 
+    @Input() set initValue(value: any) {
+        this.value = value;
+    };
+
     @Output() onOptionClick: EventEmitter<any> = new EventEmitter();
 
     @Output() onChange: EventEmitter<any> = new EventEmitter();
