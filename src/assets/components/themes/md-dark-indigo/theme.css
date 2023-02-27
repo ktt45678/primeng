@@ -6855,6 +6855,7 @@ p-cascadeselect.ng-dirty.ng-invalid .p-cascadeselect:not(.p-disabled).p-focus {
 .p-checkbox .p-checkbox-box.p-highlight:not(.p-disabled).p-focus {
   border-color: #526ED3;
 }
+/*
 .p-checkbox .p-checkbox-box.p-highlight .p-checkbox-icon.pi-check:before {
   content: "";
   position: absolute;
@@ -6866,6 +6867,7 @@ p-cascadeselect.ng-dirty.ng-invalid .p-cascadeselect:not(.p-disabled).p-focus {
   transform-origin: 0% 100%;
   animation: checkbox-check 125ms 50ms linear forwards;
 }
+*/
 .p-checkbox:not(.p-checkbox-disabled):hover {
   box-shadow: 0 0 1px 10px rgba(255, 255, 255, 0.04);
 }
@@ -8254,4 +8256,16 @@ p-autocomplete.p-autocomplete-full > .p-autocomplete > .p-autocomplete-input {
 
 .p-chip.p-chip-removable:focus {
     background: rgba(255, 255, 255, 0.08);
+}
+
+.p-checkbox .p-checkbox-box.p-highlight .p-checkbox-icon.ms-check:before {
+  content: "";
+  position: absolute;
+  top: 6.5px;
+  left: 1.8px;
+  border-right: 2px solid transparent;
+  border-bottom: 2px solid transparent;
+  transform: rotate(45deg);
+  transform-origin: 0% 100%;
+  animation: checkbox-check 125ms 50ms linear forwards;
 }

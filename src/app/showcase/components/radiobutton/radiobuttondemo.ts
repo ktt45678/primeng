@@ -8,6 +8,8 @@ export class RadioButtonDemo {
 
     selectedCategory: any = null;
 
+    visibility: string;
+
     categories: any[] = [
         { name: 'Accounting', key: 'A' },
         { name: 'Marketing', key: 'M' },

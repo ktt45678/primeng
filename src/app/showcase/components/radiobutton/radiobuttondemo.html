@@ -28,8 +28,27 @@
 
         <h5>Dynamic Values, Preselection, Value Binding and Disabled Option</h5>
         <div *ngFor="let category of categories" class="field-checkbox">
-            <p-radioButton [inputId]="category.key" name="category" [value]="category" [(ngModel)]="selectedCategory" [disabled]="category.key === 'R'"></p-radioButton>
+            <p-radioButton [inputId]="category.key" name="category" [value]="category" [(ngModel)]="selectedCategory"
+                [disabled]="category.key === 'R'"></p-radioButton>
             <label [for]="category.key">{{category.name}}</label>
+        </div>
+
+        <h5>Icons</h5>
+        <div class="field-radiobutton">
+            <p-radioButton name="visibility" label="Public" value="Public" icon="ms ms-public pl-4"
+                [(ngModel)]="visibility" inputId="visibility1"></p-radioButton>
+        </div>
+        <div class="field-radiobutton">
+            <p-radioButton name="visibility" label="Unlisted" value="Unlisted" icon="ms ms-link pl-4"
+                [(ngModel)]="visibility" inputId="visibility2"></p-radioButton>
+        </div>
+        <div class="field-radiobutton">
+            <p-radioButton name="visibility" label="Private" value="Private" icon="ms ms-lock pl-4"
+                [(ngModel)]="visibility" inputId="visibility3"></p-radioButton>
+        </div>
+        <div class="field-radiobutton">
+            <p-radioButton [disabled]="true" name="visibility" label="Disabled" value="Disabled" icon="ms ms-block pl-4"
+                [(ngModel)]="visibility" inputId="visibility4"></p-radioButton>
         </div>
     </div>
 </div>
@@ -38,46 +57,49 @@
     <p-tabView>
         <p-tabPanel header="Documentation">
             <h5>Import</h5>
-<app-code lang="typescript" ngNonBindable ngPreserveWhitespaces>
-import &#123;RadioButtonModule&#125; from 'primeng/radiobutton';
-</app-code>
+            <app-code lang="typescript" ngNonBindable ngPreserveWhitespaces>
+                import &#123;RadioButtonModule&#125; from 'primeng/radiobutton';
+            </app-code>
 
             <h5>Getting Started</h5>
             <p>Two-way value binding is defined using the standard <i>ngModel</i> directive.</p>
-            
-<app-code lang="markup" ngNonBindable ngPreserveWhitespaces>
-&lt;p-radioButton name="groupname" value="val1" [(ngModel)]="selectedValue"&gt;&lt;/p-radioButton&gt;
-&lt;p-radioButton name="groupname" value="val2" [(ngModel)]="selectedValue"&gt;&lt;/p-radioButton&gt;
-</app-code>
 
-<app-code lang="typescript" ngNonBindable ngPreserveWhitespaces>
-export class ModelComponent &#123;
+            <app-code lang="markup" ngNonBindable ngPreserveWhitespaces>
+                &lt;p-radioButton name="groupname" value="val1" [(ngModel)]="selectedValue"&gt;&lt;/p-radioButton&gt;
+                &lt;p-radioButton name="groupname" value="val2" [(ngModel)]="selectedValue"&gt;&lt;/p-radioButton&gt;
+            </app-code>
 
-    selectedValue: string;
+            <app-code lang="typescript" ngNonBindable ngPreserveWhitespaces>
+                export class ModelComponent &#123;
 
-&#125;
-</app-code>
+                selectedValue: string;
 
-            <p>As model is two-way binding enabled, giving a default value to the model is enough to display a radio button as checked by default.</p>
-<app-code lang="typescript" ngNonBindable ngPreserveWhitespaces>
-export class ModelComponent &#123;
+                &#125;
+            </app-code>
 
-    selectedValue: string = 'val1';
+            <p>As model is two-way binding enabled, giving a default value to the model is enough to display a radio
+                button as checked by default.</p>
+            <app-code lang="typescript" ngNonBindable ngPreserveWhitespaces>
+                export class ModelComponent &#123;
 
-&#125;
-</app-code>
+                selectedValue: string = 'val1';
+
+                &#125;
+            </app-code>
 
             <h5>Model Driven Forms</h5>
             <p>RadioButton can be used in a model driven form as well.</p>
-<app-code lang="markup" ngNonBindable ngPreserveWhitespaces>
-&lt;p-radioButton name="groupname" value="ps4" formControlName="console"&gt;&lt;/p-radioButton&gt;
-</app-code>
+            <app-code lang="markup" ngNonBindable ngPreserveWhitespaces>
+                &lt;p-radioButton name="groupname" value="ps4" formControlName="console"&gt;&lt;/p-radioButton&gt;
+            </app-code>
 
             <h4>Label</h4>
-            <p>The <i>label</i> attribute provides a label text for the radio button. This label is also clickable and selects value.</p>
+            <p>The <i>label</i> attribute provides a label text for the radio button. This label is also clickable and
+                selects value.</p>
             <app-code lang="markup" ngNonBindable ngPreserveWhitespaces>
-&lt;p-radioButton name="groupname" value="val1" label="Option 2" [(ngModel)]="selectedValue"&gt;&lt;/p-radioButton&gt;
-</app-code>
+                &lt;p-radioButton name="groupname" value="val1" label="Option 2"
+                [(ngModel)]="selectedValue"&gt;&lt;/p-radioButton&gt;
+            </app-code>
 
             <h5>Properties</h5>
             <div class="doc-tablewrapper">
@@ -131,7 +153,8 @@ export class ModelComponent &#123;
                             <td>ariaLabelledBy</td>
                             <td>string</td>
                             <td>null</td>
-                            <td>Establishes relationships between the component and label(s) where its value should be one or more element IDs.</td>
+                            <td>Establishes relationships between the component and label(s) where its value should be
+                                one or more element IDs.</td>
                         </tr>
                         <tr>
                             <td>ariaLabel</td>
@@ -214,7 +237,8 @@ export class ModelComponent &#123;
             </div>
 
             <h5>Styling</h5>
-            <p>Following is the list of structural style classes, for theming classes visit <a href="#" [routerLink]="['/theming']">theming page</a>.</p>
+            <p>Following is the list of structural style classes, for theming classes visit <a href="#"
+                    [routerLink]="['/theming']">theming page</a>.</p>
             <div class="doc-tablewrapper">
                 <table class="doc-table">
                     <thead>
@@ -258,59 +282,68 @@ export class ModelComponent &#123;
 
             <h5>Dependencies</h5>
             <p>None.</p>
-            
+
         </p-tabPanel>
 
         <p-tabPanel header="Source">
-            <a href="https://github.com/primefaces/primeng/tree/master/src/app/showcase/components/radiobutton" class="btn-viewsource" target="_blank">
+            <a href="https://github.com/primefaces/primeng/tree/master/src/app/showcase/components/radiobutton"
+                class="btn-viewsource" target="_blank">
                 <span>View on GitHub</span>
             </a>
-            <a href="https://stackblitz.com/edit/primeng-radiobutton-demo" class="btn-viewsource" style="margin-left: .5em;" target="_blank">
+            <a href="https://stackblitz.com/edit/primeng-radiobutton-demo" class="btn-viewsource"
+                style="margin-left: .5em;" target="_blank">
                 <span>Edit in StackBlitz</span>
             </a>
-<app-code lang="markup" ngNonBindable ngPreserveWhitespaces>
-&lt;h5&gt;Basic&lt;/h5&gt;
-&lt;div class="field-radiobutton"&gt;
-    &lt;p-radioButton name="city" value="Chicago" [(ngModel)]="city" inputId="city1"&gt;&lt;/p-radioButton&gt;
-    &lt;label for="city1"&gt;Chicago&lt;/label&gt;
-&lt;/div&gt;
-&lt;div class="field-radiobutton"&gt;
-    &lt;p-radioButton name="city" value="Los Angeles" [(ngModel)]="city" inputId="city2"&gt;&lt;/p-radioButton&gt;
-    &lt;label for="city2"&gt;Los Angeles&lt;/label&gt;
-&lt;/div&gt;
-&lt;div class="field-radiobutton"&gt;
-    &lt;p-radioButton name="city" value="New York" [(ngModel)]="city" inputId="city3"&gt;&lt;/p-radioButton&gt;
-    &lt;label for="city3"&gt;New York&lt;/label&gt;
-&lt;/div&gt;
-&lt;div class="field-radiobutton"&gt;
-    &lt;p-radioButton name="city" value="San Francisco" [(ngModel)]="city" inputId="city4"&gt;&lt;/p-radioButton&gt;
-    &lt;label for="city4"&gt;San Francisco&lt;/label&gt;
-&lt;/div&gt;
+            <app-code lang="markup" ngNonBindable ngPreserveWhitespaces>
+                &lt;h5&gt;Basic&lt;/h5&gt;
+                &lt;div class="field-radiobutton"&gt;
+                &lt;p-radioButton name="city" value="Chicago" [(ngModel)]="city"
+                inputId="city1"&gt;&lt;/p-radioButton&gt;
+                &lt;label for="city1"&gt;Chicago&lt;/label&gt;
+                &lt;/div&gt;
+                &lt;div class="field-radiobutton"&gt;
+                &lt;p-radioButton name="city" value="Los Angeles" [(ngModel)]="city"
+                inputId="city2"&gt;&lt;/p-radioButton&gt;
+                &lt;label for="city2"&gt;Los Angeles&lt;/label&gt;
+                &lt;/div&gt;
+                &lt;div class="field-radiobutton"&gt;
+                &lt;p-radioButton name="city" value="New York" [(ngModel)]="city"
+                inputId="city3"&gt;&lt;/p-radioButton&gt;
+                &lt;label for="city3"&gt;New York&lt;/label&gt;
+                &lt;/div&gt;
+                &lt;div class="field-radiobutton"&gt;
+                &lt;p-radioButton name="city" value="San Francisco" [(ngModel)]="city"
+                inputId="city4"&gt;&lt;/p-radioButton&gt;
+                &lt;label for="city4"&gt;San Francisco&lt;/label&gt;
+                &lt;/div&gt;
 
-&lt;h5&gt;Dynamic Values, Preselection, Value Binding and Disabled Option&lt;/h5&gt;
-&lt;div *ngFor="let category of categories" class="field-checkbox"&gt;
-    &lt;p-radioButton [inputId]="category.key" name="category" [value]="category" [(ngModel)]="selectedCategory" [disabled]="category.key === 'R'"&gt;&lt;/p-radioButton&gt;
-    &lt;label [for]="category.key"&gt;&#123;&#123;category.name&#125;&#125;&lt;/label&gt;
-&lt;/div&gt;
-</app-code>
+                &lt;h5&gt;Dynamic Values, Preselection, Value Binding and Disabled Option&lt;/h5&gt;
+                &lt;div *ngFor="let category of categories" class="field-checkbox"&gt;
+                &lt;p-radioButton [inputId]="category.key" name="category" [value]="category"
+                [(ngModel)]="selectedCategory" [disabled]="category.key === 'R'"&gt;&lt;/p-radioButton&gt;
+                &lt;label [for]="category.key"&gt;&#123;&#123;category.name&#125;&#125;&lt;/label&gt;
+                &lt;/div&gt;
+            </app-code>
 
-<app-code lang="typescript" ngNonBindable ngPreserveWhitespaces>
-export class RadioButtonDemo &#123;
-    city: string;
+            <app-code lang="typescript" ngNonBindable ngPreserveWhitespaces>
+                export class RadioButtonDemo &#123;
+                city: string;
 
-    selectedCategory: any = null;
+                selectedCategory: any = null;
 
-    categories: any[] = [&#123;name: 'Accounting', key: 'A'&#125;, &#123;name: 'Marketing', key: 'M'&#125;, &#123;name: 'Production', key: 'P'&#125;, &#123;name: 'Research', key: 'R'&#125;];
+                categories: any[] = [&#123;name: 'Accounting', key: 'A'&#125;, &#123;name: 'Marketing', key: 'M'&#125;,
+                &#123;name: 'Production', key: 'P'&#125;, &#123;name: 'Research', key: 'R'&#125;];
 
-    ngOnInit() &#123;
-        this.selectedCategory = this.categories[1];
-    &#125;
-&#125;
-</app-code>
+                ngOnInit() &#123;
+                this.selectedCategory = this.categories[1];
+                &#125;
+                &#125;
+            </app-code>
         </p-tabPanel>
         <p-tabPanel header="StackBlitz">
             <ng-template pTemplate="content">
-                <iframe src="https://stackblitz.com/edit/primeng-radiobutton-demo?embed=1" style="width: 100%; height: 768px; border: none;"></iframe>
+                <iframe src="https://stackblitz.com/edit/primeng-radiobutton-demo?embed=1"
+                    style="width: 100%; height: 768px; border: none;"></iframe>
             </ng-template>
         </p-tabPanel>
     </p-tabView>

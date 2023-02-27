@@ -1,6 +1,5 @@
 .p-radiobutton {
     display: inline-flex;
-    cursor: pointer;
     user-select: none;
     vertical-align: bottom;
     position: relative;
@@ -33,4 +32,8 @@ p-radiobutton {
 
 .p-radiobutton-label {
     line-height: 1;
+}
+
+.p-radiobutton:not(.p-radiobutton-disabled), .p-radiobutton-label:not(.p-disabled), .p-radiobutton-label + i:not(.p-disabled) {
+    cursor: pointer;
 }

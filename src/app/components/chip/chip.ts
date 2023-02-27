@@ -10,8 +10,7 @@ import { CommonModule } from '@angular/common';
             <ng-content></ng-content>
             <img [src]="image" *ngIf="image; else iconTemplate" (error)="imageError($event)" />
             <ng-template #iconTemplate><span *ngIf="icon" class="p-chip-icon" [class]="icon"></span></ng-template>
-            <div class="p-chip-text" [class]="textStyleClass" [ngClass]="{ 'tw-cursor-pointer': removable }"
-                *ngIf="label">{{ label }}</div>
+            <div class="p-chip-text" [class]="textStyleClass" *ngIf="label">{{ label }}</div>
             <span *ngIf="removable" class="pi-chip-remove-icon" [class]="removeIcon"></span>
         </div>
     `,

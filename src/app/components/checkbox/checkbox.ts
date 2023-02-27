@@ -45,7 +45,7 @@ export const CHECKBOX_VALUE_ACCESSOR: any = {
             [attr.for]="inputId"
             >{{ label }}</label
         >
-        <i *ngIf="icon" class="tw-cursor-pointer" [class]="icon" [ngClass]="{ 'p-disabled': disabled }"
+        <i *ngIf="icon" [class]="icon" [ngClass]="{ 'p-disabled': disabled }"
             (click)="onClick($event, cb, true)"></i>
     `,
     providers: [CHECKBOX_VALUE_ACCESSOR],
@@ -83,7 +83,7 @@ export class Checkbox implements OnInit, ControlValueAccessor {
 
     @Input() formControl: FormControl;
 
-    @Input() checkboxIcon: string = 'pi pi-check';
+    @Input() checkboxIcon: string = 'ms ms-check';
 
     @Input() readonly: boolean;
 

@@ -36,6 +36,24 @@
             <p-checkbox name="group2" value="category" [value]="category"  [(ngModel)]="selectedCategories" [inputId]="category.key" [disabled]="category.key === 'R'"></p-checkbox>
             <label [for]="category.key">{{category.name}}</label>
         </div>
+
+        <h5>Icons</h5>
+        <div class="field-checkbox">
+            <p-checkbox label="Public" value="Public" icon="ms ms-public pl-4"
+                [(ngModel)]="visibilities" inputId="visibility1"></p-checkbox>
+        </div>
+        <div class="field-checkbox">
+            <p-checkbox label="Unlisted" value="Unlisted" icon="ms ms-link pl-4"
+                [(ngModel)]="visibilities" inputId="visibility2"></p-checkbox>
+        </div>
+        <div class="field-checkbox">
+            <p-checkbox label="Private" value="Private" icon="ms ms-lock pl-4"
+                [(ngModel)]="visibilities" inputId="visibility3"></p-checkbox>
+        </div>
+        <div class="field-checkbox">
+            <p-checkbox [disabled]="true" label="Disabled" value="Disabled" icon="ms ms-block pl-4"
+                [(ngModel)]="visibilities" inputId="visibility4"></p-checkbox>
+        </div>
     </div>
 </div>
 

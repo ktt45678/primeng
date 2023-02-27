@@ -1,13 +1,11 @@
 .p-checkbox {
     display: inline-flex;
-    cursor: pointer;
     user-select: none;
     vertical-align: bottom;
     position: relative;
 }
 
 .p-checkbox-disabled {
-    cursor: default !important;
     pointer-events: none;
 }
 
@@ -25,4 +23,8 @@ p-checkbox {
 
 .p-checkbox-label {
     line-height: 1;
+}
+
+.p-checkbox:not(.p-radiobutton-disabled), .p-checkbox-label:not(.p-disabled), .p-checkbox-label + i:not(.p-disabled) {
+    cursor: pointer;
 }

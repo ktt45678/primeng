@@ -75,7 +75,7 @@ export class RadioControlRegistry {
             [attr.for]="inputId"
             >{{ label }}</label
         >
-        <i *ngIf="icon" class="tw-cursor-pointer" [class]="icon" [ngClass]="{ 'p-disabled': disabled }"
+        <i *ngIf="icon" [class]="icon" [ngClass]="{ 'p-disabled': disabled }"
             (click)="select($event)"></i>
     `,
     providers: [RADIO_VALUE_ACCESSOR],

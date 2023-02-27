@@ -6,6 +6,8 @@ import { Component } from '@angular/core';
 export class CheckboxDemo {
     selectedCities: string[] = [];
 
+    visibilities: string[] = [];
+
     selectedCategories: any[] = ['Technology', 'Sports'];
 
     categories: any[] = [
