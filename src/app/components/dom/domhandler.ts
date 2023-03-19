@@ -603,6 +603,10 @@ export class DomHandler {
         element && document.activeElement !== element && element.focus(options);
     }
 
+    public static blur(element: Element): void {
+        element instanceof HTMLElement && document.activeElement === element && element.blur();
+    }
+
     public static getFocusableElements(element: HTMLElement) {
         let focusableElements = DomHandler.find(
             element,

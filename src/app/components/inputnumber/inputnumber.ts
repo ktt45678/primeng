@@ -930,14 +930,10 @@ export class InputNumber implements OnInit, ControlValueAccessor {
         }
 
         if (this.min != null && value < this.min) {
-            if (this.max)
-                return this.max;
             return this.min;
         }
 
         if (this.max != null && value > this.max) {
-            if (this.min)
-                return this.min;
             return this.max;
         }
 

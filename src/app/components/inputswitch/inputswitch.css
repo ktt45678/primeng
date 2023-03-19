@@ -1,12 +1,16 @@
+.p-inputswitch-container {
+    display: flex;
+    align-items: center;
+    user-select: none;
+}
+
 .p-inputswitch {
     position: relative;
     display: inline-block;
-    user-select: none;
 }
 
 .p-inputswitch-slider {
     position: absolute;
-    cursor: pointer;
     top: 0;
     left: 0;
     right: 0;
@@ -17,4 +21,12 @@
     position: absolute;
     content: "";
     top: 50%;
+}
+
+.p-inputswitch-label {
+    flex: 1;
+}
+
+.p-inputswitch-slider, .p-inputswitch-label {
+    cursor: pointer;
 }

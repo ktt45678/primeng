@@ -16,6 +16,7 @@ export interface InputSwitchOnChangeEvent {
 @Component({
     selector: 'p-inputSwitch',
     template: `
+        <label *ngIf="label" [attr.for]="inputId" class="p-inputswitch-label" [class]="labelStyleClass">{{ label }}</label>
         <div [ngClass]="{ 'p-inputswitch p-component': true, 'p-inputswitch-checked': checked(), 'p-disabled': disabled, 'p-focus': focused }" [ngStyle]="style" [class]="styleClass" (click)="onClick($event, cb)">
             <div class="p-hidden-accessible">
                 <input
@@ -43,13 +44,15 @@ export interface InputSwitchOnChangeEvent {
     encapsulation: ViewEncapsulation.None,
     styleUrls: ['./inputswitch.css'],
     host: {
-        class: 'p-element'
+        class: 'p-element p-inputswitch-container'
     }
 })
 export class InputSwitch implements ControlValueAccessor {
     @Input() style: any;
 
     @Input() styleClass: string;
+
+    @Input() labelStyleClass: string;
 
     @Input() tabindex: number;
 
@@ -69,17 +72,19 @@ export class InputSwitch implements ControlValueAccessor {
 
     @Input() ariaLabelledBy: string;
 
+    @Input() label: string;
+
     @Output() onChange: EventEmitter<InputSwitchOnChangeEvent> = new EventEmitter();
 
     modelValue: any = false;
 
     focused: boolean = false;
 
-    onModelChange: Function = () => {};
+    onModelChange: Function = () => { };
 
-    onModelTouched: Function = () => {};
+    onModelTouched: Function = () => { };
 
-    constructor(private cd: ChangeDetectorRef) {}
+    constructor(private cd: ChangeDetectorRef) { }
 
     onClick(event: Event, cb: HTMLInputElement) {
         if (!this.disabled && !this.readonly) {
@@ -147,4 +152,4 @@ export class InputSwitch implements ControlValueAccessor {
     exports: [InputSwitch],
     declarations: [InputSwitch]
 })
-export class InputSwitchModule {}
+export class InputSwitchModule { }

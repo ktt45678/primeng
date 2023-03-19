@@ -43,6 +43,8 @@
   --maskbg: rgba(0, 0, 0, 0.32);
   --focus-ring: none;
   /* color-scheme: dark; */
+  --checkbox-check-width: 4px;
+  --checkbox-check-height: 10px;
 }
 
 /* roboto-regular - latin-ext_latin */
@@ -2053,7 +2055,7 @@ p-treeselect.p-treeselect-clearable .p-treeselect-clear-icon {
   padding: 0.62475rem 0.875rem;
 }
 .p-button.p-button-sm .p-button-icon {
-  font-size: 24px;
+  font-size: 20px;
 }
 .p-button.p-button-lg {
   font-size: 1.25rem;
@@ -6896,13 +6898,13 @@ p-cascadeselect.ng-dirty.ng-invalid .p-cascadeselect:not(.p-disabled).p-focus {
     transform: translate3d(0, 0, 0) rotate(45deg);
   }
   33% {
-    width: 4px;
+    width: var(--checkbox-check-width);
     height: 0;
     transform: translate3d(0, 0, 0) rotate(45deg);
   }
   100% {
-    width: 4px;
-    height: 10px;
+    width: var(--checkbox-check-width);
+    height: var(--checkbox-check-height);
     border-color: #121212;
     transform: translate3d(0, -10px, 0) rotate(45deg);
   }
@@ -7902,7 +7904,7 @@ input[type=number] {
   height: 2.5rem !important;
 }
 
-.p-dialog-header-sm > .p-dialog-header {
+.p-dialog-header-sm .p-dialog-header {
   padding: 0.5rem 1.5rem;
 }
 
@@ -7960,7 +7962,7 @@ p-inputnumber.ng-touched.ng-invalid > .p-inputnumber > .p-inputtext {
   padding: 0.468rem 0.656rem;
 }
 .p-button.p-button-xs .p-button-icon {
-  font-size: 0.656rem;
+  font-size: 20px;
 }
 .p-button-rounded.p-button-xs {
   width: 1.875rem;
@@ -8213,7 +8215,7 @@ p-autocomplete.p-autocomplete-full > .p-autocomplete > .p-autocomplete-input {
 }
 .p-button.p-button-sm .p-button-icon,
 .p-button-sm.p-button-icon.p-selectbutton > .p-button {
-  font-size: 24px;
+  font-size: 20px;
 }
 
 .p-calendar > .p-inputtext-xs + .p-datepicker-trigger.p-button-icon-only {
@@ -8237,9 +8239,11 @@ p-autocomplete.p-autocomplete-full > .p-autocomplete > .p-autocomplete-input {
   width: 20px;
   height: 20px;
 }
-.p-checkbox.p-checkbox-md .p-checkbox-box.p-highlight .p-checkbox-icon.pi-check:before {
-  top: 9.8px;
-  left: 3.5px;
+.p-checkbox.p-checkbox-md .p-checkbox-box.p-highlight .p-checkbox-icon.ms-check:before {
+  top: 7.8px;
+  left: 2px;
+  --checkbox-check-width: 6px;
+  --checkbox-check-height: 12px;
 }
 
 .p-chip.p-chip-removable {
