@@ -754,7 +754,6 @@ p-checkbox.ng-dirty.ng-invalid > .p-checkbox > .p-checkbox-box {
 
 .p-checkbox-label {
   margin-left: 0.5rem;
-  cursor: pointer;
 }
 
 .p-chips .p-chips-multiple-container {
@@ -1644,7 +1643,6 @@ p-radiobutton.ng-dirty.ng-invalid > .p-radiobutton > .p-radiobutton-box {
 
 .p-radiobutton-label {
   margin-left: 0.5rem;
-  cursor: pointer;
 }
 
 .p-rating .p-rating-icon {

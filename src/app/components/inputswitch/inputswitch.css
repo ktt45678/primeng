@@ -27,6 +27,6 @@
     flex: 1;
 }
 
-.p-inputswitch-slider, .p-inputswitch-label {
+.p-inputswitch-container:not(.p-disabled), .p-inputswitch-label:not(.p-disabled) {
     cursor: pointer;
 }

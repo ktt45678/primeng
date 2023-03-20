@@ -52,7 +52,7 @@ export const CHECKBOX_VALUE_ACCESSOR: any = {
     styleUrls: ['./checkbox.css'],
     host: {
         class: 'p-element p-checkbox-container',
-        '[class.p-checkbox-disabled]': 'disabled',
+        '[class.p-disabled]': 'disabled',
         '(click)': 'onClick($event, cb, true)'
     }
 })

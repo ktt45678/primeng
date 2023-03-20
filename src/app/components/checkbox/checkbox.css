@@ -5,10 +5,6 @@
     position: relative;
 }
 
-.p-checkbox-disabled {
-    pointer-events: none;
-}
-
 .p-checkbox-box {
     display: flex;
     justify-content: center;
@@ -25,6 +21,6 @@ p-checkbox {
     line-height: 1;
 }
 
-.p-checkbox-container:not(.p-checkbox-disabled) {
+.p-checkbox-container:not(.p-disabled), .p-checkbox-label:not(.p-disabled) {
     cursor: pointer;
 }

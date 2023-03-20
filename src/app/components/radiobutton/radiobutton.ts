@@ -80,7 +80,7 @@ export class RadioControlRegistry {
     changeDetection: ChangeDetectionStrategy.OnPush,
     host: {
         class: 'p-element p-radiobutton-container',
-        '[class.p-radiobutton-disabled]': 'disabled',
+        '[class.p-disabled]': 'disabled',
         '(click)': 'select($event)'
     }
 })

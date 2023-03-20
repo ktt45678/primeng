@@ -16,8 +16,8 @@ export interface InputSwitchOnChangeEvent {
 @Component({
     selector: 'p-inputSwitch',
     template: `
-        <label *ngIf="label" [attr.for]="inputId" class="p-inputswitch-label" [class]="labelStyleClass">{{ label }}</label>
-        <div [ngClass]="{ 'p-inputswitch p-component': true, 'p-inputswitch-checked': checked(), 'p-disabled': disabled, 'p-focus': focused }" [ngStyle]="style" [class]="styleClass" (click)="onClick($event, cb)">
+        <label *ngIf="label" class="p-inputswitch-label" [class]="labelStyleClass" [ngClass]="{ 'p-highlight': checked(), 'p-disabled': disabled, 'p-focus': focused }">{{ label }}</label>
+        <div [ngClass]="{ 'p-inputswitch p-component': true, 'p-inputswitch-checked': checked(), 'p-disabled': disabled, 'p-focus': focused }" [ngStyle]="style" [class]="styleClass">
             <div class="p-hidden-accessible">
                 <input
                     #cb
@@ -44,7 +44,9 @@ export interface InputSwitchOnChangeEvent {
     encapsulation: ViewEncapsulation.None,
     styleUrls: ['./inputswitch.css'],
     host: {
-        class: 'p-element p-inputswitch-container'
+        class: 'p-element p-inputswitch-container',
+        '[class.p-disabled]': 'disabled',
+        '(click)': 'onClick($event, cb)'
     }
 })
 export class InputSwitch implements ControlValueAccessor {
