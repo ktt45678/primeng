@@ -34,6 +34,6 @@ p-radiobutton {
     line-height: 1;
 }
 
-.p-radiobutton:not(.p-radiobutton-disabled), .p-radiobutton-label:not(.p-disabled), .p-radiobutton-label + i:not(.p-disabled) {
+.p-radiobutton-container:not(.p-radiobutton-disabled) {
     cursor: pointer;
 }

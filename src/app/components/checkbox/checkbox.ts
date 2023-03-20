@@ -12,7 +12,7 @@ export const CHECKBOX_VALUE_ACCESSOR: any = {
 @Component({
     selector: 'p-checkbox',
     template: `
-        <div [ngStyle]="style" [ngClass]="{ 'p-checkbox p-component': true, 'p-checkbox-checked': checked(), 'p-checkbox-disabled': disabled, 'p-checkbox-focused': focused }" [class]="styleClass">
+        <div [ngStyle]="style" [ngClass]="{ 'p-checkbox p-component': true, 'p-checkbox-checked': checked(), 'p-checkbox-focused': focused }" [class]="styleClass">
             <div class="p-hidden-accessible">
                 <input
                     #cb
@@ -33,27 +33,27 @@ export const CHECKBOX_VALUE_ACCESSOR: any = {
                     [attr.required]="required"
                 />
             </div>
-            <div class="p-checkbox-box" (click)="onClick($event, cb, true)" [ngClass]="{ 'p-highlight': checked(), 'p-disabled': disabled, 'p-focus': focused }">
+            <div class="p-checkbox-box" [ngClass]="{ 'p-highlight': checked(), 'p-disabled': disabled, 'p-focus': focused }">
                 <span class="p-checkbox-icon" [ngClass]="checked() ? checkboxIcon : null"></span>
             </div>
         </div>
         <label
-            (click)="onClick($event, cb, true)"
             [class]="labelStyleClass"
             [ngClass]="{ 'p-checkbox-label': true, 'p-checkbox-label-active': checked(), 'p-disabled': disabled, 'p-checkbox-label-focus': focused }"
             *ngIf="label"
             [attr.for]="inputId"
             >{{ label }}</label
         >
-        <i *ngIf="icon" [class]="icon" [ngClass]="{ 'p-disabled': disabled }"
-            (click)="onClick($event, cb, true)"></i>
+        <i *ngIf="icon" [class]="icon" [ngClass]="{ 'p-disabled': disabled }"></i>
     `,
     providers: [CHECKBOX_VALUE_ACCESSOR],
     changeDetection: ChangeDetectionStrategy.OnPush,
     encapsulation: ViewEncapsulation.None,
     styleUrls: ['./checkbox.css'],
     host: {
-        class: 'p-element'
+        class: 'p-element p-checkbox-container',
+        '[class.p-checkbox-disabled]': 'disabled',
+        '(click)': 'onClick($event, cb, true)'
     }
 })
 export class Checkbox implements OnInit, ControlValueAccessor {

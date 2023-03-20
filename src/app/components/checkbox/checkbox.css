@@ -25,6 +25,6 @@ p-checkbox {
     line-height: 1;
 }
 
-.p-checkbox:not(.p-radiobutton-disabled), .p-checkbox-label:not(.p-disabled), .p-checkbox-label + i:not(.p-disabled) {
+.p-checkbox-container:not(.p-checkbox-disabled) {
     cursor: pointer;
 }
