@@ -12,8 +12,8 @@
 
 .p-colorpicker-panel {
     position: relative;
-    width: 193px;
-    height: 166px;
+    width: 239px;
+    height: 282px;
 }
 
 .p-colorpicker-overlay-panel {
@@ -31,16 +31,16 @@
 }
 
 .p-colorpicker-panel .p-colorpicker-color-selector {
-    width: 150px;
-    height: 150px;
-    top: 8px;
-    left: 8px;
+    width: 180px;
+    height: 180px;
+    top: 16px;
+    left: 16px;
     position: absolute;
 }
 
 .p-colorpicker-panel .p-colorpicker-color {
-     width: 150px;
-     height: 150px;
+     width: 180px;
+     height: 180px;
 }
 
 .p-colorpicker-panel .p-colorpicker-color-handle {
@@ -59,9 +59,9 @@
 
 .p-colorpicker-panel .p-colorpicker-hue {
     width: 17px;
-    height: 150px;
-    top: 8px;
-    left: 167px;
+    height: 180px;
+    top: 16px;
+    left: 205px;
     position: absolute;
     opacity: .85;
 }
@@ -76,6 +76,15 @@
      height: 10px;
      border-width: 2px;
      border-style: solid;
+     border-radius: 4px;
      opacity: .85;
      cursor: pointer;
+}
+
+.p-colorpicker-inputvalue {
+    top: 220px;
+    left: 16px;
+    width: 205px;
+    height: 46px;
+    position: absolute;
 }

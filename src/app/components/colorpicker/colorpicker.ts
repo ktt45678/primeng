@@ -1,5 +1,5 @@
 import { NgModule, Component, ElementRef, Input, Output, OnDestroy, EventEmitter, forwardRef, Renderer2, ViewChild, ChangeDetectorRef, ChangeDetectionStrategy, ViewEncapsulation } from '@angular/core';
-import { trigger, state, style, transition, animate, AnimationEvent } from '@angular/animations';
+import { trigger, style, transition, animate, AnimationEvent } from '@angular/animations';
 import { CommonModule } from '@angular/common';
 import { DomHandler, ConnectedOverlayScrollHandler } from 'primeng/dom';
 import { NG_VALUE_ACCESSOR, ControlValueAccessor } from '@angular/forms';
@@ -21,6 +21,7 @@ export const COLORPICKER_VALUE_ACCESSOR: any = {
                 type="text"
                 *ngIf="!inline"
                 class="p-colorpicker-preview p-inputtext"
+                [class]="inputStyleClass"
                 readonly="readonly"
                 [ngClass]="{ 'p-disabled': disabled }"
                 (focus)="onInputFocus()"
@@ -49,6 +50,13 @@ export const COLORPICKER_VALUE_ACCESSOR: any = {
                     <div #hue class="p-colorpicker-hue" (mousedown)="onHueMousedown($event)" (touchstart)="onHueTouchStart($event)" (touchmove)="onMove($event)" (touchend)="onDragEnd()">
                         <div #hueHandle class="p-colorpicker-hue-handle"></div>
                     </div>
+                    <input
+                        #inputValue
+                        type="text"
+                        class="p-colorpicker-inputvalue p-inputtext"
+                        (input)="onInputValueChange($event)"
+                        [ngClass]="{ 'p-disabled': disabled }"
+                    />
                 </div>
             </div>
         </div>
@@ -66,6 +74,8 @@ export class ColorPicker implements ControlValueAccessor, OnDestroy {
     @Input() style: any;
 
     @Input() styleClass: string;
+
+    @Input() inputStyleClass: string;
 
     @Input() inline: boolean;
 
@@ -107,6 +117,10 @@ export class ColorPicker implements ControlValueAccessor, OnDestroy {
 
     defaultColor: string = 'ff0000';
 
+    containerSize: number = 180;
+
+    inputValueRegex: RegExp = /^#[0-9a-f]{3,6}$/i;
+
     onModelChange: Function = () => {};
 
     onModelTouched: Function = () => {};
@@ -139,6 +153,8 @@ export class ColorPicker implements ControlValueAccessor, OnDestroy {
 
     hueHandleViewChild: ElementRef;
 
+    inputValueViewChild: ElementRef;
+
     constructor(public el: ElementRef, public renderer: Renderer2, public cd: ChangeDetectorRef, public config: PrimeNGConfig, public overlayService: OverlayService) {}
 
     @ViewChild('colorSelector') set colorSelector(element: ElementRef) {
@@ -157,10 +173,18 @@ export class ColorPicker implements ControlValueAccessor, OnDestroy {
         this.hueHandleViewChild = element;
     }
 
+    @ViewChild('inputValue') set inputValue(element: ElementRef) {
+        this.inputValueViewChild = element;
+    }
+
     onHueMousedown(event: MouseEvent) {
         if (this.disabled) {
             return;
         }
+
+        event.preventDefault();
+
+        this.selfClick = true;
 
         this.bindDocumentMousemoveListener();
         this.bindDocumentMouseupListener();
@@ -191,7 +215,7 @@ export class ColorPicker implements ControlValueAccessor, OnDestroy {
         let pageY = position ? position.pageY : event.pageY;
         let top: number = this.hueViewChild.nativeElement.getBoundingClientRect().top + (window.pageYOffset || document.documentElement.scrollTop || document.body.scrollTop || 0);
         this.value = this.validateHSB({
-            h: Math.floor((360 * (150 - Math.max(0, Math.min(150, pageY - top)))) / 150),
+            h: Math.floor((360 * (this.containerSize - Math.max(0, Math.min(this.containerSize, pageY - top)))) / this.containerSize),
             s: this.value.s,
             b: this.value.b
         });
@@ -206,6 +230,10 @@ export class ColorPicker implements ControlValueAccessor, OnDestroy {
         if (this.disabled) {
             return;
         }
+
+        event.preventDefault();
+
+        this.selfClick = true;
 
         this.bindDocumentMousemoveListener();
         this.bindDocumentMouseupListener();
@@ -240,8 +268,8 @@ export class ColorPicker implements ControlValueAccessor, OnDestroy {
         let rect = this.colorSelectorViewChild.nativeElement.getBoundingClientRect();
         let top = rect.top + (window.pageYOffset || document.documentElement.scrollTop || document.body.scrollTop || 0);
         let left = rect.left + document.body.scrollLeft;
-        let saturation = Math.floor((100 * Math.max(0, Math.min(150, pageX - left))) / 150);
-        let brightness = Math.floor((100 * (150 - Math.max(0, Math.min(150, pageY - top)))) / 150);
+        let saturation = Math.floor((100 * Math.max(0, Math.min(this.containerSize, pageX - left))) / this.containerSize);
+        let brightness = Math.floor((100 * (this.containerSize - Math.max(0, Math.min(this.containerSize, pageY - top)))) / this.containerSize);
         this.value = this.validateHSB({
             h: this.value.h,
             s: saturation,
@@ -311,18 +339,37 @@ export class ColorPicker implements ControlValueAccessor, OnDestroy {
         }
     }
 
-    updateUI() {
+    updateUI(inputValue: boolean = true) {
         if (this.colorHandleViewChild && this.hueHandleViewChild.nativeElement) {
-            this.colorHandleViewChild.nativeElement.style.left = Math.floor((150 * this.value.s) / 100) + 'px';
-            this.colorHandleViewChild.nativeElement.style.top = Math.floor((150 * (100 - this.value.b)) / 100) + 'px';
-            this.hueHandleViewChild.nativeElement.style.top = Math.floor(150 - (150 * this.value.h) / 360) + 'px';
+            this.colorHandleViewChild.nativeElement.style.left = Math.floor((this.containerSize * this.value.s) / 100) + 'px';
+            this.colorHandleViewChild.nativeElement.style.top = Math.floor((this.containerSize * (100 - this.value.b)) / 100) + 'px';
+            this.hueHandleViewChild.nativeElement.style.top = Math.floor(this.containerSize - (this.containerSize * this.value.h) / 360) + 'px';
         }
 
-        this.inputBgColor = '#' + this.HSBtoHEX(this.value);
+        const hexColor = '#' + this.HSBtoHEX(this.value);
+
+        if (inputValue && this.inputValueViewChild.nativeElement) {
+            this.inputValueViewChild.nativeElement.value = hexColor;
+        }
+
+        this.inputBgColor = hexColor;
     }
 
     onInputFocus() {
         this.onModelTouched();
+    }
+
+    onInputValueChange(event: InputEvent) {
+        const stringValue = (<HTMLInputElement>event.target).value;
+        if (!stringValue) return;
+        if (!this.inputValueRegex.test(stringValue)) return;
+        const hexColor = this.validateHEX(stringValue.substring(1));
+
+        this.value = this.HEXtoHSB(hexColor);
+
+        this.updateUI(false);
+        this.updateModel();
+        this.onChange.emit({ originalEvent: event, value: this.getValueToUpdate() });
     }
 
     show() {
@@ -474,6 +521,7 @@ export class ColorPicker implements ControlValueAccessor, OnDestroy {
             const documentTarget: any = this.el ? this.el.nativeElement.ownerDocument : 'document';
 
             this.documentMousemoveListener = this.renderer.listen(documentTarget, 'mousemove', (event: MouseEvent) => {
+                event.preventDefault();
                 if (this.colorDragging) {
                     this.pickColor(event);
                 }
@@ -548,6 +596,17 @@ export class ColorPicker implements ControlValueAccessor, OnDestroy {
         }
     }
 
+    validateSameChar(str: string) {
+        const lowerCaseStr = str.toLowerCase();
+        let i = lowerCaseStr.length;
+        while (i--) {
+            if (lowerCaseStr[i] !== lowerCaseStr[0]){
+                return false;
+            }
+        }
+        return true;
+    }
+
     validateHSB(hsb) {
         return {
             h: Math.min(360, Math.max(0, hsb.h)),
@@ -566,7 +625,10 @@ export class ColorPicker implements ControlValueAccessor, OnDestroy {
 
     validateHEX(hex) {
         var len = 6 - hex.length;
-        if (len > 0) {
+        if (len === 3 && this.validateSameChar(hex)) {
+            hex = hex + hex;
+        }
+        else if (len > 0) {
             var o = [];
             for (var i = 0; i < len; i++) {
                 o.push('0');

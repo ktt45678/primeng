@@ -810,6 +810,7 @@ p-chips.p-chips-clearable .p-chips-clear-icon {
 .p-colorpicker-panel {
   background: #2b2b2b;
   border: 1px solid #1e1e1e;
+  border-radius: 6px;
 }
 .p-colorpicker-panel .p-colorpicker-color-handle,
 .p-colorpicker-panel .p-colorpicker-hue-handle {
@@ -8270,4 +8271,8 @@ p-autocomplete.p-autocomplete-full > .p-autocomplete > .p-autocomplete-input {
   transform: rotate(45deg);
   transform-origin: 0% 100%;
   animation: checkbox-check 125ms 50ms linear forwards;
+}
+
+.p-colorpicker-preview.p-inputtext {
+    transition: none;
 }

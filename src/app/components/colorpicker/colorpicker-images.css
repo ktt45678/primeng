@@ -1,7 +1,9 @@
 .p-colorpicker-panel .p-colorpicker-color {
-    background: transparent url("./images/color.png") no-repeat left top; 
+    background: transparent url("./images/color.png") no-repeat left top;
+    background-size: cover;
 }
 
 .p-colorpicker-panel .p-colorpicker-hue {
-   background: transparent url("./images/hue.png") no-repeat left top; 
+   background: transparent url("./images/hue.png") no-repeat left top;
+   background-size: cover;
 }
