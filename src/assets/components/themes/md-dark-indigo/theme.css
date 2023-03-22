@@ -1717,14 +1717,14 @@ p-selectbutton.ng-dirty.ng-invalid > .p-selectbutton > .p-button {
   border-radius: 4px;
 }
 .p-slider.p-slider-horizontal {
-  height: 2px;
+  height: 6px;
 }
 .p-slider.p-slider-horizontal .p-slider-handle {
   margin-top: -10px;
   margin-left: -10px;
 }
 .p-slider.p-slider-vertical {
-  width: 2px;
+  width: 6px;
 }
 .p-slider.p-slider-vertical .p-slider-handle {
   margin-left: -10px;

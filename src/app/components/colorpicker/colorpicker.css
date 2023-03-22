@@ -6,12 +6,11 @@
     cursor: pointer;
 }
 
-.p-colorpicker-overlay {
+.p-colorpicker-overlay, .p-colorpicker-panel, .p-colorpicker-panel .p-colorpicker-content, .p-colorpicker-preview {
     position: relative;
 }
 
 .p-colorpicker-panel {
-    position: relative;
     width: 239px;
     height: 282px;
 }
@@ -24,10 +23,6 @@
 
 .p-colorpicker-preview {
     cursor: pointer;
-}
-
-.p-colorpicker-panel .p-colorpicker-content {
-    position: relative;
 }
 
 .p-colorpicker-panel .p-colorpicker-color-selector {

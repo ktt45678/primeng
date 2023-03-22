@@ -16,9 +16,8 @@ export const COLORPICKER_VALUE_ACCESSOR: any = {
     selector: 'p-colorPicker',
     template: `
         <div #container [ngStyle]="style" [class]="styleClass" [ngClass]="{ 'p-colorpicker p-component': true, 'p-colorpicker-overlay': !inline, 'p-colorpicker-dragging': colorDragging || hueDragging }">
-            <input
+            <button
                 #input
-                type="text"
                 *ngIf="!inline"
                 class="p-colorpicker-preview p-inputtext"
                 [class]="inputStyleClass"
@@ -31,7 +30,9 @@ export const COLORPICKER_VALUE_ACCESSOR: any = {
                 [attr.tabindex]="tabindex"
                 [disabled]="disabled"
                 [style.backgroundColor]="inputBgColor"
-            />
+            >
+                <ng-content></ng-content>
+            </button>
             <div
                 *ngIf="inline || overlayVisible"
                 [ngClass]="{ 'p-colorpicker-panel': true, 'p-colorpicker-overlay-panel': !inline, 'p-disabled': disabled }"
@@ -96,6 +97,10 @@ export class ColorPicker implements ControlValueAccessor, OnDestroy {
     @Input() showTransitionOptions: string = '.12s cubic-bezier(0, 0, 0.2, 1)';
 
     @Input() hideTransitionOptions: string = '.1s linear';
+
+    @Input() set initColor(color: string) {
+        this.defaultColor = color.substring(color.indexOf('#') + 1);
+    }
 
     @Output() onChange: EventEmitter<any> = new EventEmitter();
 
@@ -174,6 +179,8 @@ export class ColorPicker implements ControlValueAccessor, OnDestroy {
     }
 
     @ViewChild('inputValue') set inputValue(element: ElementRef) {
+        if (element)
+            element.nativeElement.focus();
         this.inputValueViewChild = element;
     }
 
@@ -321,6 +328,7 @@ export class ColorPicker implements ControlValueAccessor, OnDestroy {
             }
         } else {
             this.value = this.HEXtoHSB(this.defaultColor);
+            this.inputBgColor = '#' + this.defaultColor;
         }
 
         this.updateColorSelector();
