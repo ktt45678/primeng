@@ -20,6 +20,9 @@
             <i class="ms ms-check absolute text-white" style="right: 4px; bottom: 4px;"></i>
         </p-colorPicker>
 
+        <h5>Default Value</h5>
+        <p-colorPicker inputStyleClass="w-4rem h-4rem" [initColor]="color3"></p-colorPicker>
+
         <h5>Reactive Form</h5>
         <form [formGroup]="colorPickerForm">
             <p-colorPicker formControlName="color"></p-colorPicker>

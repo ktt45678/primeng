@@ -39,7 +39,7 @@
 }
 
 .p-slider-container {
-    display: inline-block;
+    display: block;
 }
 
 .p-slider-container:has(.p-slider-horizontal) {

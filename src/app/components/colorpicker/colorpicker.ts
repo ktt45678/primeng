@@ -100,6 +100,11 @@ export class ColorPicker implements ControlValueAccessor, OnDestroy {
 
     @Input() set initColor(color: string) {
         this.defaultColor = color.substring(color.indexOf('#') + 1);
+        this.value = this.HEXtoHSB(this.defaultColor);
+        this.inputBgColor = '#' + this.defaultColor;
+        this.updateColorSelector();
+        this.updateUI();
+        this.cd.markForCheck();
     }
 
     @Output() onChange: EventEmitter<any> = new EventEmitter();
