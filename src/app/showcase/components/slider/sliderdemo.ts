@@ -13,5 +13,9 @@ export class SliderDemo {
 
     val4: number;
 
+    val5: number;
+
+    val6: number;
+
     rangeValues: number[] = [20, 80];
 }

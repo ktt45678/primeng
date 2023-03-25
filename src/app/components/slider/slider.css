@@ -1,4 +1,4 @@
-.p-slider {
+.p-slider, .p-slider-container {
 	position: relative;
 }
 
@@ -36,4 +36,24 @@
     bottom: 0;
     left: 0;
     width: 100%;
+}
+
+.p-slider-container {
+    display: inline-block;
+}
+
+.p-slider-container:has(.p-slider-horizontal) {
+    height: 24px;
+}
+
+.p-slider-container:has(.p-slider-vertical) {
+    width: 24px;
+}
+
+.p-slider.p-slider-horizontal {
+    top: 9px;
+}
+
+.p-slider.p-slider-vertical {
+    left: 9px;
 }

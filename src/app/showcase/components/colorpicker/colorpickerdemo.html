@@ -19,6 +19,11 @@
             <i class="ms ms-colorize absolute text-white" style="right: 4px; top: 4px;"></i>
             <i class="ms ms-check absolute text-white" style="right: 4px; bottom: 4px;"></i>
         </p-colorPicker>
+
+        <h5>Reactive Form</h5>
+        <form [formGroup]="colorPickerForm">
+            <p-colorPicker formControlName="color"></p-colorPicker>
+        </form>
     </div>
 </div>
 

@@ -316,14 +316,18 @@ export class ColorPicker implements ControlValueAccessor, OnDestroy {
             switch (this.format) {
                 case 'hex':
                     this.value = this.HEXtoHSB(value);
+                    this.inputBgColor = value;
                     break;
 
                 case 'rgb':
                     this.value = this.RGBtoHSB(value);
+                    this.inputBgColor = `rgb(${value.r}, ${value.g}, ${value.b})`;
                     break;
 
                 case 'hsb':
                     this.value = value;
+                    const inputBgColor = this.HSBtoRGB(value);
+                    this.inputBgColor = `rgb(${inputBgColor.r}, ${inputBgColor.g}, ${inputBgColor.b})`;
                     break;
             }
         } else {
