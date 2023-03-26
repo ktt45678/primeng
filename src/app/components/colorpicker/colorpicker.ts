@@ -19,6 +19,7 @@ export const COLORPICKER_VALUE_ACCESSOR: any = {
             <button
                 #input
                 *ngIf="!inline"
+                type="button"
                 class="p-colorpicker-preview p-inputtext"
                 [class]="inputStyleClass"
                 readonly="readonly"
@@ -365,7 +366,7 @@ export class ColorPicker implements ControlValueAccessor, OnDestroy {
 
         const hexColor = '#' + this.HSBtoHEX(this.value);
 
-        if (inputValue && this.inputValueViewChild.nativeElement) {
+        if (inputValue && this.inputValueViewChild) {
             this.inputValueViewChild.nativeElement.value = hexColor;
         }
 

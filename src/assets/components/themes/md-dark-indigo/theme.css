@@ -5643,8 +5643,6 @@ p-treeselect.p-treeselect-clearable .p-treeselect-clear-icon {
 
 .p-tabmenu .p-tabmenu-nav {
   background: transparent;
-  border: solid rgba(255, 255, 255, 0.12);
-  border-width: 0 0 1px 0;
 }
 .p-tabmenu .p-tabmenu-nav .p-tabmenuitem {
   margin-right: 0;
@@ -8276,4 +8274,9 @@ p-autocomplete.p-autocomplete-full > .p-autocomplete > .p-autocomplete-input {
 
 .p-colorpicker-preview.p-inputtext {
     transition: none;
+}
+
+.p-tabmenu .p-tabmenu-nav-content {
+  border: solid rgba(255, 255, 255, 0.12);
+  border-width: 0 0 1px 0;
 }
