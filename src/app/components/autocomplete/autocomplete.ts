@@ -759,6 +759,7 @@ export class AutoComplete implements AfterViewChecked, AfterContentInit, OnDestr
             this.onModelChange(this.value);
             this.updateFilledState();
             this.onUnselect.emit(removedValue);
+            this.cd.markForCheck();
         }
     }
 
