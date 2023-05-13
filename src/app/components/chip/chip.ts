@@ -6,7 +6,7 @@ import { PrimeTemplate, SharedModule } from 'primeng/api';
 @Component({
     selector: 'p-chip',
     template: `
-        <div [ngClass]="{ 'p-chip p-component': true, 'p-chip-image': this.image != null }" [class]="styleClass" [ngStyle]="style" *ngIf="visible" [tabindex]="removable ? 0 : -1" (click)="removable && close($event)" (keydown.enter)="removable && close($event)">
+        <div [ngClass]="{ 'p-chip p-component': true, 'p-chip-image': this.image != null, 'p-chip-removable': removable }" [class]="styleClass" [ngStyle]="style" *ngIf="visible" [tabindex]="removable ? 0 : -1" (click)="removable && close($event)" (keydown.enter)="removable && close($event)">
             <ng-content></ng-content>
             <img [src]="image" *ngIf="image; else iconTemplate" (error)="imageError($event)" />
             <ng-template #iconTemplate><span *ngIf="icon" [class]="icon" [ngClass]="'p-chip-icon'"></span></ng-template>

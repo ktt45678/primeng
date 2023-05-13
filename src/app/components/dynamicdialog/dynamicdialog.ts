@@ -9,6 +9,8 @@ import {
     ComponentRef,
     Directive,
     ElementRef,
+    SkipSelf,
+    Optional,
     Inject,
     Injector,
     NgModule,
@@ -183,12 +185,13 @@ export class DynamicDialogComponent implements AfterViewInit, OnDestroy {
         @Inject(PLATFORM_ID) private platformId: any,
         private componentFactoryResolver: ComponentFactoryResolver,
         private cd: ChangeDetectorRef,
+        private injector: Injector,
         public renderer: Renderer2,
         public config: DynamicDialogConfig,
         public dialogRef: DynamicDialogRef,
         public zone: NgZone,
         public primeNGConfig: PrimeNGConfig,
-        private injector: Injector
+        @SkipSelf() @Optional() private parentDialog: DynamicDialogComponent
     ) {}
 
     ngAfterViewInit() {
@@ -306,27 +309,23 @@ export class DynamicDialogComponent implements AfterViewInit, OnDestroy {
     }
 
     onKeydown(event: KeyboardEvent) {
-        if (this.parent) {
-            return;
-        } else {
-            // tab
-            if (event.which === 9) {
-                event.preventDefault();
+        // tab
+        if (event.which === 9) {
+            event.preventDefault();
 
-                let focusableElements = DomHandler.getFocusableElements(this.container);
-                if (focusableElements && focusableElements.length > 0) {
-                    if (!focusableElements[0].ownerDocument.activeElement) {
-                        focusableElements[0].focus();
+            let focusableElements = DomHandler.getFocusableElements(this.container);
+            if (focusableElements && focusableElements.length > 0) {
+                if (!focusableElements[0].ownerDocument.activeElement) {
+                    focusableElements[0].focus();
+                } else {
+                    let focusedIndex = focusableElements.indexOf(focusableElements[0].ownerDocument.activeElement);
+
+                    if (event.shiftKey) {
+                        if (focusedIndex == -1 || focusedIndex === 0) focusableElements[focusableElements.length - 1].focus();
+                        else focusableElements[focusedIndex - 1].focus();
                     } else {
-                        let focusedIndex = focusableElements.indexOf(focusableElements[0].ownerDocument.activeElement);
-
-                        if (event.shiftKey) {
-                            if (focusedIndex == -1 || focusedIndex === 0) focusableElements[focusableElements.length - 1].focus();
-                            else focusableElements[focusedIndex - 1].focus();
-                        } else {
-                            if (focusedIndex == -1 || focusedIndex === focusableElements.length - 1) focusableElements[0].focus();
-                            else focusableElements[focusedIndex + 1].focus();
-                        }
+                        if (focusedIndex == -1 || focusedIndex === focusableElements.length - 1) focusableElements[0].focus();
+                        else focusableElements[focusedIndex + 1].focus();
                     }
                 }
             }
@@ -514,6 +513,9 @@ export class DynamicDialogComponent implements AfterViewInit, OnDestroy {
     }
 
     bindGlobalListeners() {
+        if (this.parentDialog) {
+            this.parentDialog.unbindDocumentKeydownListener();
+        }
         this.bindDocumentKeydownListener();
 
         if (this.config.closeOnEscape !== false && this.config.closable !== false) {
@@ -536,13 +538,21 @@ export class DynamicDialogComponent implements AfterViewInit, OnDestroy {
         this.unbindDocumentResizeListeners();
         this.unbindDocumentDragListener();
         this.unbindDocumentDragEndListener();
+
+        if (this.parentDialog) {
+            this.parentDialog.bindDocumentKeydownListener();
+        }
     }
 
     bindDocumentKeydownListener() {
         if (isPlatformBrowser(this.platformId)) {
-            this.zone.runOutsideAngular(() => {
-                this.documentKeydownListener = this.renderer.listen(this.document, 'keydown', this.onKeydown.bind(this));
-            });
+            if (this.documentKeydownListener) {
+                return;
+            } else {
+                this.zone.runOutsideAngular(() => {
+                    this.documentKeydownListener = this.renderer.listen(this.document, 'keydown', this.onKeydown.bind(this));
+                });
+            }
         }
     }
 
@@ -673,7 +683,6 @@ export class DynamicDialogActions {}
 @NgModule({
     imports: [CommonModule, SharedModule, WindowMaximizeIcon, WindowMinimizeIcon, TimesIcon],
     declarations: [DynamicDialogComponent, DynamicDialogContent, DynamicDialogTitle, DynamicDialogActualContent, DynamicDialogActions],
-    exports: [DynamicDialogTitle, DynamicDialogActualContent, DynamicDialogActions],
-    entryComponents: [DynamicDialogComponent]
+    exports: [DynamicDialogTitle, DynamicDialogActualContent, DynamicDialogActions]
 })
 export class DynamicDialogModule {}

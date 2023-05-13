@@ -26,7 +26,8 @@ import { MenuItem, PrimeNGConfig, PrimeTemplate, SharedModule } from 'primeng/ap
 import { RouterModule } from '@angular/router';
 import { RippleModule } from 'primeng/ripple';
 import { TooltipModule } from 'primeng/tooltip';
-import { debounce, filter, interval, Subject, Subscription } from 'rxjs';
+import { Subject, Subscription, interval } from 'rxjs';
+import { debounce, filter } from 'rxjs/operators';
 import { BarsIcon } from 'primeng/icons/bars';
 import { AngleDownIcon } from 'primeng/icons/angledown';
 import { AngleRightIcon } from 'primeng/icons/angleright';
@@ -84,8 +85,8 @@ export class MenubarService {
                         <span class="p-menuitem-badge" *ngIf="child.badge" [ngClass]="child.badgeStyleClass">{{ child.badge }}</span>
                         <ng-container *ngIf="child.items">
                             <ng-container *ngIf="!menubar.submenuIconTemplate">
-                                <AngleDownIcon [styleClass]="'p-submenu-icon'" *ngIf="root"/>
-                                <AngleRightIcon [styleClass]="'p-submenu-icon'" *ngIf="!root"/>
+                                <AngleDownIcon [styleClass]="'p-submenu-icon'" *ngIf="root" />
+                                <AngleRightIcon [styleClass]="'p-submenu-icon'" *ngIf="!root" />
                             </ng-container>
                             <ng-template *ngTemplateOutlet="menubar.submenuIconTemplate"></ng-template>
                         </ng-container>
@@ -120,8 +121,8 @@ export class MenubarService {
                         <span class="p-menuitem-badge" *ngIf="child.badge" [ngClass]="child.badgeStyleClass">{{ child.badge }}</span>
                         <ng-container *ngIf="child.items">
                             <ng-container *ngIf="!menubar.submenuIconTemplate">
-                                <AngleDownIcon [styleClass]="'p-submenu-icon'" *ngIf="root"/>
-                                <AngleRightIcon [styleClass]="'p-submenu-icon'" *ngIf="!root"/>
+                                <AngleDownIcon [styleClass]="'p-submenu-icon'" *ngIf="root" />
+                                <AngleRightIcon [styleClass]="'p-submenu-icon'" *ngIf="!root" />
                             </ng-container>
                             <ng-template *ngTemplateOutlet="menubar.submenuIconTemplate"></ng-template>
                         </ng-container>
@@ -291,7 +292,7 @@ export class MenubarSub implements OnInit, OnDestroy {
                 <ng-container *ngTemplateOutlet="startTemplate"></ng-container>
             </div>
             <a #menubutton tabindex="0" *ngIf="model && model.length > 0" class="p-menubar-button" (click)="toggle($event)">
-                <BarsIcon *ngIf="!menuIconTemplate"/>
+                <BarsIcon *ngIf="!menuIconTemplate" />
                 <ng-template *ngTemplateOutlet="menuIconTemplate"></ng-template>
             </a>
             <p-menubarSub #rootmenu [item]="model" root="root" [baseZIndex]="baseZIndex" (leafClick)="onLeafClick()" [autoZIndex]="autoZIndex" [mobileActive]="mobileActive" [autoDisplay]="autoDisplay"></p-menubarSub>

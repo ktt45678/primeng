@@ -1,5 +1,5 @@
 .p-inputswitch-container {
-    display: flex;
+    display: inline-flex;
     align-items: center;
     user-select: none;
 }

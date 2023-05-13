@@ -162,7 +162,6 @@ export class DropdownItem {
                 </span>
             </ng-container>
 
-
             <div class="p-dropdown-trigger" role="button" aria-label="dropdown trigger" aria-haspopup="listbox" [attr.aria-expanded]="overlayVisible">
                 <ng-container *ngIf="!dropdownIconTemplate">
                     <span class="p-dropdown-trigger-icon" *ngIf="dropdownIcon" [ngClass]="dropdownIcon"></span>
