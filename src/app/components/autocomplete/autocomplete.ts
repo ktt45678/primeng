@@ -419,9 +419,9 @@ export class AutoComplete implements AfterViewChecked, AfterContentInit, OnDestr
 
     _suggestions: any[];
 
-    onModelChange: Function = () => {};
+    onModelChange: Function = () => { };
 
-    onModelTouched: Function = () => {};
+    onModelTouched: Function = () => { };
 
     timeout: any;
 
@@ -783,6 +783,21 @@ export class AutoComplete implements AfterViewChecked, AfterContentInit, OnDestr
         this.onUnselect.emit(removedValue);
     }
 
+    removeItemByObject(item: any) {
+        if (this.value && this.value.length) {
+            if (this.dataKey) {
+                const itemValue = ObjectUtils.resolveFieldData(item, this.dataKey);
+                this.value = this.value.filter((val: any) => ObjectUtils.resolveFieldData(val, this.dataKey) != itemValue);
+            } else {
+                this.value = this.value.filter((val: any) => val != item);
+            }
+            const removedValue = item;
+            this.onModelChange(this.value);
+            this.updateFilledState();
+            this.onUnselect.emit(removedValue);
+        }
+    }
+
     onKeydown(event) {
         if (this.overlayVisible) {
             switch (event.which) {
@@ -1043,4 +1058,4 @@ export class AutoComplete implements AfterViewChecked, AfterContentInit, OnDestr
     exports: [AutoComplete, OverlayModule, SharedModule, ScrollerModule, AutoFocusModule],
     declarations: [AutoComplete]
 })
-export class AutoCompleteModule {}
+export class AutoCompleteModule { }
