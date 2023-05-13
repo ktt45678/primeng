@@ -1,5 +1,6 @@
 import { CommonModule, DOCUMENT } from '@angular/common';
 import {
+    AfterContentInit,
     ChangeDetectionStrategy,
     ChangeDetectorRef,
     Component,
@@ -8,8 +9,10 @@ import {
     EventEmitter,
     forwardRef,
     Inject,
+    Injector,
     Input,
     NgModule,
+    OnChanges,
     OnInit,
     Output,
     QueryList,
@@ -18,7 +21,7 @@ import {
     ViewChild,
     ViewEncapsulation
 } from '@angular/core';
-import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
+import { ControlValueAccessor, NG_VALUE_ACCESSOR, NgControl } from '@angular/forms';
 import { ButtonModule } from 'primeng/button';
 import { DomHandler } from 'primeng/dom';
 import { InputTextModule } from 'primeng/inputtext';
@@ -77,10 +80,10 @@ export const INPUTNUMBER_VALUE_ACCESSOR: any = {
                 (blur)="onInputBlur($event)"
             />
             <ng-container *ngIf="buttonLayout != 'vertical' && showClear && value">
-                <TimesIcon *ngIf="!clearIconTemplate" [ngClass]="'p-inputnumber-clear-icon'" (click)="clear()"/>
+                <TimesIcon *ngIf="!clearIconTemplate" [ngClass]="'p-inputnumber-clear-icon'" (click)="clear()" />
                 <span *ngIf="clearIconTemplate" (click)="clear()" class="p-inputnumber-clear-icon">
                     <ng-template *ngTemplateOutlet="clearIconTemplate"></ng-template>
-                </span>            
+                </span>
             </ng-container>
 
             <span class="p-inputnumber-button-group" *ngIf="showButtons && buttonLayout === 'stacked'">
@@ -98,11 +101,11 @@ export const INPUTNUMBER_VALUE_ACCESSOR: any = {
                     (keyup)="onUpButtonKeyUp()"
                     tabindex="-1"
                 >
-                <span *ngIf="incrementButtonIcon" [ngClass]="incrementButtonIcon"></span>
-                <ng-container *ngIf="!incrementButtonIcon">
-                    <AngleUpIcon *ngIf="!incrementButtonIconTemplate"/>
-                    <ng-template *ngTemplateOutlet="incrementButtonIconTemplate"></ng-template>
-                </ng-container>
+                    <span *ngIf="incrementButtonIcon" [ngClass]="incrementButtonIcon"></span>
+                    <ng-container *ngIf="!incrementButtonIcon">
+                        <AngleUpIcon *ngIf="!incrementButtonIconTemplate" />
+                        <ng-template *ngTemplateOutlet="incrementButtonIconTemplate"></ng-template>
+                    </ng-container>
                 </button>
                 <button
                     type="button"
@@ -118,12 +121,12 @@ export const INPUTNUMBER_VALUE_ACCESSOR: any = {
                     (keyup)="onDownButtonKeyUp()"
                     tabindex="-1"
                 >
-                <span *ngIf="decrementButtonIcon" [ngClass]="decrementButtonIcon"></span>
-                <ng-container *ngIf="!decrementButtonIcon">
-                    <AngleDownIcon *ngIf="!decrementButtonIconTemplate"/>
-                    <ng-template *ngTemplateOutlet="decrementButtonIconTemplate"></ng-template>
-                </ng-container>
-            </button>
+                    <span *ngIf="decrementButtonIcon" [ngClass]="decrementButtonIcon"></span>
+                    <ng-container *ngIf="!decrementButtonIcon">
+                        <AngleDownIcon *ngIf="!decrementButtonIconTemplate" />
+                        <ng-template *ngTemplateOutlet="decrementButtonIconTemplate"></ng-template>
+                    </ng-container>
+                </button>
             </span>
             <button
                 type="button"
@@ -142,7 +145,7 @@ export const INPUTNUMBER_VALUE_ACCESSOR: any = {
             >
                 <span *ngIf="incrementButtonIcon" [ngClass]="incrementButtonIcon"></span>
                 <ng-container *ngIf="!incrementButtonIcon">
-                    <AngleUpIcon *ngIf="!incrementButtonIconTemplate"/>
+                    <AngleUpIcon *ngIf="!incrementButtonIconTemplate" />
                     <ng-template *ngTemplateOutlet="incrementButtonIconTemplate"></ng-template>
                 </ng-container>
             </button>
@@ -161,12 +164,12 @@ export const INPUTNUMBER_VALUE_ACCESSOR: any = {
                 (keyup)="onDownButtonKeyUp()"
                 tabindex="-1"
             >
-            <span *ngIf="decrementButtonIcon" [ngClass]="decrementButtonIcon"></span>
-            <ng-container *ngIf="!decrementButtonIcon">
-                <AngleDownIcon *ngIf="!decrementButtonIconTemplate"/>
-                <ng-template *ngTemplateOutlet="decrementButtonIconTemplate"></ng-template>
-            </ng-container>
-        </button>
+                <span *ngIf="decrementButtonIcon" [ngClass]="decrementButtonIcon"></span>
+                <ng-container *ngIf="!decrementButtonIcon">
+                    <AngleDownIcon *ngIf="!decrementButtonIconTemplate" />
+                    <ng-template *ngTemplateOutlet="decrementButtonIconTemplate"></ng-template>
+                </ng-container>
+            </button>
         </span>
     `,
     changeDetection: ChangeDetectionStrategy.OnPush,
@@ -180,7 +183,7 @@ export const INPUTNUMBER_VALUE_ACCESSOR: any = {
         '[class.p-inputnumber-clearable]': 'showClear && buttonLayout != "vertical"'
     }
 })
-export class InputNumber implements ControlValueAccessor {
+export class InputNumber implements OnInit, AfterContentInit, OnChanges, ControlValueAccessor {
     @Input() showButtons: boolean = false;
 
     @Input() format: boolean = true;
@@ -199,7 +202,7 @@ export class InputNumber implements ControlValueAccessor {
 
     @Input() maxlength: number;
 
-    @Input() tabindex: string;
+    @Input() tabindex: number;
 
     @Input() title: string;
 
@@ -331,7 +334,9 @@ export class InputNumber implements ControlValueAccessor {
         if (this.timer) this.clearTimer();
     }
 
-    constructor(@Inject(DOCUMENT) private document: Document, public el: ElementRef, private cd: ChangeDetectorRef) {}
+    private ngControl: NgControl | null = null;
+
+    constructor(@Inject(DOCUMENT) private document: Document, public el: ElementRef, private cd: ChangeDetectorRef, private readonly injector: Injector) {}
 
     ngOnChanges(simpleChange: SimpleChanges) {
         const props = ['locale', 'localeMatcher', 'mode', 'currency', 'currencyDisplay', 'useGrouping', 'minFractionDigits', 'maxFractionDigits', 'prefix', 'suffix'];
@@ -359,6 +364,8 @@ export class InputNumber implements ControlValueAccessor {
     }
 
     ngOnInit() {
+        this.ngControl = this.injector.get(NgControl, null, { optional: true });
+
         this.constructParser();
 
         this.initialized = true;
@@ -520,7 +527,6 @@ export class InputNumber implements ControlValueAccessor {
         if (this.maxlength && this.maxlength < this.formatValue(newValue).length) {
             return;
         }
-
         this.updateInput(newValue, null, 'spin', null);
         this.updateModel(event, newValue);
 
@@ -1136,12 +1142,10 @@ export class InputNumber implements ControlValueAccessor {
 
     onInputBlur(event) {
         this.focused = false;
-
         let newValue = this.validateValue(this.parseValue(this.input.nativeElement.value));
         this.input.nativeElement.value = this.formatValue(newValue);
         this.input.nativeElement.setAttribute('aria-valuenow', newValue);
         this.updateModel(event, newValue);
-
         this.onBlur.emit(event);
     }
 
@@ -1151,11 +1155,17 @@ export class InputNumber implements ControlValueAccessor {
     }
 
     updateModel(event, value) {
+        const isBlurUpdateOnMode = this.ngControl?.control?.updateOn === 'blur';
+
         if (this.value !== value) {
             this.value = value;
+
+            if (!(isBlurUpdateOnMode && this.focused)) {
+                this.onModelChange(value);
+            }
+        } else if (isBlurUpdateOnMode) {
             this.onModelChange(value);
         }
-
         this.onModelTouched();
     }
 
