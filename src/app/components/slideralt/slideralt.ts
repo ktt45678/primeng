@@ -12,11 +12,7 @@ export const SLIDER_VALUE_ACCESSOR: any = {
 @Component({
     selector: 'p-sliderAlt',
     template: `
-        <div
-            [ngStyle]="style"
-            [class]="styleClass"
-            [ngClass]="{ 'p-slider p-component': true, 'p-disabled': disabled, 'p-slider-horizontal': orientation == 'horizontal', 'p-slider-vertical': orientation == 'vertical', 'p-slider-animate': animate }"
-        >
+        <div [ngStyle]="style" [class]="styleClass" [ngClass]="{ 'p-slider p-component': true, 'p-disabled': disabled, 'p-slider-horizontal': orientation == 'horizontal', 'p-slider-vertical': orientation == 'vertical', 'p-slider-animate': animate }">
             <span *ngIf="orientation == 'vertical'" class="p-slider-range" [ngStyle]="{ height: handleValue + '%' }"></span>
             <span *ngIf="orientation == 'horizontal'" class="p-slider-range" [ngStyle]="{ width: handleValue + '%' }"></span>
             <span
@@ -86,9 +82,9 @@ export class SliderAlt implements OnDestroy, ControlValueAccessor {
 
     bottom: number;
 
-    public onModelChange: Function = () => { };
+    public onModelChange: Function = () => {};
 
-    public onModelTouched: Function = () => { };
+    public onModelTouched: Function = () => {};
 
     public dragging: boolean;
 
@@ -114,7 +110,7 @@ export class SliderAlt implements OnDestroy, ControlValueAccessor {
 
     public starty: number;
 
-    constructor(public el: ElementRef, public renderer: Renderer2, private ngZone: NgZone, public cd: ChangeDetectorRef) { }
+    constructor(public el: ElementRef, public renderer: Renderer2, private ngZone: NgZone, public cd: ChangeDetectorRef) {}
 
     onMouseDown(event, index?: number) {
         if (this.disabled) {
@@ -162,8 +158,7 @@ export class SliderAlt implements OnDestroy, ControlValueAccessor {
         this.updateDomData();
         this.handleTouchStartChange(event);
 
-        if (event.cancelable)
-            event.preventDefault();
+        if (event.cancelable) event.preventDefault();
     }
 
     onTouchMove(event, index?: number) {
@@ -177,8 +172,7 @@ export class SliderAlt implements OnDestroy, ControlValueAccessor {
 
         this.setValueFromHandle(event, handleValue);
 
-        if (event.cancelable)
-            event.preventDefault();
+        if (event.cancelable) event.preventDefault();
     }
 
     onTouchEnd(event, index?: number) {
@@ -194,8 +188,7 @@ export class SliderAlt implements OnDestroy, ControlValueAccessor {
             DomHandler.addClass(this.el.nativeElement.children[0], 'p-slider-animate');
         }
 
-        if (event.cancelable)
-            event.preventDefault();
+        if (event.cancelable) event.preventDefault();
     }
 
     onBarClick(event) {
@@ -433,4 +426,4 @@ export class SliderAlt implements OnDestroy, ControlValueAccessor {
     exports: [SliderAlt],
     declarations: [SliderAlt]
 })
-export class SliderAltModule { }
+export class SliderAltModule {}

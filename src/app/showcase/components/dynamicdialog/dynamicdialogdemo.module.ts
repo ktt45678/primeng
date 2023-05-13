@@ -17,4 +17,4 @@ import { AppDemoActionsModule } from '../../app.demoactions.component';
     declarations: [DynamicDialogDemo, ProductListDemo, ProductListDemoMinimal],
     entryComponents: [ProductListDemo, ProductListDemoMinimal]
 })
-export class DynamicDialogDemoModule { }
+export class DynamicDialogDemoModule {}

@@ -11,9 +11,11 @@
     line-height: 1.5;
 }
 
-.pi-chip-remove-icon {
-    display: none;
+.pi-chip-remove-icon.pi {
     line-height: 1.5;
+}
+
+.pi-chip-remove-icon {
     cursor: pointer;
     font-size: 20px;
 }
@@ -24,10 +26,6 @@
 
 .p-chip:focus-visible {
     outline: 0;
-}
-
-.p-chip:hover > .pi-chip-remove-icon, .p-chip:focus-visible > .pi-chip-remove-icon {
-    display: block;
 }
 
 .p-chip-removable {

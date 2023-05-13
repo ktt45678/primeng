@@ -61,17 +61,17 @@ export class ToggleButton implements ControlValueAccessor {
 
     @Input() set initValue(value: boolean) {
         this.checked = value;
-    };
+    }
 
     @Output() onChange: EventEmitter<any> = new EventEmitter();
 
     checked: boolean = false;
 
-    onModelChange: Function = () => { };
+    onModelChange: Function = () => {};
 
-    onModelTouched: Function = () => { };
+    onModelTouched: Function = () => {};
 
-    constructor(public cd: ChangeDetectorRef) { }
+    constructor(public cd: ChangeDetectorRef) {}
 
     toggle(event: Event) {
         if (!this.disabled) {
@@ -123,4 +123,4 @@ export class ToggleButton implements ControlValueAccessor {
     exports: [ToggleButton],
     declarations: [ToggleButton]
 })
-export class ToggleButtonModule { }
+export class ToggleButtonModule {}

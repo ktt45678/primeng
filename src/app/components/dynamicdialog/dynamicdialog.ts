@@ -1,12 +1,36 @@
 import { animate, animation, AnimationEvent, style, transition, trigger, useAnimation } from '@angular/animations';
-import { CommonModule } from '@angular/common';
-import { AfterViewInit, ChangeDetectionStrategy, ChangeDetectorRef, Component, ComponentFactoryResolver, ComponentRef, Directive, ElementRef, Injector, NgModule, NgZone, OnDestroy, Renderer2, StaticProvider, Type, ViewChild, ViewEncapsulation, ViewRef } from '@angular/core';
-import { PrimeNGConfig } from 'primeng/api';
+import { CommonModule, DOCUMENT, isPlatformBrowser } from '@angular/common';
+import {
+    AfterViewInit,
+    ChangeDetectionStrategy,
+    ChangeDetectorRef,
+    Component,
+    ComponentFactoryResolver,
+    ComponentRef,
+    Directive,
+    ElementRef,
+    Inject,
+    Injector,
+    NgModule,
+    NgZone,
+    OnDestroy,
+    PLATFORM_ID,
+    Renderer2,
+    StaticProvider,
+    Type,
+    ViewChild,
+    ViewEncapsulation,
+    ViewRef
+} from '@angular/core';
+import { PrimeNGConfig, SharedModule } from 'primeng/api';
 import { DomHandler } from 'primeng/dom';
 import { ZIndexUtils } from 'primeng/utils';
 import { DynamicDialogConfig } from './dynamicdialog-config';
 import { DynamicDialogRef } from './dynamicdialog-ref';
 import { DynamicDialogContent } from './dynamicdialogcontent';
+import { TimesIcon } from 'primeng/icons/times';
+import { WindowMaximizeIcon } from 'primeng/icons/windowmaximize';
+import { WindowMinimizeIcon } from 'primeng/icons/windowminimize';
 
 const showAnimation = animation([style({ transform: '{{transform}}', opacity: 0 }), animate('{{transition}}', style({ transform: 'none', opacity: 1 }))]);
 
@@ -104,21 +128,21 @@ export class DynamicDialogComponent implements AfterViewInit, OnDestroy {
 
     wrapper: HTMLElement;
 
-    documentKeydownListener: any;
+    documentKeydownListener: () => void | null;
 
-    documentEscapeListener: Function;
+    documentEscapeListener: () => void | null;
 
-    maskClickListener: Function;
+    maskClickListener: () => void | null;
 
     transformOptions: string = 'scale(0.7)';
 
-    documentResizeListener: null;
+    documentResizeListener: () => void | null;
 
-    documentResizeEndListener: null;
+    documentResizeEndListener: () => void | null;
 
-    documentDragListener: null;
+    documentDragListener: () => void | null;
 
-    documentDragEndListener: null;
+    documentDragEndListener: () => void | null;
 
     get minX(): number {
         return this.config.minX ? this.config.minX : 0;
@@ -148,13 +172,15 @@ export class DynamicDialogComponent implements AfterViewInit, OnDestroy {
     }
 
     get parent() {
-        const domElements = Array.from(document.getElementsByClassName('p-dialog'));
+        const domElements = Array.from(this.document.getElementsByClassName('p-dialog'));
         if (domElements.length > 1) {
             return domElements.pop();
         }
     }
 
     constructor(
+        @Inject(DOCUMENT) private document: Document,
+        @Inject(PLATFORM_ID) private platformId: any,
         private componentFactoryResolver: ComponentFactoryResolver,
         private cd: ChangeDetectorRef,
         public renderer: Renderer2,
@@ -163,7 +189,7 @@ export class DynamicDialogComponent implements AfterViewInit, OnDestroy {
         public zone: NgZone,
         public primeNGConfig: PrimeNGConfig,
         private injector: Injector
-    ) { }
+    ) {}
 
     ngAfterViewInit() {
         this.loadChildComponent(this.childComponentType);
@@ -182,10 +208,7 @@ export class DynamicDialogComponent implements AfterViewInit, OnDestroy {
             { provide: DynamicDialogComponent, useValue: this }
         ];
 
-        this.componentRef = viewContainerRef?.createComponent(componentFactory,
-            undefined,
-            Injector.create({ parent: this.config.viewContainerRef?.injector || this.injector, providers })
-        );
+        this.componentRef = viewContainerRef?.createComponent(componentFactory, undefined, Injector.create({ parent: this.config.viewContainerRef?.injector || this.injector, providers }));
     }
 
     moveOnTop() {
@@ -210,7 +233,7 @@ export class DynamicDialogComponent implements AfterViewInit, OnDestroy {
                     this.enableModality();
                 }
                 //this.focus();
-                DomHandler.blur(document.activeElement);
+                DomHandler.blur(this.document.activeElement);
                 break;
 
             case 'void':
@@ -242,7 +265,6 @@ export class DynamicDialogComponent implements AfterViewInit, OnDestroy {
     }
 
     close() {
-        //this.insertionPoint?.detach();
         this.visible = false;
         this.cd.markForCheck();
     }
@@ -263,7 +285,7 @@ export class DynamicDialogComponent implements AfterViewInit, OnDestroy {
         }
 
         if (this.config.modal !== false) {
-            DomHandler.addClass(document.body, 'p-overflow-hidden');
+            DomHandler.addClass(this.document.body, 'p-overflow-hidden');
         }
     }
 
@@ -274,7 +296,7 @@ export class DynamicDialogComponent implements AfterViewInit, OnDestroy {
             }
 
             if (this.config.modal !== false) {
-                DomHandler.removeClass(document.body, 'p-overflow-hidden');
+                DomHandler.removeClass(this.document.body, 'p-overflow-hidden');
             }
 
             if (!(this.cd as ViewRef).destroyed) {
@@ -325,7 +347,7 @@ export class DynamicDialogComponent implements AfterViewInit, OnDestroy {
             this.resizing = true;
             this.lastPageX = event.pageX;
             this.lastPageY = event.pageY;
-            DomHandler.addClass(document.body, 'p-unselectable-text');
+            DomHandler.addClass(this.document.body, 'p-unselectable-text');
             this.dialogRef.resizeInit(event);
         }
     }
@@ -372,7 +394,7 @@ export class DynamicDialogComponent implements AfterViewInit, OnDestroy {
     resizeEnd(event: MouseEvent) {
         if (this.resizing) {
             this.resizing = false;
-            DomHandler.removeClass(document.body, 'p-unselectable-text');
+            DomHandler.removeClass(this.document.body, 'p-unselectable-text');
             this.dialogRef.resizeEnd(event);
         }
     }
@@ -388,7 +410,7 @@ export class DynamicDialogComponent implements AfterViewInit, OnDestroy {
             this.lastPageY = event.pageY;
 
             this.container.style.margin = '0';
-            DomHandler.addClass(document.body, 'p-unselectable-text');
+            DomHandler.addClass(this.document.body, 'p-unselectable-text');
             this.dialogRef.dragStart(event);
         }
     }
@@ -430,7 +452,7 @@ export class DynamicDialogComponent implements AfterViewInit, OnDestroy {
     endDrag(event: MouseEvent) {
         if (this.dragging) {
             this.dragging = false;
-            DomHandler.removeClass(document.body, 'p-unselectable-text');
+            DomHandler.removeClass(this.document.body, 'p-unselectable-text');
             this.dialogRef.dragEnd(event);
             this.cd.detectChanges();
         }
@@ -444,46 +466,48 @@ export class DynamicDialogComponent implements AfterViewInit, OnDestroy {
     }
 
     bindDocumentDragListener() {
-        this.zone.runOutsideAngular(() => {
-            this.documentDragListener = this.onDrag.bind(this);
-            window.document.addEventListener('mousemove', this.documentDragListener);
-        });
+        if (isPlatformBrowser(this.platformId)) {
+            this.zone.runOutsideAngular(() => {
+                this.documentDragListener = this.renderer.listen(this.document, 'mousemove', this.onDrag.bind(this));
+            });
+        }
     }
 
     bindDocumentDragEndListener() {
-        this.zone.runOutsideAngular(() => {
-            this.documentDragEndListener = this.endDrag.bind(this);
-            window.document.addEventListener('mouseup', this.documentDragEndListener);
-        });
+        if (isPlatformBrowser(this.platformId)) {
+            this.zone.runOutsideAngular(() => {
+                this.documentDragEndListener = this.renderer.listen(this.document, 'mouseup', this.endDrag.bind(this));
+            });
+        }
     }
 
     unbindDocumentDragEndListener() {
         if (this.documentDragEndListener) {
-            window.document.removeEventListener('mouseup', this.documentDragEndListener);
-            this.documentDragEndListener = null;
+            this.documentDragEndListener();
+            this.documentDragListener = null;
         }
     }
 
     unbindDocumentDragListener() {
         if (this.documentDragListener) {
-            window.document.removeEventListener('mousemove', this.documentDragListener);
+            this.documentDragListener();
             this.documentDragListener = null;
         }
     }
 
     bindDocumentResizeListeners() {
-        this.zone.runOutsideAngular(() => {
-            this.documentResizeListener = this.onResize.bind(this);
-            this.documentResizeEndListener = this.resizeEnd.bind(this);
-            window.document.addEventListener('mousemove', this.documentResizeListener);
-            window.document.addEventListener('mouseup', this.documentResizeEndListener);
-        });
+        if (isPlatformBrowser(this.platformId)) {
+            this.zone.runOutsideAngular(() => {
+                this.documentResizeListener = this.renderer.listen(this.document, 'mousemove', this.onResize.bind(this));
+                this.documentResizeEndListener = this.renderer.listen(this.document, 'mouseup', this.resizeEnd.bind(this));
+            });
+        }
     }
 
     unbindDocumentResizeListeners() {
         if (this.documentResizeListener && this.documentResizeEndListener) {
-            window.document.removeEventListener('mousemove', this.documentResizeListener);
-            window.document.removeEventListener('mouseup', this.documentResizeEndListener);
+            this.documentResizeListener();
+            this.documentResizeEndListener();
             this.documentResizeListener = null;
             this.documentResizeEndListener = null;
         }
@@ -515,15 +539,16 @@ export class DynamicDialogComponent implements AfterViewInit, OnDestroy {
     }
 
     bindDocumentKeydownListener() {
-        this.zone.runOutsideAngular(() => {
-            this.documentKeydownListener = this.onKeydown.bind(this);
-            window.document.addEventListener('keydown', this.documentKeydownListener);
-        });
+        if (isPlatformBrowser(this.platformId)) {
+            this.zone.runOutsideAngular(() => {
+                this.documentKeydownListener = this.renderer.listen(this.document, 'keydown', this.onKeydown.bind(this));
+            });
+        }
     }
 
     unbindDocumentKeydownListener() {
         if (this.documentKeydownListener) {
-            window.document.removeEventListener('keydown', this.documentKeydownListener);
+            this.documentKeydownListener();
             this.documentKeydownListener = null;
         }
     }
@@ -566,14 +591,16 @@ export class DynamicDialogComponent implements AfterViewInit, OnDestroy {
 @Component({
     selector: 'p-dialog-title',
     template: `
-        <div class="p-dialog-header" (mousedown)="initDrag($event)">
-            <span class="p-dialog-title">{{ config.header }}<ng-content></ng-content></span>
+        <div #titlebar class="p-dialog-header" (mousedown)="initDrag($event)" *ngIf="config.showHeader === false ? false : true">
+            <span class="p-dialog-title">{{ config.header }}</span>
             <div class="p-dialog-header-icons">
-                <button *ngIf="config.maximizable" type="button" class="p-dialog-header-icon p-dialog-header-maximize p-link" (click)="maximize()" (keydown.enter)="maximize()" tabindex="-1" pRipple>
+                <button *ngIf="config.maximizable" type="button" [ngClass]="{ 'p-dialog-header-icon p-dialog-header-maximize p-link': true }" (click)="maximize()" (keydown.enter)="maximize()" tabindex="-1" pRipple>
                     <span class="p-dialog-header-maximize-icon" [ngClass]="maximized ? minimizeIcon : maximizeIcon"></span>
+                    <WindowMaximizeIcon *ngIf="!maximized && !maximizeIcon" [styleClass]="'p-dialog-header-maximize-icon'"/>
+                    <WindowMinimizeIcon *ngIf="maximized && !minimizeIcon" [styleClass]="'p-dialog-header-maximize-icon'"/>
                 </button>
-                <button class="p-dialog-header-icon p-dialog-header-maximize p-link" type="button" (click)="hide()" (keydown.enter)="hide()" *ngIf="config.closable !== false">
-                    <span class="p-dialog-header-close-icon ms ms-close"></span>
+                <button [ngClass]="'p-dialog-header-icon p-dialog-header-maximize p-link'" type="button" (click)="hide()" (keydown.enter)="hide()" *ngIf="config.closable !== false">
+                    <TimesIcon [styleClass]="'p-dialog-header-close-icon'"/>
                 </button>
             </div>
         </div>
@@ -624,7 +651,7 @@ export class DynamicDialogTitle {
         this.parent.initDrag($event);
     }
 
-    constructor(public parent: DynamicDialogComponent) { }
+    constructor(public parent: DynamicDialogComponent) {}
 }
 
 @Directive({
@@ -633,7 +660,7 @@ export class DynamicDialogTitle {
         class: 'p-dialog-content'
     }
 })
-export class DynamicDialogActualContent { }
+export class DynamicDialogActualContent {}
 
 @Directive({
     selector: '[pDialogActions]',
@@ -641,12 +668,12 @@ export class DynamicDialogActualContent { }
         class: 'p-dialog-footer'
     }
 })
-export class DynamicDialogActions { }
+export class DynamicDialogActions {}
 
 @NgModule({
-    imports: [CommonModule],
+    imports: [CommonModule, SharedModule, WindowMaximizeIcon, WindowMinimizeIcon, TimesIcon],
     declarations: [DynamicDialogComponent, DynamicDialogContent, DynamicDialogTitle, DynamicDialogActualContent, DynamicDialogActions],
     exports: [DynamicDialogTitle, DynamicDialogActualContent, DynamicDialogActions],
     entryComponents: [DynamicDialogComponent]
 })
-export class DynamicDialogModule { }
+export class DynamicDialogModule {}

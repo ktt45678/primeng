@@ -1,7 +1,9 @@
 import { CommonModule } from '@angular/common';
-import { ChangeDetectionStrategy, ChangeDetectorRef, Component, ElementRef, EventEmitter, forwardRef, Input, NgModule, OnInit, Output, ViewChild, ViewEncapsulation } from '@angular/core';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, ContentChildren, ElementRef, EventEmitter, forwardRef, Input, NgModule, OnInit, Output, QueryList, TemplateRef, ViewChild, ViewEncapsulation } from '@angular/core';
 import { ControlValueAccessor, FormControl, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { ObjectUtils } from 'primeng/utils';
+import { PrimeTemplate, SharedModule } from 'primeng/api';
+import { CheckIcon } from 'primeng/icons/check';
 
 export const CHECKBOX_VALUE_ACCESSOR: any = {
     provide: NG_VALUE_ACCESSOR,
@@ -12,7 +14,7 @@ export const CHECKBOX_VALUE_ACCESSOR: any = {
 @Component({
     selector: 'p-checkbox',
     template: `
-        <div [ngStyle]="style" [ngClass]="{ 'p-checkbox p-component': true, 'p-checkbox-checked': checked(), 'p-checkbox-focused': focused }" [class]="styleClass">
+        <div [ngStyle]="style" [ngClass]="{ 'p-checkbox p-component': true, 'p-checkbox-checked': checked(), 'p-checkbox-disabled': disabled, 'p-checkbox-focused': focused }" [class]="styleClass">
             <div class="p-hidden-accessible">
                 <input
                     #cb
@@ -34,10 +36,20 @@ export const CHECKBOX_VALUE_ACCESSOR: any = {
                 />
             </div>
             <div class="p-checkbox-box" [ngClass]="{ 'p-highlight': checked(), 'p-disabled': disabled, 'p-focus': focused }">
-                <span class="p-checkbox-icon" [ngClass]="checked() ? checkboxIcon : null"></span>
+
+            <ng-container *ngIf="checked()">
+                <ng-container *ngIf="!checkboxIconTemplate">
+                    <span *ngIf="checkboxIcon" class="p-checkbox-icon" [ngClass]="checkboxIcon"></span>
+                    <CheckIcon *ngIf="!checkboxIcon" [styleClass]="'p-checkbox-icon'"/>
+                </ng-container>
+                <span *ngIf="checkboxIconTemplate" class="p-checkbox-icon">
+                    <ng-template *ngTemplateOutlet="checkboxIconTemplate"></ng-template>
+                </span>
+            </ng-container>
             </div>
         </div>
         <label
+            (click)="onClick($event, cb, true)"
             [class]="labelStyleClass"
             [ngClass]="{ 'p-checkbox-label': true, 'p-checkbox-label-active': checked(), 'p-disabled': disabled, 'p-checkbox-label-focus': focused }"
             *ngIf="label"
@@ -101,16 +113,30 @@ export class Checkbox implements OnInit, ControlValueAccessor {
 
     model: any;
 
-    onModelChange: Function = () => { };
+    onModelChange: Function = () => {};
 
-    onModelTouched: Function = () => { };
+    onModelTouched: Function = () => {};
 
     focused: boolean = false;
 
-    constructor(public cd: ChangeDetectorRef) { }
+    @ContentChildren(PrimeTemplate) templates: QueryList<any>;
+
+    checkboxIconTemplate: TemplateRef<any>;
+
+    constructor(public cd: ChangeDetectorRef) {}
 
     ngOnInit(): void {
         this.model = this.value;
+    }
+
+    ngAfterContentInit() {
+        this.templates.forEach((item) => {
+            switch (item.getType()) {
+                case 'icon':
+                    this.checkboxIconTemplate = item.template;
+                    break;
+            }
+        });
     }
 
     onClick(event, checkbox, focus: boolean) {
@@ -192,8 +218,8 @@ export class Checkbox implements OnInit, ControlValueAccessor {
 }
 
 @NgModule({
-    imports: [CommonModule],
-    exports: [Checkbox],
+    imports: [CommonModule, CheckIcon],
+    exports: [Checkbox, SharedModule],
     declarations: [Checkbox]
 })
-export class CheckboxModule { }
+export class CheckboxModule {}

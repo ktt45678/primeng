@@ -26,10 +26,6 @@
     text-overflow: ellipsis;
 }
 
-.p-multiselect-chip .p-multiselect-label {
-    display: flex;
-}
-
 .p-multiselect-label-empty {
     overflow: hidden;
     visibility: hidden;
@@ -109,4 +105,4 @@
 
 .p-multiselect-clearable {
     position: relative;
-} 
+}

@@ -74,7 +74,7 @@ export class SelectButton implements ControlValueAccessor {
 
     @Input() set initValue(value: any) {
         this.value = value;
-    };
+    }
 
     @Output() onOptionClick: EventEmitter<any> = new EventEmitter();
 
@@ -84,11 +84,11 @@ export class SelectButton implements ControlValueAccessor {
 
     value: any;
 
-    onModelChange: Function = () => { };
+    onModelChange: Function = () => {};
 
-    onModelTouched: Function = () => { };
+    onModelTouched: Function = () => {};
 
-    constructor(public cd: ChangeDetectorRef) { }
+    constructor(public cd: ChangeDetectorRef) {}
 
     getOptionLabel(option: any) {
         return this.optionLabel ? ObjectUtils.resolveFieldData(option, this.optionLabel) : option.label != undefined ? option.label : option;
@@ -190,4 +190,4 @@ export class SelectButton implements ControlValueAccessor {
     exports: [SelectButton],
     declarations: [SelectButton]
 })
-export class SelectButtonModule { }
+export class SelectButtonModule {}

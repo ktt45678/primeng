@@ -1,8 +1,14 @@
 .p-checkbox {
     display: inline-flex;
+    cursor: pointer;
     user-select: none;
     vertical-align: bottom;
     position: relative;
+}
+
+.p-checkbox-disabled {
+    cursor: default !important;
+    pointer-events: none;
 }
 
 .p-checkbox-box {

@@ -1,17 +1,25 @@
-import { NgModule, Component, ChangeDetectionStrategy, ViewEncapsulation, Input, Output, EventEmitter } from '@angular/core';
+import { NgModule, Component, ChangeDetectionStrategy, ViewEncapsulation, Input, Output, EventEmitter, TemplateRef, AfterContentInit, ContentChildren, QueryList } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { TimesCircleIcon } from 'primeng/icons/timescircle';
+import { PrimeTemplate, SharedModule } from 'primeng/api';
 
 @Component({
     selector: 'p-chip',
     template: `
-        <div [ngClass]="{ 'p-chip-image': image != null, 'p-chip-removable': removable }"
-            class="p-chip p-component" [class]="styleClass" [ngStyle]="style" *ngIf="visible" [tabindex]="removable ? 0 : -1"
-            (click)="removable && close($event)" (keydown.enter)="removable && close($event)">
+        <div [ngClass]="{ 'p-chip p-component': true, 'p-chip-image': this.image != null }" [class]="styleClass" [ngStyle]="style" *ngIf="visible" [tabindex]="removable ? 0 : -1" (click)="removable && close($event)" (keydown.enter)="removable && close($event)">
             <ng-content></ng-content>
             <img [src]="image" *ngIf="image; else iconTemplate" (error)="imageError($event)" />
-            <ng-template #iconTemplate><span *ngIf="icon" class="p-chip-icon" [class]="icon"></span></ng-template>
-            <div class="p-chip-text" [class]="textStyleClass" *ngIf="label">{{ label }}</div>
-            <span *ngIf="removable" class="pi-chip-remove-icon" [class]="removeIcon"></span>
+            <ng-template #iconTemplate><span *ngIf="icon" [class]="icon" [ngClass]="'p-chip-icon'"></span></ng-template>
+            <div class="p-chip-text" *ngIf="label">{{ label }}</div>
+            <ng-container *ngIf="removable">
+                <ng-container *ngIf="!removeIconTemplate">
+                    <span *ngIf="removeIcon" [class]="removeIcon" [ngClass]="'pi-chip-remove-icon'"></span>
+                    <TimesCircleIcon [attr.tabindex]="0" *ngIf="!removeIcon" [styleClass]="'pi-chip-remove-icon'"/>
+                </ng-container>
+                <span *ngIf="removeIconTemplate" class="pi-chip-remove-icon">
+                    <ng-template *ngTemplateOutlet="removeIconTemplate"></ng-template>
+                </span>
+            </ng-container>
         </div>
     `,
     changeDetection: ChangeDetectionStrategy.OnPush,
@@ -21,7 +29,7 @@ import { CommonModule } from '@angular/common';
         class: 'p-element'
     }
 })
-export class Chip {
+export class Chip implements AfterContentInit {
     @Input() label: string;
 
     @Input() icon: string;
@@ -44,6 +52,31 @@ export class Chip {
 
     visible: boolean = true;
 
+    removeIconTemplate: TemplateRef<any>;
+
+    @ContentChildren(PrimeTemplate) templates: QueryList<any>;
+
+    ngAfterContentInit() {
+        this.templates.forEach((item) => {
+            switch (item.getType()) {
+                case 'removeicon':
+                    this.removeIconTemplate = item.template;
+                    break;
+
+                default:
+                    this.removeIconTemplate = item.template;
+                    break;
+            }
+        });
+    }
+
+    containerClass() {
+        return {
+            'p-chip p-component': true,
+            'p-chip-image': this.image != null
+        };
+    }
+
     close(event) {
         this.visible = false;
         this.onRemove.emit(event);
@@ -55,8 +88,8 @@ export class Chip {
 }
 
 @NgModule({
-    imports: [CommonModule],
-    exports: [Chip],
+    imports: [CommonModule, TimesCircleIcon, SharedModule],
+    exports: [Chip, SharedModule],
     declarations: [Chip]
 })
-export class ChipModule { }
+export class ChipModule {}

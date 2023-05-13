@@ -82,11 +82,11 @@ export class InputSwitch implements ControlValueAccessor {
 
     focused: boolean = false;
 
-    onModelChange: Function = () => { };
+    onModelChange: Function = () => {};
 
-    onModelTouched: Function = () => { };
+    onModelTouched: Function = () => {};
 
-    constructor(private cd: ChangeDetectorRef) { }
+    constructor(private cd: ChangeDetectorRef) {}
 
     onClick(event: Event, cb: HTMLInputElement) {
         if (!this.disabled && !this.readonly) {
@@ -154,4 +154,4 @@ export class InputSwitch implements ControlValueAccessor {
     exports: [InputSwitch],
     declarations: [InputSwitch]
 })
-export class InputSwitchModule { }
+export class InputSwitchModule {}

@@ -44,7 +44,7 @@ export class RadioControlRegistry {
 @Component({
     selector: 'p-radioButton',
     template: `
-        <div [ngStyle]="style" [ngClass]="{ 'p-radiobutton p-component': true, 'p-radiobutton-checked': checked, 'p-radiobutton-focused': focused }" [class]="styleClass">
+        <div [ngStyle]="style" [ngClass]="{ 'p-radiobutton p-component': true, 'p-radiobutton-disabled': disabled, 'p-radiobutton-checked': checked, 'p-radiobutton-focused': focused }" [class]="styleClass">
             <div class="p-hidden-accessible">
                 <input
                     #rb
@@ -67,13 +67,7 @@ export class RadioControlRegistry {
                 <span class="p-radiobutton-icon"></span>
             </div>
         </div>
-        <label
-            [class]="labelStyleClass"
-            [ngClass]="{ 'p-radiobutton-label': true, 'p-radiobutton-label-active': rb.checked, 'p-disabled': disabled, 'p-radiobutton-label-focus': focused }"
-            *ngIf="label"
-            [attr.for]="inputId"
-            >{{ label }}</label
-        >
+        <label [class]="labelStyleClass" [ngClass]="{ 'p-radiobutton-label': true, 'p-radiobutton-label-active': rb.checked, 'p-disabled': disabled, 'p-radiobutton-label-focus': focused }" *ngIf="label" [attr.for]="inputId">{{ label }}</label>
         <i *ngIf="icon" [class]="icon" [ngClass]="{ 'p-disabled': disabled }"></i>
     `,
     providers: [RADIO_VALUE_ACCESSOR],

@@ -1,6 +1,8 @@
-import { NgModule, Component, ChangeDetectionStrategy, ViewEncapsulation, Input } from '@angular/core';
+import { NgModule, Component, ChangeDetectionStrategy, ViewEncapsulation, Input, TemplateRef, ContentChildren, QueryList } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { RouterLink, RouterModule } from '@angular/router';
+import { PrimeTemplate } from 'primeng/api';
+import { SharedModule } from 'primeng/api';
+import { RouterLink } from '@angular/router';
 
 @Component({
     selector: 'p-tag',
@@ -16,7 +18,13 @@ import { RouterLink, RouterModule } from '@angular/router';
             </span>
         </ng-template>
         <ng-template #tagContent>
-            <span class="p-tag-icon" [ngClass]="icon" *ngIf="icon"></span>
+            <ng-content></ng-content>
+            <ng-container *ngIf="!iconTemplate">
+                <span class="p-tag-icon" [ngClass]="icon" *ngIf="icon"></span>
+            </ng-container>
+            <span class="p-tag-icon" *ngIf="iconTemplate">
+                <ng-template *ngTemplateOutlet="iconTemplate"></ng-template>
+            </span>
             <span class="p-tag-value">{{ value }}</span>
         </ng-template>
     `,
@@ -37,11 +45,27 @@ export class Tag {
     @Input() icon: string;
 
     @Input() link: RouterLink['routerLink'];
+
+    @Input() rounded: boolean;
+
+    @ContentChildren(PrimeTemplate) templates: QueryList<any>;
+
+    iconTemplate: TemplateRef<any>;
+
+    ngAfterContentInit() {
+        this.templates.forEach((item) => {
+            switch (item.getType()) {
+                case 'icon':
+                    this.iconTemplate = item.template;
+                    break;
+            }
+        });
+    }
 }
 
 @NgModule({
-    imports: [CommonModule, RouterModule],
-    exports: [Tag],
+    imports: [CommonModule, SharedModule],
+    exports: [Tag, SharedModule],
     declarations: [Tag]
 })
-export class TagModule { }
+export class TagModule {}
