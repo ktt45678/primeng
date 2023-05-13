@@ -1,6 +1,6 @@
 {
     "name": "@ktt45678/primeng",
-    "version": "16.0.0-rc.1-F2",
+    "version": "16.0.0-rc.1-F3",
     "license": "SEE LICENSE IN LICENSE.md",
     "scripts": {
         "ng": "ng",

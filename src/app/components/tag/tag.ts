@@ -2,7 +2,7 @@ import { NgModule, Component, ChangeDetectionStrategy, ViewEncapsulation, Input,
 import { CommonModule } from '@angular/common';
 import { PrimeTemplate } from 'primeng/api';
 import { SharedModule } from 'primeng/api';
-import { RouterLink } from '@angular/router';
+import { RouterLink, RouterModule } from '@angular/router';
 
 @Component({
     selector: 'p-tag',
@@ -64,7 +64,7 @@ export class Tag {
 }
 
 @NgModule({
-    imports: [CommonModule, SharedModule],
+    imports: [CommonModule, SharedModule, RouterModule],
     exports: [Tag, SharedModule],
     declarations: [Tag]
 })

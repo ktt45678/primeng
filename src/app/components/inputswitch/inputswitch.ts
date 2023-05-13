@@ -16,6 +16,7 @@ export interface InputSwitchOnChangeEvent {
 @Component({
     selector: 'p-inputSwitch',
     template: `
+        <i *ngIf="icon" [class]="icon" [ngClass]="{ 'p-disabled': disabled }"></i>
         <label *ngIf="label" class="p-inputswitch-label" [class]="labelStyleClass" [ngClass]="{ 'p-highlight': checked(), 'p-disabled': disabled, 'p-focus': focused }">{{ label }}</label>
         <div [ngClass]="{ 'p-inputswitch p-component': true, 'p-inputswitch-checked': checked(), 'p-disabled': disabled, 'p-focus': focused }" [ngStyle]="style" [class]="styleClass">
             <div class="p-hidden-accessible">
@@ -75,6 +76,8 @@ export class InputSwitch implements ControlValueAccessor {
     @Input() ariaLabelledBy: string;
 
     @Input() label: string;
+
+    @Input() icon?: string;
 
     @Output() onChange: EventEmitter<InputSwitchOnChangeEvent> = new EventEmitter();
 

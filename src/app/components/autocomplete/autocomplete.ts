@@ -341,6 +341,8 @@ export class AutoComplete implements AfterViewChecked, AfterContentInit, OnDestr
 
     @Input() overlayOptions: OverlayOptions;
 
+    @Input() hideOnSelect: boolean = true;
+
     @ViewChild('container') containerEL: ElementRef;
 
     @ViewChild('in') inputEL: ElementRef;
@@ -695,12 +697,14 @@ export class AutoComplete implements AfterViewChecked, AfterContentInit, OnDestr
         this.onSelect.emit(option);
         this.updateFilledState();
 
-        if (focus) {
-            this.itemClicked = true;
-            this.focusInput();
-        }
+        if (this.hideOnSelect) {
+            if (focus) {
+                this.itemClicked = true;
+                this.focusInput();
+            }
 
-        this.hide();
+            this.hide();
+        }
     }
 
     show(event?: Event) {
@@ -795,6 +799,7 @@ export class AutoComplete implements AfterViewChecked, AfterContentInit, OnDestr
             this.onModelChange(this.value);
             this.updateFilledState();
             this.onUnselect.emit(removedValue);
+            this.cd.markForCheck();
         }
     }
 
