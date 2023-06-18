@@ -1,4 +1,62 @@
 # Changelog
+## [16.0.1](https://github.com/primefaces/primeng/tree/16.0.1) (2023-06-16)
+
+[Full Changelog](https://github.com/primefaces/primeng/compare/16.0.0...16.0.1)
+
+**Enhancements:**
+- Type for demos [\#13135](https://github.com/primefaces/primeng/issues/13135)
+- Update dynamicdialog-config.ts [\#13019](https://github.com/primefaces/primeng/issues/13019)
+
+**Fixed bugs:**
+- CascadeSelect: Wrong type definition for optionGroupChildren [\#13152](https://github.com/primefaces/primeng/issues/13152)
+- Checkbox: breaking change for value type [\#13182](https://github.com/primefaces/primeng/issues/13182)
+- Component: Dynamic Dialog resize change doesn't work [\#13158](https://github.com/primefaces/primeng/issues/13158)
+- AutoComplete: grouped options are not selected with enter key [\#12624](https://github.com/primefaces/primeng/issues/12624)
+- Galleria | cannot read properties of undefined error [\#13124](https://github.com/primefaces/primeng/issues/13124)
+- selectButton: Conditional template rendering is not working [\#13053](https://github.com/primefaces/primeng/issues/13053)
+- AccordionTab iconPos end not working [\#12988](https://github.com/primefaces/primeng/issues/12988)
+- OverlayPanel: Incorrect position when inside of dialog in 16.0.0 (did not happen in rc2) [\#13201](https://github.com/primefaces/primeng/issues/13201)
+- Button: loading style issue when already has an icon [\#13148](https://github.com/primefaces/primeng/issues/13148)
+- FileUpload | File limit does not fire error [\#13129](https://github.com/primefaces/primeng/issues/13129)
+- ConfirmDialog: style property not updated [\#13155](https://github.com/primefaces/primeng/issues/13155)
+- Can not install with angular@16.1.0 [\#13197](https://github.com/primefaces/primeng/issues/13197)
+- Button: loading state bugs [\#13098](https://github.com/primefaces/primeng/issues/13098)
+- Menu | iconStyle or inline styling does not work as expected [\#13128](https://github.com/primefaces/primeng/issues/13128)
+- TreeNode: data is no longer generic [\#13183](https://github.com/primefaces/primeng/issues/13183)
+- Documentation: picklist example is not rendering the data [\#13186](https://github.com/primefaces/primeng/issues/13186)
+- Tooltip: Doesn't work. Show console error [\#13190](https://github.com/primefaces/primeng/issues/13190)
+- Documentation: Bug: Table "Subheader" takes you nowhere [\#13184](https://github.com/primefaces/primeng/issues/13184)
+
+## [16.0.0](https://github.com/primefaces/primeng/tree/16.0.0) (2023-06-12)
+
+[Full Changelog](https://github.com/primefaces/primeng/compare/16.0.0-rc.2...16.0.0)
+
+**Enhancements:**
+- Icons: clipPath improvements [\#13177](https://github.com/primefaces/primeng/issues/13177)
+
+**Fixed bugs:**
+- p-confirmPopup errors when setTimeout runs after onContainerDestroy [\#13034](https://github.com/primefaces/primeng/issues/13034)
+- FileUpload - when fileLimit is set, no previous error messages are displayed [\#13083](https://github.com/primefaces/primeng/issues/13083)
+- Broken Stackblitz demos [\#13088](https://github.com/primefaces/primeng/issues/13088)
+- PrimeNG Website - Documentation for Toast missing position feature in demo [\#13159](https://github.com/primefaces/primeng/issues/13159)
+- Component: KeyFilter [\#13076](https://github.com/primefaces/primeng/issues/13076)
+- Wrong type definition of ToastCloseEvent [\#13079](https://github.com/primefaces/primeng/issues/13079)
+- Table: ERROR TypeError: this.scroller is undefined [\#12880](https://github.com/primefaces/primeng/issues/12880)
+- Button is firing the click event even when it is disabled. [\#13042](https://github.com/primefaces/primeng/issues/13042)
+- Panel: Collapse icon of toggle button is not showing [\#13071](https://github.com/primefaces/primeng/issues/13071)
+- Panel custom expand Icon is never showing [\#13074](https://github.com/primefaces/primeng/issues/13074)
+
+## [16.0.0-rc.2](https://github.com/primefaces/primeng/tree/16.0.0-rc.2) (2023-05-19)
+
+[Full Changelog](https://github.com/primefaces/primeng/compare/16.0.0-rc.1...16.0.0-rc.2)
+
+**Enhancements:**
+- Type Improvements[\#12979](https://github.com/primefaces/primeng/issues/12979)
+
+**Fixed bugs:**
+- PrimeNG 15 does not build with RxJS 6 [\#13012](https://github.com/primefaces/primeng/issues/13012)
+- Autocomplete: Clear is not working as expected [\#13026](https://github.com/primefaces/primeng/issues/13026)
+
 ## [16.0.0-rc.1](https://github.com/primefaces/primeng/tree/16.0.0-rc.1) (2023-05-05)
 
 [Full Changelog](https://github.com/primefaces/primeng/compare/15.4.1...16.0.0-rc.1)
@@ -26,6 +84,19 @@
 - Touch Control - Thumbnails selects photo randomly when tapping. [\#12943](https://github.com/primefaces/primeng/issues/12943)
 - Checkbox in p-treeNode always checked when using custom icon [\#12951](https://github.com/primefaces/primeng/issues/12951)
 - ConfirmDialog: Duplicated AcceptIcons [\#13001](https://github.com/primefaces/primeng/issues/13001)
+
+## ![LTS](https://www.primefaces.org/wp-content/uploads/2020/01/lts-icon-24.png "PrimeNG LTS") [15.4.4-LTS](https://www.npmjs.com/package/primeng/v/15.4.4-lts) (2023-05-29)
+
+**Fixed bugs:**
+- Panel: Custom expand Icon is never showing [\#13074](https://github.com/primefaces/primeng/issues/13074)
+- Improve LicenseManager structure
+
+## ![LTS](https://www.primefaces.org/wp-content/uploads/2020/01/lts-icon-24.png "PrimeNG LTS") [15.4.3-LTS](https://www.npmjs.com/package/primeng/v/15.4.3-lts) (2023-05-18)
+
+**Fixed bugs:**
+- Autocomplete: Clear is not working as expected [\#13026](https://github.com/primefaces/primeng/issues/13026)
+- ConfirmDialog: Accept Icon is duplicated [\#13022](https://github.com/primefaces/primeng/issues/13022)
+- Button: The button is firing the click event even when it is disabled [\#13042](https://github.com/primefaces/primeng/issues/13042)
 
 ## ![LTS](https://www.primefaces.org/wp-content/uploads/2020/01/lts-icon-24.png "PrimeNG LTS") [15.4.2-LTS](https://www.npmjs.com/package/primeng/v/15.4.2-lts) (2023-05-05)
 
@@ -232,6 +303,21 @@
 - Carousel wrong pagination if numScroll is set to 1 and data is loaded dynamically [\#12043](https://github.com/primefaces/primeng/issues/12043)
 - Sidebar: Footer Templating [\#12259](https://github.com/primefaces/primeng/issues/12259)
 - Calendar: Day names don't update [\#12148](https://github.com/primefaces/primeng/issues/12148)
+
+## ![LTS](https://www.primefaces.org/wp-content/uploads/2020/01/lts-icon-24.png "PrimeNG LTS") [14.2.8-LTS](https://www.npmjs.com/package/primeng/v/14.2.8-lts) (2023-05-30)
+
+**Fixed bugs:**
+- VirtualScroller | fails to initalize correctly inside tabView [\#12542](https://github.com/primefaces/primeng/issues/12542)
+- Menubar: Overflow Problem [\#12549](https://github.com/primefaces/primeng/issues/12549)
+- Reimplement LicenseManager structure
+
+## ![LTS](https://www.primefaces.org/wp-content/uploads/2020/01/lts-icon-24.png "PrimeNG LTS") [14.2.7-LTS](https://www.npmjs.com/package/primeng/v/14.2.7-lts) (2023-05-18)
+
+**Fixed bugs:**
+- MultiSelect | maxSelectionLimit not refreshed after clear called [\#12906](https://github.com/primefaces/primeng/issues/12906)
+- MultiSelect | onPanelHide triggers twice [\#12382](https://github.com/primefaces/primeng/issues/12382)
+- Button | The button is firing the click event even when it is disabled [\#13042](https://github.com/primefaces/primeng/issues/13042)
+- pFocusTrap: focus stuck when ancestor of tabbable element is hidden [\#12349](https://github.com/primefaces/primeng/issues/12349)
 
 ## ![LTS](https://www.primefaces.org/wp-content/uploads/2020/01/lts-icon-24.png "PrimeNG LTS") [14.2.6-LTS](https://www.npmjs.com/package/primeng/v/14.2.6-lts) (2023-05-05)
 

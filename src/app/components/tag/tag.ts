@@ -1,9 +1,11 @@
-import { NgModule, Component, ChangeDetectionStrategy, ViewEncapsulation, Input, TemplateRef, ContentChildren, QueryList } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { PrimeTemplate } from 'primeng/api';
-import { SharedModule } from 'primeng/api';
-import { RouterLink, RouterModule } from '@angular/router';
-
+import { ChangeDetectionStrategy, Component, ContentChildren, Input, NgModule, QueryList, TemplateRef, ViewEncapsulation } from '@angular/core';
+import { RouterModule, RouterLink } from '@angular/router';
+import { PrimeTemplate, SharedModule } from 'primeng/api';
+/**
+ * Tag component is used to categorize content.
+ * @group Components
+ */
 @Component({
     selector: 'p-tag',
     template: `
@@ -36,24 +38,49 @@ import { RouterLink, RouterModule } from '@angular/router';
     }
 })
 export class Tag {
-    @Input() styleClass: string;
-
-    @Input() style: any;
-
-    @Input() value: string;
-
-    @Input() icon: string;
-
+    /**
+     * Inline style of the component.
+     * @group Props
+     */
+    @Input() style: { [klass: string]: any } | null | undefined;
+    /**
+     * Style class of the component.
+     * @group Props
+     */
+    @Input() styleClass: string | undefined;
+    /**
+     * Severity type of the tag.
+     * @group Props
+     */
+    @Input() severity: 'success' | 'info' | 'warning' | 'danger' | string | undefined;
+    /**
+     * Value to display inside the tag.
+     * @group Props
+     */
+    @Input() value: string | undefined;
+    /**
+     * Icon of the tag to display next to the value.
+     * @group Props
+     * @deprecated since 15.4.2. Use 'icon' template.
+     */
+    @Input() icon: string | undefined;
+    /**
+     * Whether the corners of the tag are rounded.
+     * @group Props
+     */
+    @Input() rounded: boolean | undefined;
+    /**
+     * Link for navigation.
+     * @group Props
+     */
     @Input() link: RouterLink['routerLink'];
 
-    @Input() rounded: boolean;
+    @ContentChildren(PrimeTemplate) templates: QueryList<PrimeTemplate> | undefined;
 
-    @ContentChildren(PrimeTemplate) templates: QueryList<any>;
-
-    iconTemplate: TemplateRef<any>;
+    iconTemplate: TemplateRef<any> | undefined;
 
     ngAfterContentInit() {
-        this.templates.forEach((item) => {
+        this.templates?.forEach((item) => {
             switch (item.getType()) {
                 case 'icon':
                     this.iconTemplate = item.template;
@@ -68,4 +95,4 @@ export class Tag {
     exports: [Tag, SharedModule],
     declarations: [Tag]
 })
-export class TagModule {}
+export class TagModule { }
