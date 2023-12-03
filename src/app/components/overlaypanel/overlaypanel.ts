@@ -8,6 +8,7 @@ import {
     ContentChildren,
     ElementRef,
     EventEmitter,
+    HostListener,
     Inject,
     Input,
     NgModule,
@@ -44,6 +45,8 @@ import { Subscription } from 'rxjs';
             [@animation]="{ value: overlayVisible ? 'open' : 'close', params: { showTransitionParams: showTransitionOptions, hideTransitionParams: hideTransitionOptions } }"
             (@animation.start)="onAnimationStart($event)"
             (@animation.done)="onAnimationEnd($event)"
+            role="dialog"
+            [attr.aria-modal]="overlayVisible"
         >
             <div class="p-overlaypanel-content" (click)="onContentClick()" (mousedown)="onContentClick()">
                 <ng-content></ng-content>
@@ -223,20 +226,15 @@ export class OverlayPanel implements AfterContentInit, OnDestroy {
     bindDocumentClickListener() {
         if (isPlatformBrowser(this.platformId)) {
             if (!this.documentClickListener && this.dismissable) {
-                this.zone.runOutsideAngular(() => {
-                    let documentEvent = DomHandler.isIOS() ? 'touchstart' : 'click';
-                    const documentTarget: any = this.el ? this.el.nativeElement.ownerDocument : this.document;
+                let documentEvent = DomHandler.isIOS() ? 'touchstart' : 'click';
+                const documentTarget: any = this.el ? this.el.nativeElement.ownerDocument : this.document;
 
-                    this.documentClickListener = this.renderer.listen(documentTarget, documentEvent, (event) => {
-                        if (!this.container?.contains(event.target) && this.target !== event.target && !this.target.contains(event.target) && !this.selfClick) {
-                            this.zone.run(() => {
-                                this.hide();
-                            });
-                        }
+                this.documentClickListener = this.renderer.listen(documentTarget, documentEvent, (event) => {
+                    if (!this.container?.contains(event.target) && this.target !== event.target && !this.target.contains(event.target)) {
+                        this.hide();
+                    }
 
-                        this.selfClick = false;
-                        this.cd.markForCheck();
-                    });
+                    this.cd.markForCheck();
                 });
             }
         }
@@ -424,6 +422,11 @@ export class OverlayPanel implements AfterContentInit, OnDestroy {
     onCloseClick(event: MouseEvent) {
         this.hide();
         event.preventDefault();
+    }
+
+    @HostListener('document:keydown.escape', ['$event'])
+    onEscapeKeydown(event: KeyboardEvent) {
+        this.hide();
     }
 
     onWindowResize() {

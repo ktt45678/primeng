@@ -14,7 +14,7 @@ export interface TooltipOptions {
      */
     tooltipPosition?: 'right' | 'left' | 'top' | 'bottom';
     /**
-     * Position of tooltip.
+     * Event to show the tooltip.
      */
     tooltipEvent?: 'hover' | 'focus';
     /**
@@ -32,6 +32,7 @@ export interface TooltipOptions {
     tooltipStyleClass?: string;
     /**
      * Whether the z-index should be managed automatically to always go on top or have a fixed value.
+     * @defaultValue auto
      */
     tooltipZIndex?: string;
     /**
@@ -62,4 +63,8 @@ export interface TooltipOptions {
      * Time to wait in milliseconds to hide the tooltip even it is active.
      */
     life?: number;
+    /**
+     * When present, it adds a custom id to the tooltip.
+     */
+    id?: string;
 }

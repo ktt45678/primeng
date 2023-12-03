@@ -1,32 +1,34 @@
-.p-chip {
-    display: inline-flex;
-    align-items: center;
-}
+@layer primeng {
+    .p-chip {
+        display: inline-flex;
+        align-items: center;
+    }
 
-.p-chip-text {
-    line-height: 1.5;
-}
+    .p-chip-text {
+        line-height: 1.5;
+    }
 
-.p-chip-icon.pi {
-    line-height: 1.5;
-}
+    .p-chip-icon.pi {
+        line-height: 1.5;
+    }
 
-.pi-chip-remove-icon.pi {
-    line-height: 1.5;
-}
+    .pi-chip-remove-icon.pi {
+        line-height: 1.5;
+    }
 
-.pi-chip-remove-icon {
-    cursor: pointer;
-}
+    .pi-chip-remove-icon {
+        cursor: pointer;
+    }
 
-.p-chip img {
-    border-radius: 50%;
-}
+    .p-chip img {
+        border-radius: 50%;
+    }
 
-.p-chip:focus-visible {
-    outline: 0;
-}
+    .p-chip:focus-visible {
+        outline: 0;
+    }
 
-.p-chip-removable {
-    cursor: pointer;
+    .pi-chip-removable {
+        cursor: pointer;
+    }
 }

@@ -1,6 +1,23 @@
 import { AnimationEvent, animate, state, style, transition, trigger } from '@angular/animations';
 import { CommonModule, DOCUMENT } from '@angular/common';
-import { AfterContentInit, ChangeDetectionStrategy, ChangeDetectorRef, Component, ContentChildren, ElementRef, EventEmitter, Inject, Input, NgModule, OnDestroy, QueryList, Renderer2, TemplateRef, ViewEncapsulation } from '@angular/core';
+import {
+    AfterContentInit,
+    ChangeDetectionStrategy,
+    ChangeDetectorRef,
+    Component,
+    ContentChildren,
+    ElementRef,
+    EventEmitter,
+    HostListener,
+    Inject,
+    Input,
+    NgModule,
+    OnDestroy,
+    QueryList,
+    Renderer2,
+    TemplateRef,
+    ViewEncapsulation
+} from '@angular/core';
 import { Confirmation, ConfirmationService, OverlayService, PrimeNGConfig, PrimeTemplate, SharedModule, TranslationKeys } from 'primeng/api';
 import { ButtonModule } from 'primeng/button';
 import { ConnectedOverlayScrollHandler, DomHandler } from 'primeng/dom';
@@ -19,6 +36,7 @@ import { Subscription } from 'rxjs';
             [ngClass]="'p-confirm-popup p-component'"
             [ngStyle]="style"
             [class]="styleClass"
+            role="alertdialog"
             (click)="onOverlayClick($event)"
             [@animation]="{ value: 'open', params: { showTransitionParams: showTransitionOptions, hideTransitionParams: hideTransitionOptions } }"
             (@animation.start)="onAnimationStart($event)"
@@ -207,6 +225,13 @@ export class ConfirmPopup implements AfterContentInit, OnDestroy {
         });
     }
 
+    @HostListener('document:keydown.escape', ['$event'])
+    onEscapeKeydown(event: KeyboardEvent) {
+        if (this.confirmation && this.confirmation.closeOnEscape) {
+            this.reject();
+        }
+    }
+
     onAnimationStart(event: AnimationEvent) {
         if (event.toState === 'open') {
             this.container = event.element;
@@ -247,6 +272,9 @@ export class ConfirmPopup implements AfterContentInit, OnDestroy {
             ZIndexUtils.set('overlay', this.container, this.config.zIndex.overlay);
         }
 
+        if (!this.confirmation) {
+            return;
+        }
         DomHandler.absolutePosition(this.container, this.confirmation?.target);
 
         const containerOffset = DomHandler.getOffset(this.container);
@@ -315,7 +343,7 @@ export class ConfirmPopup implements AfterContentInit, OnDestroy {
             const documentTarget: any = this.el ? this.el.nativeElement.ownerDocument : this.document;
 
             this.documentClickListener = this.renderer.listen(documentTarget, documentEvent, (event) => {
-                if (this.confirmation) {
+                if (this.confirmation && this.confirmation.dismissableMask !== false) {
                     let targetElement = <HTMLElement>this.confirmation.target;
                     if (this.container !== event.target && !this.container?.contains(event.target) && targetElement !== event.target && !targetElement.contains(event.target)) {
                         this.hide();

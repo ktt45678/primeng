@@ -54,24 +54,39 @@ const hideAnimation = animation([animate('{{transition}}', style({ transform: '{
             [ngStyle]="style"
             [class]="styleClass"
             role="complementary"
+            [attr.data-pc-name]="'sidebar'"
+            [attr.data-pc-section]="'root'"
             [attr.aria-modal]="modal"
+            (keydown)="onKeyDown($event)"
         >
-            <div class="p-sidebar-header">
+            <div class="p-sidebar-header" [attr.data-pc-section]="'header'">
                 <ng-container *ngTemplateOutlet="headerTemplate"></ng-container>
-                <button type="button" class="p-sidebar-close p-sidebar-icon p-link" (click)="close($event)" (keydown.enter)="close($event)" [attr.aria-label]="ariaCloseLabel" *ngIf="showCloseIcon" pRipple>
-                    <TimesIcon *ngIf="!closeIconTemplate" [styleClass]="'p-sidebar-close-icon'" />
-                    <span *ngIf="closeIconTemplate" class="p-sidebar-close-icon">
+                <button
+                    type="button"
+                    class="p-sidebar-close p-sidebar-icon p-link"
+                    (click)="close($event)"
+                    (keydown.enter)="close($event)"
+                    [attr.aria-label]="ariaCloseLabel"
+                    *ngIf="showCloseIcon"
+                    pRipple
+                    [attr.data-pc-section]="'closebutton'"
+                    [attr.data-pc-group-section]="'iconcontainer'"
+                >
+                    <TimesIcon *ngIf="!closeIconTemplate" [styleClass]="'p-sidebar-close-icon'" [attr.data-pc-section]="'closeicon'" />
+                    <span *ngIf="closeIconTemplate" class="p-sidebar-close-icon" [attr.data-pc-section]="'closeicon'">
                         <ng-template *ngTemplateOutlet="closeIconTemplate"></ng-template>
                     </span>
                 </button>
             </div>
-            <div class="p-sidebar-content" [class]="contentStyleClass" [id]="contentId">
+            <div class="p-sidebar-content" [class]="contentStyleClass" [id]="contentId" [attr.data-pc-section]="'content'">
                 <ng-content></ng-content>
                 <ng-container *ngTemplateOutlet="contentTemplate"></ng-container>
             </div>
-            <div class="p-sidebar-footer">
-                <ng-container *ngTemplateOutlet="footerTemplate"></ng-container>
-            </div>
+            <ng-container *ngIf="footerTemplate">
+                <div class="p-sidebar-footer" [attr.data-pc-section]="'footer'">
+                    <ng-container *ngTemplateOutlet="footerTemplate"></ng-container>
+                </div>
+            </ng-container>
         </div>
     `,
     animations: [trigger('panelState', [transition('void => visible', [useAnimation(showAnimation)]), transition('visible => void', [useAnimation(hideAnimation)])])],
@@ -270,6 +285,12 @@ export class Sidebar implements AfterViewInit, AfterContentInit, OnDestroy {
         });
     }
 
+    onKeyDown(event: KeyboardEvent) {
+        if (event.code === 'Escape') {
+            this.hide(false);
+        }
+    }
+
     show() {
         if (this.autoZIndex) {
             ZIndexUtils.set('modal', this.container, this.baseZIndex || this.config.zIndex.modal);
@@ -294,7 +315,7 @@ export class Sidebar implements AfterViewInit, AfterContentInit, OnDestroy {
     }
 
     close(event: Event) {
-        this.hide();
+        this.hide(false);
         this.visibleChange.emit(false);
         event.preventDefault();
     }
@@ -315,7 +336,7 @@ export class Sidebar implements AfterViewInit, AfterContentInit, OnDestroy {
 
             this.renderer.appendChild(this.document.body, this.mask);
             if (this.blockScroll) {
-                DomHandler.addClass(document.body, 'p-overflow-hidden');
+                DomHandler.blockBodyScroll();
             }
         }
     }
@@ -335,7 +356,7 @@ export class Sidebar implements AfterViewInit, AfterContentInit, OnDestroy {
         }
 
         if (this.blockScroll) {
-            DomHandler.removeClass(document.body, 'p-overflow-hidden');
+            DomHandler.unblockBodyScroll();
         }
 
         this.unbindAnimationEndListener();
@@ -359,7 +380,8 @@ export class Sidebar implements AfterViewInit, AfterContentInit, OnDestroy {
     onAnimationEnd(event: any) {
         switch (event.toState) {
             case 'void':
-                this.hide(false);
+                this.hide();
+
                 ZIndexUtils.clear(this.container);
                 this.unbindGlobalListeners();
                 break;

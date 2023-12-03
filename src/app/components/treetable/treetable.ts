@@ -27,27 +27,27 @@ import {
     ViewChild,
     ViewEncapsulation
 } from '@angular/core';
-import { BlockableUI, FilterMetadata, FilterService, PrimeTemplate, SharedModule, SortMeta, TreeNode } from 'primeng/api';
+import { BlockableUI, FilterMetadata, FilterService, PrimeTemplate, ScrollerOptions, SharedModule, SortMeta, TreeNode, TreeTableNode } from 'primeng/api';
 import { DomHandler } from 'primeng/dom';
-import { PaginatorModule } from 'primeng/paginator';
-import { RippleModule } from 'primeng/ripple';
-import { Scroller, ScrollerModule } from 'primeng/scroller';
-import { ScrollerOptions, TreeTableNode } from 'primeng/api';
-import { ObjectUtils } from 'primeng/utils';
-import { Subject, Subscription } from 'rxjs';
-import { SortAmountDownIcon } from 'primeng/icons/sortamountdown';
-import { ChevronRightIcon } from 'primeng/icons/chevronright';
 import { ArrowDownIcon } from 'primeng/icons/arrowdown';
 import { ArrowUpIcon } from 'primeng/icons/arrowup';
 import { CheckIcon } from 'primeng/icons/check';
 import { ChevronDownIcon } from 'primeng/icons/chevrondown';
+import { ChevronRightIcon } from 'primeng/icons/chevronright';
 import { MinusIcon } from 'primeng/icons/minus';
 import { SortAltIcon } from 'primeng/icons/sortalt';
+import { SortAmountDownIcon } from 'primeng/icons/sortamountdown';
 import { SortAmountUpAltIcon } from 'primeng/icons/sortamountupalt';
 import { SpinnerIcon } from 'primeng/icons/spinner';
+import { PaginatorModule } from 'primeng/paginator';
+import { RippleModule } from 'primeng/ripple';
+import { Scroller, ScrollerModule } from 'primeng/scroller';
 import { Nullable, VoidListener } from 'primeng/ts-helpers';
+import { ObjectUtils } from 'primeng/utils';
+import { Subject, Subscription } from 'rxjs';
 import {
     TreeTableColResizeEvent,
+    TreeTableColumnReorderEvent,
     TreeTableContextMenuSelectEvent,
     TreeTableEditEvent,
     TreeTableFilterEvent,
@@ -55,10 +55,10 @@ import {
     TreeTableHeaderCheckboxToggleEvent,
     TreeTableLazyLoadEvent,
     TreeTableNodeCollapseEvent,
+    TreeTableNodeExpandEvent,
     TreeTableNodeUnSelectEvent,
     TreeTablePaginatorState,
-    TreeTableSortEvent,
-    TreeTableColumnReorderEvent
+    TreeTableSortEvent
 } from './treetable.interface';
 
 @Injectable()
@@ -149,32 +149,34 @@ export class TreeTableService {
                 [showCurrentPageReport]="showCurrentPageReport"
                 [showJumpToPageDropdown]="showJumpToPageDropdown"
                 [showPageLinks]="showPageLinks"
+                [styleClass]="paginatorStyleClass"
+                [locale]="paginatorLocale"
             >
-                <ng-template pTemplate="firstpagelinkicon">
+                <ng-template pTemplate="firstpagelinkicon" *ngIf="paginatorFirstPageLinkIconTemplate">
                     <ng-container *ngTemplateOutlet="paginatorFirstPageLinkIconTemplate"></ng-container>
                 </ng-template>
 
-                <ng-template pTemplate="previouspagelinkicon">
+                <ng-template pTemplate="previouspagelinkicon" *ngIf="paginatorPreviousPageLinkIconTemplate">
                     <ng-container *ngTemplateOutlet="paginatorPreviousPageLinkIconTemplate"></ng-container>
                 </ng-template>
 
-                <ng-template pTemplate="lastpagelinkicon">
+                <ng-template pTemplate="lastpagelinkicon" *ngIf="paginatorLastPageLinkIconTemplate">
                     <ng-container *ngTemplateOutlet="paginatorLastPageLinkIconTemplate"></ng-container>
                 </ng-template>
 
-                <ng-template pTemplate="nextpagelinkicon">
+                <ng-template pTemplate="nextpagelinkicon" *ngIf="paginatorNextPageLinkIconTemplate">
                     <ng-container *ngTemplateOutlet="paginatorNextPageLinkIconTemplate"></ng-container>
                 </ng-template>
             </p-paginator>
 
             <div class="p-treetable-wrapper" *ngIf="!scrollable">
-                <table #table [ngClass]="tableStyleClass" [ngStyle]="tableStyle">
+                <table role="table" #table [ngClass]="tableStyleClass" [ngStyle]="tableStyle">
                     <ng-container *ngTemplateOutlet="colGroupTemplate; context: { $implicit: columns }"></ng-container>
-                    <thead class="p-treetable-thead">
+                    <thead role="rowgroup" class="p-treetable-thead">
                         <ng-container *ngTemplateOutlet="headerTemplate; context: { $implicit: columns }"></ng-container>
                     </thead>
-                    <tbody class="p-treetable-tbody" [pTreeTableBody]="columns" [pTreeTableBodyTemplate]="bodyTemplate"></tbody>
-                    <tfoot class="p-treetable-tfoot">
+                    <tbody class="p-treetable-tbody" role="rowgroup" [pTreeTableBody]="columns" [pTreeTableBodyTemplate]="bodyTemplate"></tbody>
+                    <tfoot class="p-treetable-tfoot" role="rowgroup">
                         <ng-container *ngTemplateOutlet="footerTemplate; context: { $implicit: columns }"></ng-container>
                     </tfoot>
                 </table>
@@ -212,20 +214,22 @@ export class TreeTableService {
                 [showCurrentPageReport]="showCurrentPageReport"
                 [showJumpToPageDropdown]="showJumpToPageDropdown"
                 [showPageLinks]="showPageLinks"
+                [styleClass]="paginatorStyleClass"
+                [locale]="paginatorLocale"
             >
-                <ng-template pTemplate="firstpagelinkicon">
+                <ng-template pTemplate="firstpagelinkicon" *ngIf="paginatorFirstPageLinkIconTemplate">
                     <ng-container *ngTemplateOutlet="paginatorFirstPageLinkIconTemplate"></ng-container>
                 </ng-template>
 
-                <ng-template pTemplate="previouspagelinkicon">
+                <ng-template pTemplate="previouspagelinkicon" *ngIf="paginatorPreviousPageLinkIconTemplate">
                     <ng-container *ngTemplateOutlet="paginatorPreviousPageLinkIconTemplate"></ng-container>
                 </ng-template>
 
-                <ng-template pTemplate="lastpagelinkicon">
+                <ng-template pTemplate="lastpagelinkicon" *ngIf="paginatorLastPageLinkIconTemplate">
                     <ng-container *ngTemplateOutlet="paginatorLastPageLinkIconTemplate"></ng-container>
                 </ng-template>
 
-                <ng-template pTemplate="nextpagelinkicon">
+                <ng-template pTemplate="nextpagelinkicon" *ngIf="paginatorNextPageLinkIconTemplate">
                     <ng-container *ngTemplateOutlet="paginatorNextPageLinkIconTemplate"></ng-container>
                 </ng-template>
             </p-paginator>
@@ -328,6 +332,11 @@ export class TreeTable implements AfterContentInit, OnInit, OnDestroy, Blockable
      */
     @Input() paginatorPosition: 'top' | 'bottom' | 'both' = 'bottom';
     /**
+     * Custom style class for paginator
+     * @group Props
+     */
+    @Input() paginatorStyleClass: string | undefined;
+    /**
      * Target element to attach the paginator dropdown overlay, valid values are "body" or a local ng-template variable of another element (note: use binding with brackets for template variables, e.g. [appendTo]="mydiv" for a div element having #mydiv as variable name).
      * @group Props
      */
@@ -401,7 +410,7 @@ export class TreeTable implements AfterContentInit, OnInit, OnDestroy, Blockable
      * Defines whether metaKey is should be considered for the selection. On touch enabled devices, metaKeySelection is turned off automatically.
      * @group Props
      */
-    @Input() metaKeySelection: boolean | undefined;
+    @Input() metaKeySelection: boolean | undefined = true;
     /**
      * Algorithm to define if a row is selected, valid values are "equals" that compares by reference and "deepEquals" that compares all fields.
      * @group Props
@@ -518,6 +527,11 @@ export class TreeTable implements AfterContentInit, OnInit, OnDestroy, Blockable
      */
     @Input() filterLocale: string | undefined;
     /**
+     * Locale to be used in paginator formatting.
+     * @group Props
+     */
+    @Input() paginatorLocale: string | undefined;
+    /**
      * Number of total records, defaults to length of value when not defined.
      * @group Props
      */
@@ -601,7 +615,7 @@ export class TreeTable implements AfterContentInit, OnInit, OnDestroy, Blockable
      * @param {TreeTableNode} object - Node instance.
      * @group Emits
      */
-    @Output() selectionChange: EventEmitter<TreeTableNode<any> | null> = new EventEmitter<TreeTableNode<any> | null>();
+    @Output() selectionChange: EventEmitter<TreeTableNode<any> | TreeTableNode<any>[] | null> = new EventEmitter<TreeTableNode<any> | TreeTableNode<any>[] | null>();
     /**
      * Callback to invoke on context menu selection change.
      * @param {TreeTableNode} object - Node instance.
@@ -619,7 +633,7 @@ export class TreeTable implements AfterContentInit, OnInit, OnDestroy, Blockable
      * @param {TreeTableNode} object - Node instance.
      * @group Emits
      */
-    @Output() onNodeExpand: EventEmitter<TreeTableNode> = new EventEmitter<TreeTableNode>();
+    @Output() onNodeExpand: EventEmitter<TreeTableNodeExpandEvent> = new EventEmitter<TreeTableNodeExpandEvent>();
     /**
      * Callback to invoke when a node is collapsed.
      * @param {TreeTableNodeCollapseEvent} event - Node collapse event.
@@ -1919,20 +1933,18 @@ export class TreeTable implements AfterContentInit, OnInit, OnDestroy, Blockable
                     }
 
                     if (this.filters['global'] && !globalMatch && globalFilterFieldsArray) {
-                        for (let j = 0; j < globalFilterFieldsArray.length; j++) {
-                            let copyNodeForGlobal = { ...copyNode };
-                            let filterField = globalFilterFieldsArray[j].field || globalFilterFieldsArray[j];
-                            let filterValue = this.filters['global'].value;
-                            let filterConstraint = (<any>this.filterService).filters[(<any>this.filters)['global'].matchMode];
-                            paramsWithoutNode = { filterField, filterValue, filterConstraint, isStrictMode };
+                        let copyNodeForGlobal = { ...copyNode };
+                        let filterField = undefined;
+                        let filterValue = this.filters['global'].value;
+                        let filterConstraint = (<any>this.filterService).filters[(<any>this.filters)['global'].matchMode];
+                        paramsWithoutNode = { filterField, filterValue, filterConstraint, isStrictMode, globalFilterFieldsArray };
 
-                            if (
-                                (isStrictMode && (this.findFilteredNodes(copyNodeForGlobal, paramsWithoutNode) || this.isFilterMatched(copyNodeForGlobal, paramsWithoutNode))) ||
-                                (!isStrictMode && (this.isFilterMatched(copyNodeForGlobal, paramsWithoutNode) || this.findFilteredNodes(copyNodeForGlobal, paramsWithoutNode)))
-                            ) {
-                                globalMatch = true;
-                                copyNode = copyNodeForGlobal;
-                            }
+                        if (
+                            (isStrictMode && (this.findFilteredNodes(copyNodeForGlobal, paramsWithoutNode) || this.isFilterMatched(copyNodeForGlobal, paramsWithoutNode))) ||
+                            (!isStrictMode && (this.isFilterMatched(copyNodeForGlobal, paramsWithoutNode) || this.findFilteredNodes(copyNodeForGlobal, paramsWithoutNode)))
+                        ) {
+                            globalMatch = true;
+                            copyNode = copyNodeForGlobal;
                         }
                     }
 
@@ -1997,15 +2009,14 @@ export class TreeTable implements AfterContentInit, OnInit, OnDestroy, Blockable
     }
 
     isFilterMatched(node: TreeTableNode, filterOptions: TreeTableFilterOptions) {
-        let { filterField, filterValue, filterConstraint, isStrictMode } = filterOptions;
+        let { filterField, filterValue, filterConstraint, isStrictMode, globalFilterFieldsArray } = <any>filterOptions;
         let matched = false;
-        let dataFieldValue = ObjectUtils.resolveFieldData(node.data, filterField);
-        if (filterConstraint(dataFieldValue, filterValue, <string>this.filterLocale)) {
-            matched = true;
-        }
+        const isMatched = (field: string) => filterConstraint(ObjectUtils.resolveFieldData(node.data, field), filterValue, <string>this.filterLocale);
+
+        matched = globalFilterFieldsArray?.length ? globalFilterFieldsArray.some((globalFilterField) => isMatched(globalFilterField.field || globalFilterField)) : isMatched(filterField);
 
         if (!matched || (isStrictMode && !this.isNodeLeaf(node))) {
-            matched = this.findFilteredNodes(node, { filterField, filterValue, filterConstraint, isStrictMode }) || matched;
+            matched = this.findFilteredNodes(node, { filterField, filterValue, filterConstraint, isStrictMode, globalFilterFieldsArray }) || matched;
         }
 
         return matched;
@@ -2158,7 +2169,7 @@ export class TTBody {
             <div #scrollHeaderBox class="p-treetable-scrollable-header-box">
                 <table class="p-treetable-scrollable-header-table" [ngClass]="tt.tableStyleClass" [ngStyle]="tt.tableStyle">
                     <ng-container *ngTemplateOutlet="frozen ? tt.frozenColGroupTemplate || tt.colGroupTemplate : tt.colGroupTemplate; context: { $implicit: columns }"></ng-container>
-                    <thead class="p-treetable-thead">
+                    <thead role="rowgroup" class="p-treetable-thead">
                         <ng-container *ngTemplateOutlet="frozen ? tt.frozenHeaderTemplate || tt.headerTemplate : tt.headerTemplate; context: { $implicit: columns }"></ng-container>
                     </thead>
                 </table>
@@ -2193,9 +2204,9 @@ export class TTBody {
         </ng-container>
 
         <ng-template #buildInItems let-items let-scrollerOptions="options">
-            <table #scrollTable [class]="tt.tableStyleClass" [ngClass]="scrollerOptions.contentStyleClass" [ngStyle]="tt.tableStyle" [style]="scrollerOptions.contentStyle">
+            <table role="table" #scrollTable [class]="tt.tableStyleClass" [ngClass]="scrollerOptions.contentStyleClass" [ngStyle]="tt.tableStyle" [style]="scrollerOptions.contentStyle">
                 <ng-container *ngTemplateOutlet="frozen ? tt.frozenColGroupTemplate || tt.colGroupTemplate : tt.colGroupTemplate; context: { $implicit: columns }"></ng-container>
-                <tbody class="p-treetable-tbody" [pTreeTableBody]="columns" [pTreeTableBodyTemplate]="frozen ? tt.frozenBodyTemplate || tt.bodyTemplate : tt.bodyTemplate" [serializedNodes]="items" [frozen]="frozen"></tbody>
+                <tbody role="rowgroup" class="p-treetable-tbody" [pTreeTableBody]="columns" [pTreeTableBodyTemplate]="frozen ? tt.frozenBodyTemplate || tt.bodyTemplate : tt.bodyTemplate" [serializedNodes]="items" [frozen]="frozen"></tbody>
             </table>
             <div #scrollableAligner style="background-color:transparent" *ngIf="frozen"></div>
         </ng-template>
@@ -2204,7 +2215,7 @@ export class TTBody {
             <div #scrollFooterBox class="p-treetable-scrollable-footer-box">
                 <table class="p-treetable-scrollable-footer-table" [ngClass]="tt.tableStyleClass" [ngStyle]="tt.tableStyle">
                     <ng-container *ngTemplateOutlet="frozen ? tt.frozenColGroupTemplate || tt.colGroupTemplate : tt.colGroupTemplate; context: { $implicit: columns }"></ng-container>
-                    <tfoot class="p-treetable-tfoot">
+                    <tfoot role="rowgroup" class="p-treetable-tfoot">
                         <ng-container *ngTemplateOutlet="frozen ? tt.frozenFooterTemplate || tt.footerTemplate : tt.footerTemplate; context: { $implicit: columns }"></ng-container>
                     </tfoot>
                 </table>
@@ -2421,7 +2432,8 @@ export class TTScrollableView implements AfterViewInit, OnDestroy {
         '[class.p-sortable-column]': 'isEnabled()',
         '[class.p-highlight]': 'sorted',
         '[attr.tabindex]': 'isEnabled() ? "0" : null',
-        '[attr.role]': '"columnheader"'
+        '[attr.role]': '"columnheader"',
+        '[attr.aria-sort]': 'ariaSorted'
     }
 })
 export class TTSortableColumn implements OnInit, OnDestroy {
@@ -2432,6 +2444,12 @@ export class TTSortableColumn implements OnInit, OnDestroy {
     sorted: boolean | undefined;
 
     subscription: Subscription | undefined;
+
+    get ariaSorted() {
+        if (this.sorted && this.tt.sortOrder < 0) return 'descending';
+        else if (this.sorted && this.tt.sortOrder > 0) return 'ascending';
+        else return 'none';
+    }
 
     constructor(public tt: TreeTable) {
         if (this.isEnabled()) {
@@ -2723,7 +2741,9 @@ export class TTReorderableColumn implements AfterViewInit, OnDestroy {
     selector: '[ttSelectableRow]',
     host: {
         class: 'p-element',
-        '[class.p-highlight]': 'selected'
+        '[class.p-highlight]': 'selected',
+        '[attr.data-p-highlight]': 'selected',
+        '[attr.aria-checked]': 'selected'
     }
 })
 export class TTSelectableRow implements OnInit, OnDestroy {
@@ -2760,9 +2780,15 @@ export class TTSelectableRow implements OnInit, OnDestroy {
     }
 
     @HostListener('keydown', ['$event'])
-    onEnterKey(event: KeyboardEvent) {
-        if (event.which === 13) {
-            this.onClick(event);
+    onKeyDown(event: KeyboardEvent) {
+        switch (event.code) {
+            case 'Enter':
+            case 'Space':
+                this.onEnterKey(event);
+                break;
+
+            default:
+                break;
         }
     }
 
@@ -2771,6 +2797,18 @@ export class TTSelectableRow implements OnInit, OnDestroy {
         if (this.isEnabled()) {
             this.tt.handleRowTouchEnd(event);
         }
+    }
+
+    onEnterKey(event) {
+        if (this.tt.selectionMode === 'checkbox') {
+            this.tt.toggleNodeWithCheckbox({
+                originalEvent: event,
+                rowNode: this.rowNode
+            });
+        } else {
+            this.onClick(event);
+        }
+        event.preventDefault();
     }
 
     isEnabled() {
@@ -2890,7 +2928,7 @@ export class TTContextMenuRow {
     template: `
         <div class="p-checkbox p-component" [ngClass]="{ 'p-checkbox-focused': focused }" (click)="onClick($event)">
             <div class="p-hidden-accessible">
-                <input type="checkbox" [checked]="checked" (focus)="onFocus()" (blur)="onBlur()" />
+                <input type="checkbox" [checked]="checked" (focus)="onFocus()" (blur)="onBlur()" tabindex="-1" />
             </div>
             <div #box [ngClass]="{ 'p-checkbox-box': true, 'p-highlight': checked, 'p-focus': focused, 'p-indeterminate': rowNode.node.partialSelected, 'p-disabled': disabled }" role="checkbox" [attr.aria-checked]="checked">
                 <ng-container *ngIf="!tt.checkboxIconTemplate">
@@ -3120,7 +3158,7 @@ export class TTEditableColumn implements AfterViewInit {
     onKeyDown(event: KeyboardEvent) {
         if (this.isEnabled()) {
             //enter
-            if (event.keyCode == 13) {
+            if (event.keyCode == 13 && !event.shiftKey) {
                 if (this.tt.isEditingCellValid()) {
                     DomHandler.removeClass(this.tt.editingCell, 'p-cell-editing');
                     this.closeEditingCell();
@@ -3270,78 +3308,186 @@ export class TreeTableCellEditor implements AfterContentInit {
     selector: '[ttRow]',
     host: {
         class: 'p-element',
-        '[attr.tabindex]': '"0"'
+        '[attr.tabindex]': "'0'",
+        '[attr.aria-expanded]': 'expanded',
+        '[attr.aria-level]': 'level',
+        '[attr.data-pc-section]': 'row',
+        '[attr.role]': 'row'
     }
 })
 export class TTRow {
+    get level() {
+        return this.rowNode?.['level'] + 1;
+    }
+
+    get expanded() {
+        return this.rowNode?.node['expanded'];
+    }
+
     @Input('ttRow') rowNode: any;
 
     constructor(public tt: TreeTable, public el: ElementRef, public zone: NgZone) {}
 
     @HostListener('keydown', ['$event'])
     onKeyDown(event: KeyboardEvent) {
-        switch (event.which) {
-            //down arrow
-            case 40:
-                let nextRow = this.el.nativeElement.nextElementSibling;
-                if (nextRow) {
-                    nextRow.focus();
-                }
-
-                event.preventDefault();
+        switch (event.code) {
+            case 'ArrowDown':
+                this.onArrowDownKey(event);
                 break;
 
-            //down arrow
-            case 38:
-                let prevRow = this.el.nativeElement.previousElementSibling;
-                if (prevRow) {
-                    prevRow.focus();
-                }
-
-                event.preventDefault();
+            case 'ArrowUp':
+                this.onArrowUpKey(event);
                 break;
 
-            //left arrow
-            case 37:
-                if (this.rowNode.node.expanded) {
-                    this.tt.toggleRowIndex = DomHandler.index(this.el.nativeElement);
-                    this.rowNode.node.expanded = false;
-
-                    this.tt.onNodeCollapse.emit({
-                        originalEvent: event,
-                        node: this.rowNode.node
-                    });
-
-                    this.tt.updateSerializedValue();
-                    this.tt.tableService.onUIUpdate(this.tt.value);
-                    this.restoreFocus();
-                }
+            case 'ArrowRight':
+                this.onArrowRightKey(event);
                 break;
 
-            //right arrow
-            case 39:
-                if (!this.rowNode.node.expanded) {
-                    this.tt.toggleRowIndex = DomHandler.index(this.el.nativeElement);
-                    this.rowNode.node.expanded = true;
+            case 'ArrowLeft':
+                this.onArrowLeftKey(event);
+                break;
 
-                    this.tt.onNodeExpand.emit({
-                        originalEvent: event,
-                        node: this.rowNode.node
-                    });
+            case 'Tab':
+                this.onTabKey(event);
+                break;
 
-                    this.tt.updateSerializedValue();
-                    this.tt.tableService.onUIUpdate(this.tt.value);
-                    this.restoreFocus();
-                }
+            case 'Home':
+                this.onHomeKey(event);
+                break;
+
+            case 'End':
+                this.onEndKey(event);
+                break;
+
+            default:
                 break;
         }
     }
 
-    restoreFocus() {
+    onArrowDownKey(event: KeyboardEvent) {
+        let nextRow = this.el?.nativeElement?.nextElementSibling;
+        if (nextRow) {
+            this.focusRowChange(<HTMLElement>event.currentTarget, nextRow);
+        }
+
+        event.preventDefault();
+    }
+
+    onArrowUpKey(event: KeyboardEvent) {
+        let prevRow = this.el?.nativeElement?.previousElementSibling;
+        if (prevRow) {
+            this.focusRowChange(<HTMLElement>event.currentTarget, prevRow);
+        }
+
+        event.preventDefault();
+    }
+
+    onArrowRightKey(event: KeyboardEvent) {
+        const currentTarget = <HTMLElement>event.currentTarget;
+        const isHiddenIcon = DomHandler.findSingle(currentTarget, 'button').style.visibility === 'hidden';
+
+        if (!isHiddenIcon && !this.expanded && this.rowNode.node['children']) {
+            this.expand(event);
+
+            currentTarget.tabIndex = -1;
+        }
+        event.preventDefault();
+    }
+
+    onArrowLeftKey(event: KeyboardEvent) {
+        const container = this.tt.containerViewChild?.nativeElement;
+        const expandedRows = DomHandler.find(container, '[aria-expanded="true"]');
+        const lastExpandedRow = expandedRows[expandedRows.length - 1];
+
+        if (this.expanded) {
+            this.collapse(event);
+        }
+        if (lastExpandedRow) {
+            this.tt.toggleRowIndex = DomHandler.index(lastExpandedRow);
+        }
+        this.restoreFocus();
+        event.preventDefault();
+    }
+
+    onHomeKey(event: KeyboardEvent) {
+        const firstElement = DomHandler.findSingle(this.tt.containerViewChild?.nativeElement, `tr[aria-level="${this.level}"]`);
+        firstElement && DomHandler.focus(firstElement);
+        event.preventDefault();
+    }
+
+    onEndKey(event: KeyboardEvent) {
+        const nodes = DomHandler.find(this.tt.containerViewChild?.nativeElement, `tr[aria-level="${this.level}"]`);
+        const lastElement = nodes[nodes.length - 1];
+        DomHandler.focus(lastElement);
+        event.preventDefault();
+    }
+
+    onTabKey(event: KeyboardEvent) {
+        const rows = this.el.nativeElement ? [...DomHandler.find(this.el.nativeElement.parentNode, 'tr')] : undefined;
+
+        if (rows && ObjectUtils.isNotEmpty(rows)) {
+            const hasSelectedRow = rows.some((row) => DomHandler.getAttribute(row, 'data-p-highlight') || row.getAttribute('aria-checked') === 'true');
+            rows.forEach((row) => {
+                row.tabIndex = -1;
+            });
+
+            if (hasSelectedRow) {
+                const selectedNodes = rows.filter((node) => DomHandler.getAttribute(node, 'data-p-highlight') || node.getAttribute('aria-checked') === 'true');
+                selectedNodes[0].tabIndex = 0;
+
+                return;
+            }
+
+            rows[0].tabIndex = 0;
+        }
+    }
+
+    expand(event: Event) {
+        this.tt.toggleRowIndex = DomHandler.index(this.el.nativeElement);
+        this.rowNode.node['expanded'] = true;
+
+        this.tt.updateSerializedValue();
+        this.tt.tableService.onUIUpdate(this.tt.value);
+        this.rowNode.node['children'] ? this.restoreFocus(this.tt.toggleRowIndex + 1) : this.restoreFocus();
+
+        this.tt.onNodeExpand.emit({
+            originalEvent: event,
+            node: this.rowNode.node
+        });
+    }
+
+    collapse(event: Event) {
+        this.rowNode.node['expanded'] = false;
+
+        this.tt.updateSerializedValue();
+        this.tt.tableService.onUIUpdate(this.tt.value);
+
+        this.tt.onNodeCollapse.emit({ originalEvent: event, node: this.rowNode.node });
+    }
+
+    focusRowChange(firstFocusableRow, currentFocusedRow, lastVisibleDescendant?) {
+        firstFocusableRow.tabIndex = '-1';
+        currentFocusedRow.tabIndex = '0';
+
+        DomHandler.focus(currentFocusedRow);
+    }
+
+    restoreFocus(index?) {
         this.zone.runOutsideAngular(() => {
             setTimeout(() => {
-                let row = DomHandler.findSingle(this.tt.containerViewChild?.nativeElement, '.p-treetable-tbody').children[<number>this.tt.toggleRowIndex];
+                const container = this.tt.containerViewChild?.nativeElement;
+                const row = DomHandler.findSingle(container, '.p-treetable-tbody').children[<number>index || this.tt.toggleRowIndex];
+                const rows = [...DomHandler.find(container, 'tr')];
+
+                rows &&
+                    rows.forEach((r) => {
+                        if (!row.isSameNode(r)) {
+                            r.tabIndex = -1;
+                        }
+                    });
+
                 if (row) {
+                    row.tabIndex = 0;
                     row.focus();
                 }
             }, 25);
@@ -3360,10 +3506,12 @@ export class TTRow {
             pRipple
             [style.visibility]="rowNode.node.leaf === false || (rowNode.node.children && rowNode.node.children.length) ? 'visible' : 'hidden'"
             [style.marginLeft]="rowNode.level * 16 + 'px'"
+            [attr.data-pc-section]="'rowtoggler'"
+            [attr.data-pc-group-section]="'rowactionbutton'"
         >
             <ng-container *ngIf="!tt.togglerIconTemplate">
-                <ChevronDownIcon *ngIf="rowNode.node.expanded" />
-                <ChevronRightIcon *ngIf="!rowNode.node.expanded" />
+                <ChevronDownIcon *ngIf="rowNode.node.expanded" [attr.aria-hidden]="true" />
+                <ChevronRightIcon *ngIf="!rowNode.node.expanded" [attr.aria-hidden]="true" />
             </ng-container>
             <ng-template *ngTemplateOutlet="tt.togglerIconTemplate; context: { $implicit: rowNode.node.expanded }"></ng-template>
         </button>

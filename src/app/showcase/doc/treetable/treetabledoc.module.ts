@@ -2,7 +2,7 @@ import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { TreeTableModule } from 'primeng/treetable';
 import { AppDocModule } from '../../layout/doc/app.doc.module';
-import { AppCodeModule } from '../../layout/doc/code/app.code.component';
+import { AppCodeModule } from '../../layout/doc/app.code.component';
 import { ButtonModule } from 'primeng/button';
 import { BasicDoc } from './basicdoc';
 import { TemplateDoc } from './templatedoc';
@@ -38,7 +38,9 @@ import { ConditionalStyleDoc } from './conditionalstyledoc';
 import { ContextMenuDoc } from './contextmenudoc';
 import { ContextMenuModule } from 'primeng/contextmenu';
 import { StyleDoc } from './styledoc';
+import { ResizeScrollableDoc } from './columnresizescrollabledoc';
 import { AccessibilityDoc } from './accessibilitydoc';
+import { PaginatorLocaleDoc } from './paginatorlocaledoc';
 
 @NgModule({
     imports: [CommonModule, AppCodeModule, AppDocModule, TreeTableModule, ButtonModule, RouterModule, InputTextModule, SelectButtonModule, FormsModule, InputSwitchModule, ToastModule, MultiSelectModule, ContextMenuModule],
@@ -70,7 +72,9 @@ import { AccessibilityDoc } from './accessibilitydoc';
         ConditionalStyleDoc,
         ContextMenuDoc,
         StyleDoc,
-        AccessibilityDoc
+        AccessibilityDoc,
+        PaginatorLocaleDoc,
+        ResizeScrollableDoc
     ]
 })
 export class TreeTableDocModule {}

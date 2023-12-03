@@ -1,85 +1,87 @@
-.p-colorpicker {
-    display: inline-block;
-}
+@layer primeng {
+    .p-colorpicker {
+        display: inline-block;
+    }
 
-.p-colorpicker-dragging {
-    cursor: pointer;
-}
+    .p-colorpicker-dragging {
+        cursor: pointer;
+    }
 
-.p-colorpicker-overlay, .p-colorpicker-panel, .p-colorpicker-panel .p-colorpicker-content, .p-colorpicker-preview {
-    position: relative;
-}
+    .p-colorpicker-overlay, .p-colorpicker-panel, .p-colorpicker-panel .p-colorpicker-content, .p-colorpicker-preview {
+        position: relative;
+    }
 
-.p-colorpicker-panel {
-    width: 239px;
-    height: 282px;
-}
+    .p-colorpicker-panel {
+        width: 239px;
+        height: 282px;
+    }
 
-.p-colorpicker-overlay-panel {
-    position: absolute;
-    top: 0;
-    left: 0;
-}
+    .p-colorpicker-overlay-panel {
+        position: absolute;
+        top: 0;
+        left: 0;
+    }
 
-.p-colorpicker-preview {
-    cursor: pointer;
-}
+    .p-colorpicker-preview {
+        cursor: pointer;
+    }
 
-.p-colorpicker-panel .p-colorpicker-color-selector {
-    width: 180px;
-    height: 180px;
-    top: 16px;
-    left: 16px;
-    position: absolute;
-}
+    .p-colorpicker-panel .p-colorpicker-color-selector {
+        width: 180px;
+        height: 180px;
+        top: 16px;
+        left: 16px;
+        position: absolute;
+    }
 
-.p-colorpicker-panel .p-colorpicker-color {
-     width: 180px;
-     height: 180px;
-}
+    .p-colorpicker-panel .p-colorpicker-color {
+        width: 180px;
+        height: 180px;
+    }
 
-.p-colorpicker-panel .p-colorpicker-color-handle {
-     position: absolute;
-     top: 0px;
-     left: 150px;
-     border-radius: 100%;
-     width: 10px;
-     height: 10px;
-     border-width: 1px;
-     border-style: solid;
-     margin: -5px 0 0 -5px;
-     cursor: pointer;
-     opacity: .85;
-}
+    .p-colorpicker-panel .p-colorpicker-color-handle {
+        position: absolute;
+        top: 0px;
+        left: 150px;
+        border-radius: 100%;
+        width: 10px;
+        height: 10px;
+        border-width: 1px;
+        border-style: solid;
+        margin: -5px 0 0 -5px;
+        cursor: pointer;
+        opacity: 0.85;
+    }
 
-.p-colorpicker-panel .p-colorpicker-hue {
-    width: 17px;
-    height: 180px;
-    top: 16px;
-    left: 205px;
-    position: absolute;
-    opacity: .85;
-}
+    .p-colorpicker-panel .p-colorpicker-hue {
+        width: 17px;
+        height: 180px;
+        top: 16px;
+        left: 205px;
+        position: absolute;
+        opacity: .85;
+    }
 
-.p-colorpicker-panel .p-colorpicker-hue-handle {
-     position: absolute;
-     top: 150px;
-     left: 0px;
-     width: 21px;
-     margin-left: -2px;
-     margin-top: -5px;
-     height: 10px;
-     border-width: 2px;
-     border-style: solid;
-     border-radius: 4px;
-     opacity: .85;
-     cursor: pointer;
-}
+    .p-colorpicker-panel .p-colorpicker-hue-handle {
+        position: absolute;
+        top: 150px;
+        left: 0px;
+        width: 21px;
+        margin-left: -2px;
+        margin-top: -5px;
+        height: 10px;
+        border-width: 2px;
+        border-style: solid;
+        border-radius: 4px;
+        opacity: .85;
+        cursor: pointer;
+    }
 
-.p-colorpicker-inputvalue {
-    top: 220px;
-    left: 16px;
-    width: 205px;
-    height: 46px;
-    position: absolute;
+    .p-colorpicker-inputvalue {
+        top: 220px;
+        left: 16px;
+        width: 205px;
+        height: 46px;
+        position: absolute;
+    }
 }

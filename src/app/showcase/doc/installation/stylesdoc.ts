@@ -1,10 +1,10 @@
-import { Component, Input } from '@angular/core';
+import { Component } from '@angular/core';
 import { Code } from '../../domain/code';
 
 @Component({
     selector: 'styles-doc',
-    template: ` <section>
-        <app-docsectiontext [title]="title" [id]="id">
+    template: `
+        <app-docsectiontext>
             <p>
                 Theme and Core styles are the necessary css files of the components, visit the <a href="/theming#themes" class="">Themes</a> section for the complete list of available themes to choose from. Styles can either be imported at
                 <i>angular.json</i> or <i>src/styles.css</i> file.
@@ -14,18 +14,10 @@ import { Code } from '../../domain/code';
 
             <h3>styles.css</h3>
             <app-code [code]="code2" [hideToggleCode]="true"></app-code>
-
-            <h3>Font</h3>
-            <p>Each PrimeNG theme has its own font family so it is suggested to apply it to your application for a unified look.</p>
-            <app-code [code]="code3" [hideToggleCode]="true"></app-code>
         </app-docsectiontext>
-    </section>`
+    `
 })
 export class StylesDoc {
-    @Input() id: string;
-
-    @Input() title: string;
-
     code1: Code = {
         typescript: `...
 "styles": [
@@ -38,11 +30,5 @@ export class StylesDoc {
     code2: Code = {
         scss: `@import "primeng/resources/themes/lara-light-blue/theme.css";
 @import "primeng/resources/primeng.css";`
-    };
-
-    code3: Code = {
-        scss: `body {
-    font-family: var(--font-family);
-}`
     };
 }

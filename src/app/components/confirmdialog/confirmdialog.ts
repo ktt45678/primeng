@@ -51,22 +51,31 @@ const hideAnimation = animation([animate('{{transition}}', style({ transform: '{
                 [@animation]="{ value: 'visible', params: { transform: transformOptions, transition: transitionOptions } }"
                 (@animation.start)="onAnimationStart($event)"
                 (@animation.done)="onAnimationEnd($event)"
+                role="alertdialog"
                 *ngIf="visible"
+                [attr.aria-labelledby]="getAriaLabelledBy()"
+                [attr.aria-modal]="true"
             >
                 <div class="p-dialog-header" *ngIf="headerTemplate">
                     <ng-container *ngTemplateOutlet="headerTemplate"></ng-container>
                 </div>
                 <div class="p-dialog-header" *ngIf="!headerTemplate">
-                    <span class="p-dialog-title" *ngIf="option('header')">{{ option('header') }}</span>
+                    <span class="p-dialog-title" [id]="getAriaLabelledBy()" *ngIf="option('header')">{{ option('header') }}</span>
                     <div class="p-dialog-header-icons">
-                        <button *ngIf="closable" type="button" [ngClass]="{ 'p-dialog-header-icon p-dialog-header-close p-link': true }" (click)="close($event)" (keydown.enter)="close($event)">
+                        <button *ngIf="closable" type="button" role="button" [attr.aria-label]="closeAriaLabel" [ngClass]="{ 'p-dialog-header-icon p-dialog-header-close p-link': true }" (click)="close($event)" (keydown.enter)="close($event)">
                             <TimesIcon />
                         </button>
                     </div>
                 </div>
                 <div #content class="p-dialog-content">
-                    <i [ngClass]="'p-confirm-dialog-icon'" [class]="option('icon')" *ngIf="option('icon')"></i>
-                    <span class="p-confirm-dialog-message" [innerHTML]="option('message')"></span>
+                    <i [ngClass]="'p-confirm-dialog-icon'" [class]="option('icon')" *ngIf="!iconTemplate && option('icon')"></i>
+                    <ng-container *ngIf="iconTemplate">
+                        <ng-template *ngTemplateOutlet="iconTemplate"></ng-template>
+                    </ng-container>
+                    <span class="p-confirm-dialog-message" *ngIf="!messageTemplate" [innerHTML]="option('message')"></span>
+                    <ng-container *ngIf="messageTemplate">
+                        <ng-template *ngTemplateOutlet="messageTemplate"></ng-template>
+                    </ng-container>
                 </div>
                 <div class="p-dialog-footer" *ngIf="footer || footerTemplate">
                     <ng-content select="p-footer"></ng-content>
@@ -171,6 +180,11 @@ export class ConfirmDialog implements AfterContentInit, OnInit, OnDestroy {
      */
     @Input() acceptLabel: string | undefined;
     /**
+     * Defines a string that labels the close button for accessibility.
+     * @group Props
+     */
+    @Input() closeAriaLabel: string | undefined;
+    /**
      * Defines a string that labels the accept button for accessibility.
      * @group Props
      */
@@ -269,7 +283,7 @@ export class ConfirmDialog implements AfterContentInit, OnInit, OnDestroy {
      * Element to receive the focus when the dialog gets visible.
      * @group Props
      */
-    @Input() defaultFocus: 'accept' | 'reject' | 'close' = 'accept';
+    @Input() defaultFocus: 'accept' | 'reject' | 'close' | 'none' = 'accept';
     /**
      * Object literal to define widths per screen size.
      * @group Props
@@ -343,8 +357,17 @@ export class ConfirmDialog implements AfterContentInit, OnInit, OnDestroy {
                 case 'header':
                     this.headerTemplate = item.template;
                     break;
+
                 case 'footer':
                     this.footerTemplate = item.template;
+                    break;
+
+                case 'message':
+                    this.messageTemplate = item.template;
+                    break;
+
+                case 'icon':
+                    this.iconTemplate = item.template;
                     break;
 
                 case 'rejecticon':
@@ -365,6 +388,10 @@ export class ConfirmDialog implements AfterContentInit, OnInit, OnDestroy {
     rejectIconTemplate: Nullable<TemplateRef<any>>;
 
     acceptIconTemplate: Nullable<TemplateRef<any>>;
+
+    messageTemplate: Nullable<TemplateRef<any>>;
+
+    iconTemplate: Nullable<TemplateRef<any>>;
 
     confirmation: Nullable<Confirmation>;
 
@@ -452,6 +479,10 @@ export class ConfirmDialog implements AfterContentInit, OnInit, OnDestroy {
                 this.cd.markForCheck();
             }
         });
+    }
+
+    getAriaLabelledBy() {
+        return this.header !== null ? UniqueComponentId() + '_header' : null;
     }
 
     option(name: string) {

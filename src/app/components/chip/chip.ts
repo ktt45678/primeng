@@ -9,17 +9,17 @@ import { TimesCircleIcon } from 'primeng/icons/timescircle';
 @Component({
     selector: 'p-chip',
     template: `
-        <div [ngClass]="{ 'p-chip p-component': true, 'p-chip-image': this.image != null, 'p-chip-removable': removable }" [class]="styleClass" [ngStyle]="style" *ngIf="visible" [tabindex]="removable ? 0 : -1" (click)="removable && close($event)" (keydown.enter)="removable && close($event)">
+        <div [ngClass]="{ 'p-chip p-component': true, 'p-chip-image': this.image != null, 'p-chip-removable': removable }" [class]="styleClass" [ngStyle]="style" *ngIf="visible" [attr.data-pc-name]="'chip'" [attr.aria-label]="label" [attr.data-pc-section]="'root'" [tabindex]="removable ? 0 : -1" (click)="removable && close($event)" (keydown.enter)="removable && close($event)">
             <ng-content></ng-content>
             <img [src]="image" *ngIf="image; else iconTemplate" (error)="imageError($event)" />
-            <ng-template #iconTemplate><span *ngIf="icon" [class]="icon" [ngClass]="'p-chip-icon'"></span></ng-template>
-            <div class="p-chip-text" *ngIf="label">{{ label }}</div>
+            <ng-template #iconTemplate><span *ngIf="icon" [class]="icon" [ngClass]="'p-chip-icon'" [attr.data-pc-section]="'icon'"></span></ng-template>
+            <div class="p-chip-text" *ngIf="label" [attr.data-pc-section]="'label'">{{ label }}</div>
             <ng-container *ngIf="removable">
                 <ng-container *ngIf="!removeIconTemplate">
-                    <span *ngIf="removeIcon" [class]="removeIcon" [ngClass]="'pi-chip-remove-icon'"></span>
-                    <TimesCircleIcon [attr.tabindex]="0" *ngIf="!removeIcon" [styleClass]="'pi-chip-remove-icon'"/>
+                    <span tabindex="0" *ngIf="removeIcon" [class]="removeIcon" [ngClass]="'pi-chip-remove-icon'" [attr.data-pc-section]="'removeicon'"></span>
+                    <TimesCircleIcon tabindex="0" *ngIf="!removeIcon" [styleClass]="'pi-chip-remove-icon'"/>
                 </ng-container>
-                <span *ngIf="removeIconTemplate" class="pi-chip-remove-icon">
+                <span *ngIf="removeIconTemplate" tabindex="0" [attr.data-pc-section]="'removeicon'" class="pi-chip-remove-icon">
                     <ng-template *ngTemplateOutlet="removeIconTemplate"></ng-template>
                 </span>
             </ng-container>
@@ -113,6 +113,12 @@ export class Chip implements AfterContentInit {
         this.onRemove.emit(event);
     }
 
+    onKeydown(event) {
+        if (event.key === 'Enter' || event.key === 'Backspace') {
+            this.close(event);
+        }
+    }
+
     imageError(event: Event) {
         this.onImageError.emit(event);
     }
@@ -123,4 +129,4 @@ export class Chip implements AfterContentInit {
     exports: [Chip, SharedModule],
     declarations: [Chip]
 })
-export class ChipModule {}
+export class ChipModule { }

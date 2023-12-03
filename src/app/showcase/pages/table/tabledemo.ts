@@ -36,6 +36,7 @@ import { RowEditDoc } from '../../doc/table/roweditdoc';
 import { RowExpandDoc } from '../../doc/table/rowexpanddoc';
 import { RowspanGroupingDoc } from '../../doc/table/rowspangroupingdoc';
 import { SingleColumnSortDoc } from '../../doc/table/singlecolumnsortdoc';
+import { MultipleColumnSortDoc } from '../../doc/table/multiplecolumnsortdoc';
 import { SingleSelectionDoc } from '../../doc/table/singleselectiondoc';
 import { SizeDoc } from '../../doc/table/sizedoc';
 import { StatefulDoc } from '../../doc/table/statefuldoc';
@@ -50,6 +51,7 @@ import { ColumnResizeFitModeDoc } from '../../doc/table/columnresizefitmodedoc';
 import { SelectionEventsDoc } from '../../doc/table/selectioneventsdoc';
 import { StylingDoc } from '../../doc/table/stylingdoc';
 import { AccessibilityDoc } from '../../doc/table/accessibilitydoc';
+import { PaginatorLocaleDoc } from '../../doc/table/paginatorlocaledoc';
 
 @Component({
     templateUrl: './tabledemo.html',
@@ -58,7 +60,7 @@ import { AccessibilityDoc } from '../../doc/table/accessibilitydoc';
 export class TableDemo {
     docs = [
         {
-            id: 'import',
+            id: 'import-demo',
             label: 'Import',
             component: ImportDoc
         },
@@ -123,6 +125,11 @@ export class TableDemo {
                     component: PaginatorBasicDoc
                 },
                 {
+                    id: 'paginator-locale',
+                    label: 'Locale',
+                    component: PaginatorLocaleDoc
+                },
+                {
                     id: 'paginator-programmatic',
                     label: 'Programmatic',
                     component: PaginatorProgrammaticDoc
@@ -137,6 +144,11 @@ export class TableDemo {
                     id: 'single-column-sort',
                     label: 'Single Column',
                     component: SingleColumnSortDoc
+                },
+                {
+                    id: 'multiple-column-sort',
+                    label: 'Multiple Column',
+                    component: MultipleColumnSortDoc
                 },
                 {
                     id: 'custom-sort',

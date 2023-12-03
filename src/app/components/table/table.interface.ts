@@ -15,7 +15,7 @@ export interface TableRowSelectEvent {
     /**
      * Row data.
      */
-    data?: any[];
+    data?: any;
     /**
      * Selection type.
      */
@@ -253,6 +253,19 @@ export interface TableSelectAllChangeEvent {
      * Checked state.
      */
     checked: boolean;
+}
+/**
+ * Custom CSV export options.
+ */
+export interface ExportCSVOptions {
+    /**
+     * Boolean value determining whether to export all selected values.
+     */
+    selectionOnly?: boolean;
+    /**
+     * Boolean value determining whether to export all values.
+     */
+    allValues?: boolean;
 }
 /**
  * Defines valid templates in Table.

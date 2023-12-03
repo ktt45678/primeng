@@ -1,32 +1,34 @@
-.p-inputswitch-container {
-    display: flex;
-    align-items: center;
-    user-select: none;
-}
+@layer primeng {
+    .p-inputswitch-container {
+        display: flex;
+        align-items: center;
+        user-select: none;
+    }
 
-.p-inputswitch {
-    position: relative;
-    display: inline-block;
-}
+    .p-inputswitch {
+        position: relative;
+        display: inline-block;
+    }
 
-.p-inputswitch-slider {
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-}
+    .p-inputswitch-slider {
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+    }
 
-.p-inputswitch-slider:before {
-    position: absolute;
-    content: "";
-    top: 50%;
-}
+    .p-inputswitch-slider:before {
+        position: absolute;
+        content: "";
+        top: 50%;
+    }
 
-.p-inputswitch-label {
-    flex: 1;
-}
+    .p-inputswitch-label {
+        flex: 1;
+    }
 
-.p-inputswitch-container:not(.p-disabled), .p-inputswitch-label:not(.p-disabled) {
-    cursor: pointer;
+    .p-inputswitch-container:not(.p-disabled), .p-inputswitch-label:not(.p-disabled) {
+        cursor: pointer;
+    }
 }

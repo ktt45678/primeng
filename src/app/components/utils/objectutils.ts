@@ -190,8 +190,12 @@ export class ObjectUtils {
 
     public static sort(value1, value2, order = 1, locale, nullSortOrder = 1) {
         const result = ObjectUtils.compare(value1, value2, locale, order);
+        let finalSortOrder = order;
+
         // nullSortOrder == 1 means Excel like sort nulls at bottom
-        const finalSortOrder = nullSortOrder === 1 ? order : nullSortOrder;
+        if (ObjectUtils.isEmpty(value1) || ObjectUtils.isEmpty(value2)) {
+            finalSortOrder = nullSortOrder === 1 ? order : nullSortOrder;
+        }
 
         return finalSortOrder * result;
     }
@@ -206,5 +210,41 @@ export class ObjectUtils {
         }
 
         return obj2 || obj1;
+    }
+
+    public static isPrintableCharacter(char = '') {
+        return this.isNotEmpty(char) && char.length === 1 && char.match(/\S| /);
+    }
+
+    public static getItemValue(obj, ...params) {
+        return this.isFunction(obj) ? obj(...params) : obj;
+    }
+
+    public static findLastIndex(arr, callback) {
+        let index = -1;
+
+        if (this.isNotEmpty(arr)) {
+            try {
+                index = arr.findLastIndex(callback);
+            } catch {
+                index = arr.lastIndexOf([...arr].reverse().find(callback));
+            }
+        }
+
+        return index;
+    }
+
+    public static findLast(arr, callback) {
+        let item;
+
+        if (this.isNotEmpty(arr)) {
+            try {
+                item = arr.findLast(callback);
+            } catch {
+                item = [...arr].reverse().find(callback);
+            }
+        }
+
+        return item;
     }
 }

@@ -1,10 +1,10 @@
 import { CommonModule } from '@angular/common';
 import { ChangeDetectionStrategy, ChangeDetectorRef, Component, ContentChildren, ElementRef, EventEmitter, forwardRef, Input, NgModule, OnInit, Output, QueryList, TemplateRef, ViewChild, ViewEncapsulation } from '@angular/core';
 import { ControlValueAccessor, FormControl, NG_VALUE_ACCESSOR } from '@angular/forms';
-import { ObjectUtils } from 'primeng/utils';
 import { PrimeTemplate, SharedModule } from 'primeng/api';
 import { CheckIcon } from 'primeng/icons/check';
 import { Nullable } from 'primeng/ts-helpers';
+import { ObjectUtils } from 'primeng/utils';
 import { CheckboxChangeEvent } from './checkbox.interface';
 
 export const CHECKBOX_VALUE_ACCESSOR: any = {
@@ -19,47 +19,62 @@ export const CHECKBOX_VALUE_ACCESSOR: any = {
 @Component({
     selector: 'p-checkbox',
     template: `
-        <div [ngStyle]="style" [ngClass]="{ 'p-checkbox p-component': true, 'p-checkbox-checked': checked(), 'p-checkbox-disabled': disabled, 'p-checkbox-focused': focused }" [class]="styleClass">
-            <div class="p-hidden-accessible">
+        <div
+            [ngStyle]="style"
+            [ngClass]="{ 'p-checkbox p-component': true, 'p-checkbox-checked': checked(), 'p-checkbox-disabled': disabled, 'p-checkbox-focused': focused }"
+            [class]="styleClass"
+            [attr.data-pc-name]="'checkbox'"
+            [attr.data-pc-section]="'root'"
+            (click)="onClick($event)"
+        >
+            <div class="p-hidden-accessible" [attr.data-pc-section]="'hiddenInputWrapper'" [attr.data-p-hidden-accessible]="true">
                 <input
-                    #cb
-                    type="checkbox"
+                    #input
                     [attr.id]="inputId"
-                    [attr.name]="name"
-                    [readonly]="readonly"
+                    type="checkbox"
                     [value]="value"
+                    [attr.name]="name"
                     [checked]="checked()"
-                    (focus)="onFocus()"
-                    (blur)="onBlur()"
-                    (change)="handleChange($event)"
-                    [disabled]="disabled"
                     [attr.tabindex]="tabindex"
+                    [disabled]="disabled"
+                    [readonly]="readonly"
+                    [attr.required]="required"
                     [attr.aria-labelledby]="ariaLabelledBy"
                     [attr.aria-label]="ariaLabel"
                     [attr.aria-checked]="checked()"
-                    [attr.required]="required"
+                    (focus)="onFocus()"
+                    (blur)="onBlur()"
+                    [attr.data-pc-section]="'hiddenInput'"
                 />
             </div>
-            <div class="p-checkbox-box" [ngClass]="{ 'p-highlight': checked(), 'p-disabled': disabled, 'p-focus': focused }">
-
-            <ng-container *ngIf="checked()">
-                <ng-container *ngIf="!checkboxIconTemplate">
-                    <span *ngIf="checkboxIcon" class="p-checkbox-icon" [ngClass]="checkboxIcon"></span>
-                    <CheckIcon *ngIf="!checkboxIcon" [styleClass]="'p-checkbox-icon'"/>
+            <div
+                class="p-checkbox-box"
+                [ngClass]="{ 'p-highlight': checked(), 'p-disabled': disabled, 'p-focus': focused }"
+                [attr.data-p-highlight]="checked()"
+                [attr.data-p-disabled]="disabled"
+                [attr.data-p-focused]="focused"
+                [attr.data-pc-section]="'input'"
+            >
+                <ng-container *ngIf="checked()">
+                    <ng-container *ngIf="!checkboxIconTemplate">
+                        <span *ngIf="checkboxIcon" class="p-checkbox-icon" [ngClass]="checkboxIcon" [attr.data-pc-section]="'icon'"></span>
+                        <CheckIcon *ngIf="!checkboxIcon" [styleClass]="'p-checkbox-icon'" [attr.data-pc-section]="'icon'" />
+                    </ng-container>
+                    <span *ngIf="checkboxIconTemplate" class="p-checkbox-icon" [attr.data-pc-section]="'icon'">
+                        <ng-template *ngTemplateOutlet="checkboxIconTemplate"></ng-template>
+                    </span>
                 </ng-container>
-                <span *ngIf="checkboxIconTemplate" class="p-checkbox-icon">
-                    <ng-template *ngTemplateOutlet="checkboxIconTemplate"></ng-template>
-                </span>
-            </ng-container>
             </div>
         </div>
         <label
-            (click)="onClick($event, cb, true)"
+            (click)="onClick($event)"
             [class]="labelStyleClass"
             [ngClass]="{ 'p-checkbox-label': true, 'p-checkbox-label-active': checked(), 'p-disabled': disabled, 'p-checkbox-label-focus': focused }"
             *ngIf="label"
             [attr.for]="inputId"
-            >{{ label }}</label
+            [attr.data-pc-section]="'label'"
+        >
+            {{ label }}</label
         >
         <i *ngIf="icon" [class]="icon" [ngClass]="{ 'p-disabled': disabled }"></i>
     `,
@@ -176,7 +191,7 @@ export class Checkbox implements OnInit, ControlValueAccessor {
      */
     @Output() onChange: EventEmitter<CheckboxChangeEvent> = new EventEmitter();
 
-    @ViewChild('cb') inputViewChild: Nullable<ElementRef>;
+    @ViewChild('input') inputViewChild: Nullable<ElementRef>;
 
     @ContentChildren(PrimeTemplate) templates: Nullable<QueryList<PrimeTemplate>>;
 
@@ -184,13 +199,13 @@ export class Checkbox implements OnInit, ControlValueAccessor {
 
     model: any;
 
-    onModelChange: Function = () => {};
+    onModelChange: Function = () => { };
 
-    onModelTouched: Function = () => {};
+    onModelTouched: Function = () => { };
 
     focused: boolean = false;
 
-    constructor(public cd: ChangeDetectorRef) {}
+    constructor(public cd: ChangeDetectorRef) { }
 
     ngOnInit(): void {
         this.model = this.value;
@@ -206,45 +221,28 @@ export class Checkbox implements OnInit, ControlValueAccessor {
         });
     }
 
-    onClick(event: Event, checkbox: HTMLElement, focus: boolean) {
-        event.preventDefault();
+    onClick(event: Event) {
+        if (!this.disabled && !this.readonly) {
+            this.inputViewChild.nativeElement.focus();
+            let newModelValue;
 
-        if (this.disabled || this.readonly) {
-            return;
-        }
+            if (!this.binary) {
+                if (this.checked()) newModelValue = this.model.filter((val: object) => !ObjectUtils.equals(val, this.value));
+                else newModelValue = this.model ? [...this.model, this.value] : [this.value];
 
-        this.updateModel(event);
+                this.onModelChange(newModelValue);
+                this.model = newModelValue;
 
-        if (focus) {
-            checkbox.focus();
-        }
-    }
-
-    updateModel(event: Event) {
-        let newModelValue;
-
-        if (!this.binary) {
-            if (this.checked()) newModelValue = this.model.filter((val: object) => !ObjectUtils.equals(val, this.value));
-            else newModelValue = this.model ? [...this.model, this.value] : [this.value];
-
-            this.onModelChange(newModelValue);
-            this.model = newModelValue;
-
-            if (this.formControl) {
-                this.formControl.setValue(newModelValue);
+                if (this.formControl) {
+                    this.formControl.setValue(newModelValue);
+                }
+            } else {
+                newModelValue = this.checked() ? this.falseValue : this.trueValue;
+                this.model = newModelValue;
+                this.onModelChange(newModelValue);
             }
-        } else {
-            newModelValue = this.checked() ? this.falseValue : this.trueValue;
-            this.model = newModelValue;
-            this.onModelChange(newModelValue);
-        }
 
-        this.onChange.emit({ checked: newModelValue, originalEvent: event });
-    }
-
-    handleChange(event: Event) {
-        if (!this.readonly) {
-            this.updateModel(event);
+            this.onChange.emit({ checked: newModelValue, originalEvent: event });
         }
     }
 
@@ -255,10 +253,6 @@ export class Checkbox implements OnInit, ControlValueAccessor {
     onBlur() {
         this.focused = false;
         this.onModelTouched();
-    }
-
-    focus() {
-        this.inputViewChild?.nativeElement.focus();
     }
 
     writeValue(model: any): void {
@@ -289,4 +283,4 @@ export class Checkbox implements OnInit, ControlValueAccessor {
     exports: [Checkbox, SharedModule],
     declarations: [Checkbox]
 })
-export class CheckboxModule {}
+export class CheckboxModule { }

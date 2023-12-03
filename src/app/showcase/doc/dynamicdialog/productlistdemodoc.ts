@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { DynamicDialogRef } from 'primeng/dynamicdialog';
 import { Code } from '../../domain/code';
 import { Product } from '../../domain/product';
@@ -7,7 +7,7 @@ import { ProductService } from '../../service/productservice';
 @Component({
     selector: 'productlistdemo-doc',
     template: `<div>
-        <app-docsectiontext [title]="title" [id]="id">
+        <app-docsectiontext>
             <p>ProductListDemo component used in examples above.</p>
         </app-docsectiontext>
         <div class="card">
@@ -41,16 +41,15 @@ import { ProductService } from '../../service/productservice';
     providers: [DynamicDialogRef]
 })
 export class ProductListDemoDoc implements OnInit {
-    @Input() id: string;
+    products: Product[];
 
-    @Input() title: string;
-
-    products: Product[] | undefined;
-
-    constructor(private productService: ProductService, public ref: DynamicDialogRef) {}
+    constructor(private productService: ProductService, public ref: DynamicDialogRef, private cd: ChangeDetectorRef) {}
 
     ngOnInit() {
-        this.productService.getProductsSmall().then((products) => (this.products = products));
+        this.productService.getProductsSmall().then((products) => {
+            this.products = products;
+            this.cd.markForCheck();
+        });
     }
 
     selectProduct(product: Product) {
@@ -69,8 +68,7 @@ export class ProductListDemoDoc implements OnInit {
     }
 
     code: Code = {
-        basic: `
-<p-table [value]="products" responsiveLayout="scroll" [paginator]="true" [rows]="5" [responsive]="true">
+        basic: `<p-table [value]="products" responsiveLayout="scroll" [paginator]="true" [rows]="5" [responsive]="true">
     <ng-template pTemplate="header">
         <tr>
             <th pSortableColumn="name">Name <p-sortIcon field="vin"></p-sortIcon></th>
@@ -122,7 +120,7 @@ export class ProductListDemoDoc implements OnInit {
     </p-table>
 </div>`,
         typescript: `
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
 import { DynamicDialogRef } from 'primeng/dynamicdialog';
 import { Product } from '../../domain/product';
 import { ProductService } from '../../service/productservice';
@@ -134,12 +132,15 @@ import { ProductService } from '../../service/productservice';
 })
 export class ProductListDemo implements OnInit {
 
-    products: Product[] | undefined;
+    products: Product[];
 
-    constructor(private productService: ProductService, public ref: DynamicDialogRef) {}
+    constructor(private productService: ProductService, public ref: DynamicDialogRef, private cd: ChangeDetectorRef) {}
 
     ngOnInit() {
-        this.productService.getProductsSmall().then((products) => (this.products = products));
+        this.productService.getProductsSmall().then((products) => {
+            this.products = products;
+            this.cd.markForCheck();
+        });
     }
 
     selectProduct(product: Product) {
