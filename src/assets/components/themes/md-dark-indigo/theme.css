@@ -1194,6 +1194,16 @@ p-inputnumber.p-inputnumber-clearable .p-inputnumber-buttons-horizontal .p-input
   background: #6C86E2;
 }
 
+.p-inputswitch.p-inputswitch-sm {
+  width: 2.75rem;
+  height: 1.5rem;
+}
+.p-inputswitch.p-inputswitch-sm .p-inputswitch-slider:before {
+  width: 1rem;
+  height: 1rem;
+  margin-top: -0.5rem;
+}
+
 p-inputswitch.ng-dirty.ng-invalid > .p-inputswitch {
   border-color: #f44435;
 }
