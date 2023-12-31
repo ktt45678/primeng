@@ -1,4 +1,4 @@
-@layer primeng {
+/* @layer primeng { */
     .p-paginator {
         display: flex;
         align-items: center;
@@ -34,4 +34,4 @@
         z-index: 1;
         position: relative;
     }
-}
+/* } */

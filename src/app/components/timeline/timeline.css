@@ -1,4 +1,4 @@
-@layer primeng {
+/* @layer primeng { */
     .p-timeline {
         display: flex;
         flex-grow: 1;
@@ -109,4 +109,4 @@
     .p-timeline-horizontal.p-timeline-alternate .p-timeline-event:nth-child(even) {
         flex-direction: column-reverse;
     }
-}
+/* } */

@@ -79,7 +79,7 @@ export class RadioControlRegistry {
         </div>
         <label
             [class]="labelStyleClass"
-            [ngClass]="{ 'p-radiobutton-label': true, 'p-radiobutton-label-active': rb.checked, 'p-disabled': disabled, 'p-radiobutton-label-focus': focused }"
+            [ngClass]="{ 'p-radiobutton-label': true, 'p-radiobutton-label-active': input.checked, 'p-disabled': disabled, 'p-radiobutton-label-focus': focused }"
             *ngIf="label"
             [attr.for]="inputId"
             [attr.data-pc-section]="'label'"

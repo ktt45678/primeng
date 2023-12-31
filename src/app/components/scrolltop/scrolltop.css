@@ -1,4 +1,4 @@
-@layer primeng {
+/* @layer primeng { */
     .p-scrolltop {
         position: fixed;
         bottom: 20px;
@@ -15,4 +15,4 @@
     .p-scrolltop-sticky.p-link {
         margin-left: auto;
     }
-}
+/* } */

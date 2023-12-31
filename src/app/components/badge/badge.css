@@ -1,4 +1,4 @@
-@layer primeng {
+/* @layer primeng { */
     .p-badge {
         display: inline-block;
         border-radius: 10px;
@@ -31,4 +31,4 @@
         padding: 0;
         border-radius: 50%;
     }
-}
+/* } */

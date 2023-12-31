@@ -1,4 +1,4 @@
-@layer primeng {
+/* @layer primeng { */
     .p-image-mask {
         display: flex;
         align-items: center;
@@ -67,4 +67,4 @@
         max-width: 100vw;
         max-height: 100vh;
     }
-}
+/* } */

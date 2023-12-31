@@ -1,4 +1,4 @@
-@layer primeng {
+/* @layer primeng { */
     .p-skeleton {
         position: relative;
         overflow: hidden;
@@ -23,7 +23,7 @@
     .p-skeleton-none::after {
         animation: none;
     }
-}
+/* } */
 
 @keyframes p-skeleton-animation {
     from {

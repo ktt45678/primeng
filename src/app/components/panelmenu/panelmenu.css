@@ -1,4 +1,4 @@
-@layer primeng {
+/* @layer primeng { */
     .p-panelmenu .p-panelmenu-header-action {
         display: flex;
         align-items: center;
@@ -42,4 +42,4 @@
     .p-panelmenu .p-submenu-list {
         overflow: hidden;
     }
-}
+/* } */

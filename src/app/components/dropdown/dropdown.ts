@@ -1349,7 +1349,7 @@ export class Dropdown implements OnInit, AfterViewInit, AfterContentInit, AfterV
                 break;
 
             case 'Tab':
-                this.onTabKey(event);
+                this.onEscapeKey(event);
                 break;
 
             case 'Backspace':
@@ -1403,7 +1403,7 @@ export class Dropdown implements OnInit, AfterViewInit, AfterContentInit, AfterV
                 break;
 
             case 'Tab':
-                this.onTabKey(event, true);
+                this.onEscapeKey(event);
                 break;
 
             default:

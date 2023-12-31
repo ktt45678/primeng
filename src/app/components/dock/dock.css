@@ -1,4 +1,4 @@
-@layer primeng {
+/* @layer primeng { */
     .p-dock {
         position: absolute;
         z-index: 1;
@@ -104,4 +104,4 @@
     .p-dock-left .p-dock-list {
         flex-direction: column;
     }
-}
+/* } */

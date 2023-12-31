@@ -1,4 +1,4 @@
-@layer primeng {
+/* @layer primeng { */
     .p-contextmenu {
         position: absolute;
     }
@@ -39,4 +39,4 @@
     .p-contextmenu .p-menuitem-link .p-icon-wrapper {
         margin-left: auto;
     }
-}
+/* } */

@@ -1,4 +1,4 @@
-@layer primeng {
+/* @layer primeng { */
     .p-divider-horizontal {
         display: flex;
         width: 100%;
@@ -83,4 +83,4 @@
     .p-divider-dotted.p-divider-horizontal:before {
         border-left-style: dotted;
     }
-}
+/* } */

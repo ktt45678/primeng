@@ -1,4 +1,4 @@
-@layer primeng {
+/* @layer primeng { */
     .p-organizationchart-table {
         border-spacing: 0;
         border-collapse: separate;
@@ -59,4 +59,4 @@
         visibility: hidden;
         display: inherit;
     }
-}
+/* } */

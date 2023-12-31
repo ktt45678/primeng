@@ -1,4 +1,4 @@
-@layer primeng {
+/* @layer primeng { */
     .p-overlay {
         position: absolute;
         top: 0;
@@ -77,4 +77,4 @@
         justify-content: flex-end;
         align-items: flex-end;
     }
-}
+/* } */

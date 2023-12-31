@@ -1,4 +1,4 @@
-@layer primeng {
+/* @layer primeng { */
     p-inputnumber,
     .p-inputnumber {
         display: inline-flex;
@@ -112,4 +112,4 @@
     .p-inputnumber-clearable {
         position: relative;
     }
-}
+/* } */

@@ -1,4 +1,4 @@
-@layer primeng {
+/* @layer primeng { */
     .p-fileupload-content {
         position: relative;
     }
@@ -44,4 +44,4 @@
     .p-fileupload-filename {
         word-break: break-all;
     }
-}
+/* } */

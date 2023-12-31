@@ -1,4 +1,4 @@
-@layer primeng {
+/* @layer primeng { */
     .p-tree-container {
         margin: 0;
         padding: 0;
@@ -94,4 +94,4 @@
     .p-scroller .p-tree-container {
         overflow: visible;
     }
-}
+/* } */

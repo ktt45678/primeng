@@ -85,7 +85,7 @@ export const CHECKBOX_VALUE_ACCESSOR: any = {
     host: {
         class: 'p-element p-checkbox-container',
         '[class.p-disabled]': 'disabled',
-        '(click)': 'onClick($event, cb, true)'
+        '(click)': 'onClick($event)'
     }
 })
 export class Checkbox implements OnInit, ControlValueAccessor {

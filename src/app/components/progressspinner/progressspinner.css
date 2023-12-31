@@ -1,4 +1,4 @@
-@layer primeng {
+/* @layer primeng { */
     .p-progress-spinner {
         position: relative;
         margin: 0 auto;
@@ -33,7 +33,7 @@
         animation: p-progress-spinner-dash 1.5s ease-in-out infinite, p-progress-spinner-color 6s ease-in-out infinite;
         stroke-linecap: round;
     }
-}
+/* } */
 
 @keyframes p-progress-spinner-rotate {
     100% {

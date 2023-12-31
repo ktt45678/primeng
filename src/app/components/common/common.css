@@ -3,7 +3,7 @@
     padding-right: var(--scrollbar-width);
 }
 
-@layer primeng {
+/* @layer primeng { */
     .p-component,
     .p-component * {
         box-sizing: border-box;
@@ -155,7 +155,7 @@
         -webkit-animation: p-icon-spin 2s infinite linear;
         animation: p-icon-spin 2s infinite linear;
     }
-}
+/* } */
 
 @-webkit-keyframes p-icon-spin {
     0% {

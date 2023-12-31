@@ -1,4 +1,4 @@
-@layer primeng {
+/* @layer primeng { */
     .p-tabview-nav-container {
         position: relative;
     }
@@ -73,4 +73,4 @@
     .p-tabview-close {
         z-index: 1;
     }
-}
+/* } */

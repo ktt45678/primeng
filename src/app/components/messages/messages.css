@@ -1,4 +1,4 @@
-@layer primeng {
+/* @layer primeng { */
     .p-message-wrapper {
         display: flex;
         align-items: center;
@@ -20,4 +20,4 @@
     .p-messages .p-message.ng-animating {
         overflow: hidden;
     }
-}
+/* } */

@@ -1,4 +1,4 @@
-@layer primeng {
+/* @layer primeng { */
     .p-treetable {
         position: relative;
     }
@@ -201,4 +201,4 @@
         top: 0;
         left: 0;
     }
-}
+/* } */

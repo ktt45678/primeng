@@ -1,4 +1,4 @@
-@layer primeng {
+/* @layer primeng { */
     .ui-spinner {
         display: inline-block;
         overflow: visible;
@@ -60,4 +60,4 @@
     .ui-fluid .ui-spinner .ui-spinner-button .ui-spinner-button-icon {
         left: 0.7em;
     }
-}
+/* } */

@@ -1,4 +1,4 @@
-@layer primeng {
+/* @layer primeng { */
     .p-rating {
         display: inline-flex;
     }
@@ -10,4 +10,4 @@
     .p-rating.p-rating-readonly .p-rating-icon {
         cursor: default;
     }
-}
+/* } */

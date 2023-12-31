@@ -1,4 +1,4 @@
-@layer primeng {
+/* @layer primeng { */
     .p-inplace .p-inplace-display {
         display: inline;
         cursor: pointer;
@@ -16,4 +16,4 @@
         flex: 1 1 auto;
         width: 1%;
     }
-}
+/* } */

@@ -1,4 +1,4 @@
-@layer primeng {
+/* @layer primeng { */
     .p-chip {
         display: inline-flex;
         align-items: center;
@@ -28,7 +28,7 @@
         outline: 0;
     }
 
-    .pi-chip-removable {
+    .p-chip-removable {
         cursor: pointer;
     }
-}
+/* } */

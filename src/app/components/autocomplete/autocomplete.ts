@@ -1007,6 +1007,20 @@ export class AutoComplete implements AfterViewChecked, AfterContentInit, OnDestr
         return ObjectUtils.equals(this.modelValue(), this.getOptionValue(option), this.equalityKey());
     }
 
+    isSelectedMulti(option: any): boolean {
+        let selected: boolean = false;
+        let value = this.modelValue();
+        if (value && value.length) {
+            for (let i = 0; i < value.length; i++) {
+                if (ObjectUtils.equals(value[i], option, this.dataKey)) {
+                    selected = true;
+                    break;
+                }
+            }
+        }
+        return selected;
+    }
+
     isOptionMatched(option, value) {
         return this.isValidOption(option) && this.getOptionLabel(option).toLocaleLowerCase(this.searchLocale) === value.toLocaleLowerCase(this.searchLocale);
     }
@@ -1220,7 +1234,7 @@ export class AutoComplete implements AfterViewChecked, AfterContentInit, OnDestr
                 break;
 
             case 'Tab':
-                this.onTabKey(event);
+                this.onEscapeKey(event);
                 break;
 
             case 'Backspace':
@@ -1430,6 +1444,21 @@ export class AutoComplete implements AfterViewChecked, AfterContentInit, OnDestr
         this.updateModel(value);
         this.onUnselect.emit({ originalEvent: event, value: removedOption });
         DomHandler.focus(this.inputEL.nativeElement);
+    }
+
+    removeOptionByObject(item: any) {
+        let value = this.modelValue();
+        if (value && value.length) {
+            if (this.dataKey) {
+                const itemValue = ObjectUtils.resolveFieldData(item, this.dataKey);
+                value = value.filter((val: any) => ObjectUtils.resolveFieldData(val, this.dataKey) != itemValue);
+            } else {
+                value = value.filter((val: any) => val != item);
+            }
+            const removedValue = item;
+            this.updateModel(value);
+            this.onUnselect.emit(removedValue);
+        }
     }
 
     updateModel(value) {

@@ -1,4 +1,4 @@
-@layer primeng {
+/* @layer primeng { */
     .p-confirm-popup {
         position: absolute;
         margin-top: 10px;
@@ -50,4 +50,4 @@
         display: flex;
         align-items: center;
     }
-}
+/* } */

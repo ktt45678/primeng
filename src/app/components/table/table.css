@@ -1,4 +1,4 @@
-@layer primeng {
+/* @layer primeng { */
     .p-datatable {
         position: relative;
     }
@@ -246,4 +246,4 @@
         top: 0;
         left: 0;
     }
-}
+/* } */

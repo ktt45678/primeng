@@ -1,4 +1,4 @@
-@layer primeng {
+/* @layer primeng { */
     .p-tag {
         display: inline-flex;
         align-items: center;
@@ -14,4 +14,4 @@
     .p-tag.p-tag-rounded {
         border-radius: 10rem;
     }
-}
+/* } */

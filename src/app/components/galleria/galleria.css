@@ -1,4 +1,4 @@
-@layer primeng {
+/* @layer primeng { */
     .p-galleria-content {
         display: flex;
         flex-direction: column;
@@ -273,4 +273,4 @@
     .p-items-hidden .p-galleria-thumbnail-item.p-galleria-thumbnail-item-active {
         visibility: visible;
     }
-}
+/* } */

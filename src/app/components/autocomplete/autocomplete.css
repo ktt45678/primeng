@@ -1,4 +1,4 @@
-@layer primeng {
+/* @layer primeng { */
     .p-autocomplete {
         display: inline-flex;
         position: relative;
@@ -101,4 +101,4 @@
     .p-autocomplete-clearable {
         position: relative;
     }
-}
+/* } */

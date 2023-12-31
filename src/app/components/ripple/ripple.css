@@ -1,4 +1,4 @@
-@layer primeng {
+/* @layer primeng { */
     .p-ripple {
         overflow: hidden;
         position: relative;
@@ -19,7 +19,7 @@
     .p-ripple-disabled .p-ink {
         display: none !important;
     }
-}
+/* } */
 
 @keyframes ripple {
     100% {

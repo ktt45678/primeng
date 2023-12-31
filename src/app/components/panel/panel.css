@@ -1,4 +1,4 @@
-@layer primeng {
+/* @layer primeng { */
     .p-panel-header {
         display: flex;
         align-items: center;
@@ -26,4 +26,4 @@
     .p-panel-toggleable .p-toggleable-content {
         overflow: hidden;
     }
-}
+/* } */

@@ -1,4 +1,4 @@
-@layer primeng {
+/* @layer primeng { */
     .p-avatar {
         display: inline-flex;
         align-items: center;
@@ -25,4 +25,4 @@
         width: 100%;
         height: 100%;
     }
-}
+/* } */

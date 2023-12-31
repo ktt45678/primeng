@@ -1,4 +1,4 @@
-@layer primeng {
+/* @layer primeng { */
     .p-breadcrumb {
         overflow-x: auto;
     }
@@ -30,4 +30,4 @@
     .p-breadcrumb::-webkit-scrollbar {
         display: none;
     }
-}
+/* } */

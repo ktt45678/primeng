@@ -1,4 +1,4 @@
-@layer primeng {
+/* @layer primeng { */
     .p-treeselect {
         display: inline-flex;
         cursor: pointer;
@@ -95,4 +95,4 @@
     .p-treeselect-clearable {
         position: relative;
     }
-}
+/* } */

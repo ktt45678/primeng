@@ -1,4 +1,4 @@
-@layer primeng {
+/* @layer primeng { */
     .p-dropdown {
         display: inline-flex;
         cursor: pointer;
@@ -41,7 +41,7 @@
     .p-dropdown .p-dropdown-panel {
         min-width: 100%;
     }
-    
+
     .p-dropdown-items-wrapper {
         overflow: auto;
     }
@@ -85,4 +85,4 @@
     .p-fluid .p-dropdown .p-dropdown-label {
         width: 1%;
     }
-}
+/* } */

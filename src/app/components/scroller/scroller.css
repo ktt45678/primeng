@@ -1,4 +1,4 @@
-@layer primeng {
+/* @layer primeng { */
     p-scroller {
         flex: 1;
         outline: 0 none;
@@ -55,4 +55,4 @@
     .p-scroller-inline .p-scroller-content {
         position: static;
     }
-}
+/* } */

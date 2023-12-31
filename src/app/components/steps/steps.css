@@ -1,4 +1,4 @@
-@layer primeng {
+/* @layer primeng { */
     .p-steps {
         position: relative;
     }
@@ -46,4 +46,4 @@
     .p-steps-title {
         display: block;
     }
-}
+/* } */

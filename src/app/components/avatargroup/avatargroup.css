@@ -1,4 +1,4 @@
-@layer primeng {
+/* @layer primeng { */
     .p-avatar-group p-avatar + p-avatar {
         margin-left: -1rem;
     }
@@ -7,4 +7,4 @@
         display: flex;
         align-items: center;
     }
-}
+/* } */

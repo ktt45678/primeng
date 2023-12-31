@@ -790,7 +790,7 @@ export class CascadeSelect implements OnInit, AfterContentInit {
                 break;
 
             case 'Tab':
-                this.onTabKey(event);
+                this.onEscapeKey(event);
                 break;
 
             case 'Backspace':

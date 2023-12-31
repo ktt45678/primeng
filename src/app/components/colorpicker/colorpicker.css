@@ -1,4 +1,4 @@
-@layer primeng {
+/*@layer primeng {*/
     .p-colorpicker {
         display: inline-block;
     }
@@ -84,4 +84,4 @@
         height: 46px;
         position: absolute;
     }
-}
+/*}*/

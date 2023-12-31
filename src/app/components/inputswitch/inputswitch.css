@@ -1,4 +1,4 @@
-@layer primeng {
+/* @layer primeng { */
     .p-inputswitch-container {
         display: flex;
         align-items: center;
@@ -31,4 +31,4 @@
     .p-inputswitch-container:not(.p-disabled), .p-inputswitch-label:not(.p-disabled) {
         cursor: pointer;
     }
-}
+/* } */

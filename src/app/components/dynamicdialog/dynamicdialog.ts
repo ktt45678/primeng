@@ -221,8 +221,15 @@ export class DynamicDialogComponent implements AfterViewInit, OnDestroy {
             { provide: DynamicDialogComponent, useValue: this }
         ];
 
+        if (this.config.providers) {
+            providers.push(...this.config.providers);
+        }
+
         this.componentRef = viewContainerRef?.createComponent(componentType, {
-            injector: Injector.create({ parent: this.config.viewContainerRef?.injector || this.injector, providers })
+            injector: Injector.create({
+                parent: this.config.injector || this.config.viewContainerRef?.injector || this.injector,
+                providers
+            })
         });
     }
 

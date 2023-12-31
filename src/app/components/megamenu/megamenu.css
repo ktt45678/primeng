@@ -1,4 +1,4 @@
-@layer primeng {
+/* @layer primeng { */
     .p-megamenu-root-list {
         margin: 0;
         padding: 0;
@@ -105,4 +105,4 @@
     .p-megamenu-col-12 {
         width: 100%;
     }
-}
+/* } */

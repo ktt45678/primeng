@@ -1,4 +1,4 @@
-@layer primeng {
+/* @layer primeng { */
     .p-slidemenu .p-slidemenu-root-list {
         position: relative;
         top: 0;
@@ -97,4 +97,4 @@
     .p-slidemenu-backward span {
         vertical-align: middle;
     }
-}
+/* } */

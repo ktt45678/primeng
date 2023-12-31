@@ -1,4 +1,4 @@
-@layer primeng {
+/* @layer primeng { */
     .p-chips {
         display: inline-flex;
     }
@@ -65,4 +65,4 @@
     .p-chips-clearable .p-inputtext {
         position: relative;
     }
-}
+/* } */

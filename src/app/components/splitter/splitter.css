@@ -1,4 +1,4 @@
-@layer primeng {
+/* @layer primeng { */
     .p-splitter {
         display: flex;
         flex-wrap: nowrap;
@@ -62,4 +62,4 @@
         width: 24px;
         height: 100%;
     }
-}
+/* } */

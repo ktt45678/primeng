@@ -1,4 +1,4 @@
-@layer primeng {
+/* @layer primeng { */
     .p-progressbar {
         position: relative;
         overflow: hidden;
@@ -49,7 +49,7 @@
         -webkit-animation-delay: 1.15s;
         animation-delay: 1.15s;
     }
-}
+/* } */
 
 @-webkit-keyframes p-progressbar-indeterminate-anim {
     0% {

@@ -1,4 +1,4 @@
-@layer primeng {
+/* @layer primeng { */
     .p-radiobutton {
         display: inline-flex;
         user-select: none;
@@ -38,6 +38,6 @@
     .p-radiobutton-container:not(.p-disabled), .p-radiobutton-label:not(.p-disabled) {
         cursor: pointer;
     }
-}
+/* } */
 
 

@@ -1,4 +1,4 @@
-@layer primeng {
+/* @layer primeng { */
     .p-cascadeselect {
         display: inline-flex;
         cursor: pointer;
@@ -95,4 +95,4 @@
     .p-overlay-modal .p-cascadeselect-item-active > .p-cascadeselect-sublist {
         left: 0;
     }
-}
+/* } */

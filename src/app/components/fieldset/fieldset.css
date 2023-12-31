@@ -1,4 +1,4 @@
-@layer primeng {
+/* @layer primeng { */
     .p-fieldset-legend > a,
     .p-fieldset-legend > span {
         display: flex;
@@ -24,4 +24,4 @@
     .p-fieldset-toggleable .p-toggleable-content {
         overflow: hidden;
     }
-}
+/* } */

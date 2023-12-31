@@ -739,7 +739,7 @@ export class ContextMenu implements OnInit, AfterContentInit, OnDestroy {
                 break;
 
             case 'Tab':
-                this.onTabKey(event);
+                this.onEscapeKey(event);
                 break;
 
             case 'PageDown':

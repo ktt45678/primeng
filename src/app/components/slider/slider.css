@@ -1,4 +1,4 @@
-@layer primeng {
+/* @layer primeng { */
     .p-slider {
         position: relative;
     }
@@ -38,4 +38,4 @@
         left: 0;
         width: 100%;
     }
-}
+/* } */

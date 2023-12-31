@@ -1,4 +1,4 @@
-@layer primeng {
+/* @layer primeng { */
     .p-carousel {
         display: flex;
         flex-direction: column;
@@ -68,4 +68,4 @@
     .p-items-hidden .p-carousel-item.p-carousel-item-active {
         visibility: visible;
     }
-}
+/* } */

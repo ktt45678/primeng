@@ -1,4 +1,4 @@
-@layer primeng {
+/* @layer primeng { */
     .p-inputmask-clear-icon {
         position: absolute;
         top: 50%;
@@ -9,4 +9,4 @@
     .p-inputmask-clearable {
         position: relative;
     }
-}
+/* } */

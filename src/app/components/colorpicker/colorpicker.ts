@@ -93,6 +93,11 @@ export class ColorPicker implements ControlValueAccessor, OnDestroy {
      */
     @Input() styleClass: string | undefined;
     /**
+     * Style class of the input element.
+     * @group Props
+     */
+    @Input() inputStyleClass: string | undefined;
+    /**
      * Whether to display as an overlay or not.
      * @group Props
      */

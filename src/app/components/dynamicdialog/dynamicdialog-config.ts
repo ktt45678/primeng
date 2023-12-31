@@ -1,4 +1,4 @@
-import { ViewContainerRef } from '@angular/core';
+import { Injector, StaticProvider, ViewContainerRef } from '@angular/core';
 
 /**
  * Dialogs can be created dynamically with any component as the content using a DialogService.
@@ -153,6 +153,14 @@ export class DynamicDialogConfig<T = any> {
      * View Container Ref.
      */
     viewContainerRef?: ViewContainerRef;
+    /**
+     * Injector.
+     */
+    injector?: Injector;
+    /**
+     * Injector.
+     */
+    providers?: StaticProvider[];
     /**
      * Defines a string that labels the close button for accessibility.
      * @group Props
