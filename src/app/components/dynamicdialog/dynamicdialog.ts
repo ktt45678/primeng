@@ -1,5 +1,5 @@
 import { animate, animation, AnimationEvent, style, transition, trigger, useAnimation } from '@angular/animations';
-import { CommonModule, DOCUMENT, isPlatformBrowser } from '@angular/common';
+import { CommonModule, DOCUMENT, isPlatformBrowser, Location } from '@angular/common';
 import {
     AfterViewInit,
     ChangeDetectionStrategy,
@@ -23,6 +23,7 @@ import {
     ViewEncapsulation,
     ViewRef
 } from '@angular/core';
+import { Subscription, SubscriptionLike } from 'rxjs';
 import { PrimeNGConfig, SharedModule } from 'primeng/api';
 import { DomHandler } from 'primeng/dom';
 import { TimesIcon } from 'primeng/icons/times';
@@ -64,6 +65,7 @@ const hideAnimation = animation([animate('{{transition}}', style({ transform: '{
                 [ngStyle]="config.style"
                 [class]="config.styleClass"
                 [@animation]="{ value: 'visible', params: { transform: transformOptions, transition: config.transitionOptions || '150ms cubic-bezier(0, 0, 0.2, 1)' } }"
+                [@.disabled]="!!config.disableAnimation"
                 (@animation.start)="onAnimationStart($event)"
                 (@animation.done)="onAnimationEnd($event)"
                 role="dialog"
@@ -123,6 +125,8 @@ export class DynamicDialogComponent implements AfterViewInit, OnDestroy {
     id: string = UniqueComponentId();
 
     styleElement: any;
+
+    _locationChanges: SubscriptionLike = Subscription.EMPTY;
 
     @ViewChild(DynamicDialogContent) insertionPoint: Nullable<DynamicDialogContent>;
 
@@ -234,6 +238,7 @@ export class DynamicDialogComponent implements AfterViewInit, OnDestroy {
         public dialogRef: DynamicDialogRef,
         public zone: NgZone,
         public primeNGConfig: PrimeNGConfig,
+        private _location: Location,
         @SkipSelf() @Optional() private parentDialog: DynamicDialogComponent
     ) { }
 
@@ -327,6 +332,9 @@ export class DynamicDialogComponent implements AfterViewInit, OnDestroy {
 
                 if (this.config.focusOnShow === true) {
                     this.focus();
+                }
+                if (this.config.closeOnNavigation) {
+                    this._locationChanges = this._location.subscribe(() => this.close());
                 }
                 break;
 
@@ -646,6 +654,8 @@ export class DynamicDialogComponent implements AfterViewInit, OnDestroy {
         if (this.parentDialog) {
             this.parentDialog.bindDocumentKeydownListener();
         }
+
+        this._locationChanges.unsubscribe();
     }
 
     bindDocumentKeydownListener() {

@@ -1,5 +1,5 @@
 import { animate, animation, style, transition, trigger, useAnimation } from '@angular/animations';
-import { CommonModule, DOCUMENT } from '@angular/common';
+import { CommonModule, DOCUMENT, Location } from '@angular/common';
 import {
     AfterContentInit,
     AfterViewInit,
@@ -19,6 +19,7 @@ import {
     TemplateRef,
     ViewEncapsulation
 } from '@angular/core';
+import { Subscription, SubscriptionLike } from 'rxjs';
 import { PrimeNGConfig, PrimeTemplate, SharedModule } from 'primeng/api';
 import { DomHandler } from 'primeng/dom';
 import { TimesIcon } from 'primeng/icons/times';
@@ -158,6 +159,12 @@ export class Sidebar implements AfterViewInit, AfterContentInit, OnDestroy {
      */
     @Input() closeOnEscape: boolean = true;
     /**
+     * Specifies if the dialog should close when the user goes backwards/forwards in history.
+     * Note that this usually doesn't include clicking on links (unless the user is using the HashLocationStrategy).
+     * @group Props
+     */
+    @Input() closeOnNavigation: boolean = false;
+    /**
      * Transition options of the animation.
      * @group Props
      */
@@ -240,6 +247,8 @@ export class Sidebar implements AfterViewInit, AfterContentInit, OnDestroy {
 
     _fullScreen: boolean = false;
 
+    _locationChanges: SubscriptionLike = Subscription.EMPTY;
+
     container: Nullable<HTMLDivElement>;
 
     transformOptions: any = 'translate3d(-100%, 0px, 0px)';
@@ -262,7 +271,7 @@ export class Sidebar implements AfterViewInit, AfterContentInit, OnDestroy {
 
     headlessTemplate: Nullable<TemplateRef<any>>;
 
-    constructor(@Inject(DOCUMENT) private document: Document, public el: ElementRef, public renderer: Renderer2, public cd: ChangeDetectorRef, public config: PrimeNGConfig) {}
+    constructor(@Inject(DOCUMENT) private document: Document, public el: ElementRef, public renderer: Renderer2, public cd: ChangeDetectorRef, private _location: Location, public config: PrimeNGConfig) {}
 
     ngAfterViewInit() {
         this.initialized = true;
@@ -309,6 +318,13 @@ export class Sidebar implements AfterViewInit, AfterContentInit, OnDestroy {
             this.enableModality();
         }
 
+        if (this.closeOnNavigation) {
+            this._locationChanges = this._location.subscribe(() => {
+                this.hide();
+                this.visibleChange.emit(false);
+            });
+        }
+
         this.onShow.emit({});
         this.visibleChange.emit(true);
     }
@@ -321,6 +337,8 @@ export class Sidebar implements AfterViewInit, AfterContentInit, OnDestroy {
         if (this.modal) {
             this.disableModality();
         }
+
+        this._locationChanges.unsubscribe();
     }
 
     close(event: Event) {

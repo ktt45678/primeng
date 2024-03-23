@@ -191,6 +191,17 @@ export class DynamicDialogConfig<T = any> {
      * @group Props
      */
     templates?: DynamicDialogTemplates;
+    /**
+     * Specifies if the dialog should close when the user goes backwards/forwards in history.
+     * Note that this usually doesn't include clicking on links (unless the user is using the HashLocationStrategy).
+     * @group Props
+     */
+    closeOnNavigation?: boolean;
+    /**
+     * Disable show and hide animations
+     * @group Props
+     */
+    disableAnimation?: boolean;
 }
 
 /**
