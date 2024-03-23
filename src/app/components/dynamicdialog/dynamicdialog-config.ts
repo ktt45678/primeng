@@ -1,4 +1,4 @@
-import { Injector, StaticProvider, ViewContainerRef } from '@angular/core';
+import { Injector, StaticProvider, Type, ViewContainerRef } from '@angular/core';
 
 /**
  * Dialogs can be created dynamically with any component as the content using a DialogService.
@@ -40,6 +40,11 @@ export class DynamicDialogConfig<T = any> {
      * @group Props
      */
     closeOnEscape?: boolean;
+    /**
+     * Specifies if autofocus should happen on show.
+     * @group Props
+     */
+    focusOnShow?: boolean = true;
     /**
      * Base zIndex value to use in layering.
      * @group Props
@@ -176,4 +181,45 @@ export class DynamicDialogConfig<T = any> {
      * @group Props
      */
     duplicate?: boolean;
+    /**
+     * Object literal to define widths per screen size.
+     * @group Props
+     */
+    breakpoints?: any;
+    /**
+     * Dialog templates.
+     * @group Props
+     */
+    templates?: DynamicDialogTemplates;
+}
+
+/**
+ * Defines valid templates in Dynamic Dialog.
+ * @group Interface
+ */
+export interface DynamicDialogTemplates {
+    /**
+     * Template of the header.
+     */
+    header?: Type<any>;
+    /**
+     * Template of the content.
+     */
+    content?: Type<any>;
+    /**
+     * Template of the footer.
+     */
+    footer?: Type<any>;
+    /**
+     * Template of the minimize icon.
+     */
+    minimizeicon?: Type<any>;
+    /**
+     * Template of the maximize icon.
+     */
+    maximizeicon?: Type<any>;
+    /**
+     * Template of the close icon.
+     */
+    closeicon?: Type<any>;
 }
