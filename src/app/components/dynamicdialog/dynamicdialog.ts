@@ -1,5 +1,5 @@
 import { animate, animation, AnimationEvent, style, transition, trigger, useAnimation } from '@angular/animations';
-import { CommonModule, DOCUMENT, isPlatformBrowser, Location } from '@angular/common';
+import { CommonModule, DOCUMENT, isPlatformBrowser } from '@angular/common';
 import {
     AfterViewInit,
     ChangeDetectionStrategy,
@@ -23,7 +23,8 @@ import {
     ViewEncapsulation,
     ViewRef
 } from '@angular/core';
-import { Subscription, SubscriptionLike } from 'rxjs';
+import { NavigationStart, Router } from '@angular/router';
+import { filter, Subscription, SubscriptionLike } from 'rxjs';
 import { PrimeNGConfig, SharedModule } from 'primeng/api';
 import { DomHandler } from 'primeng/dom';
 import { TimesIcon } from 'primeng/icons/times';
@@ -238,7 +239,7 @@ export class DynamicDialogComponent implements AfterViewInit, OnDestroy {
         public dialogRef: DynamicDialogRef,
         public zone: NgZone,
         public primeNGConfig: PrimeNGConfig,
-        private _location: Location,
+        private router: Router,
         @SkipSelf() @Optional() private parentDialog: DynamicDialogComponent
     ) { }
 
@@ -334,7 +335,9 @@ export class DynamicDialogComponent implements AfterViewInit, OnDestroy {
                     this.focus();
                 }
                 if (this.config.closeOnNavigation) {
-                    this._locationChanges = this._location.subscribe(() => this.close());
+                    this._locationChanges = this.router.events
+                        .pipe(filter(event => event instanceof NavigationStart))
+                        .subscribe(() => this.close());
                 }
                 break;
 
