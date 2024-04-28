@@ -1,5 +1,6 @@
 import { animate, animation, style, transition, trigger, useAnimation } from '@angular/animations';
-import { CommonModule, DOCUMENT, Location } from '@angular/common';
+import { CommonModule, DOCUMENT } from '@angular/common';
+import { NavigationEnd, Router } from '@angular/router';
 import {
     AfterContentInit,
     AfterViewInit,
@@ -19,7 +20,7 @@ import {
     TemplateRef,
     ViewEncapsulation
 } from '@angular/core';
-import { Subscription, SubscriptionLike } from 'rxjs';
+import { filter, Subscription, SubscriptionLike } from 'rxjs';
 import { PrimeNGConfig, PrimeTemplate, SharedModule } from 'primeng/api';
 import { DomHandler } from 'primeng/dom';
 import { TimesIcon } from 'primeng/icons/times';
@@ -271,7 +272,7 @@ export class Sidebar implements AfterViewInit, AfterContentInit, OnDestroy {
 
     headlessTemplate: Nullable<TemplateRef<any>>;
 
-    constructor(@Inject(DOCUMENT) private document: Document, public el: ElementRef, public renderer: Renderer2, public cd: ChangeDetectorRef, private _location: Location, public config: PrimeNGConfig) {}
+    constructor(@Inject(DOCUMENT) private document: Document, public el: ElementRef, public renderer: Renderer2, public cd: ChangeDetectorRef, private router: Router, public config: PrimeNGConfig) {}
 
     ngAfterViewInit() {
         this.initialized = true;
@@ -319,10 +320,12 @@ export class Sidebar implements AfterViewInit, AfterContentInit, OnDestroy {
         }
 
         if (this.closeOnNavigation) {
-            this._locationChanges = this._location.subscribe(() => {
-                this.hide();
-                this.visibleChange.emit(false);
-            });
+            this._locationChanges = this.router.events
+                .pipe(filter(event => event instanceof NavigationEnd))
+                .subscribe(() => {
+                    this.hide();
+                    this.visibleChange.emit(false);
+                });
         }
 
         this.onShow.emit({});

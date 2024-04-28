@@ -23,7 +23,7 @@ import {
     ViewEncapsulation,
     ViewRef
 } from '@angular/core';
-import { NavigationStart, Router } from '@angular/router';
+import { NavigationEnd, Router } from '@angular/router';
 import { filter, Subscription, SubscriptionLike } from 'rxjs';
 import { PrimeNGConfig, SharedModule } from 'primeng/api';
 import { DomHandler } from 'primeng/dom';
@@ -336,7 +336,7 @@ export class DynamicDialogComponent implements AfterViewInit, OnDestroy {
                 }
                 if (this.config.closeOnNavigation) {
                     this._locationChanges = this.router.events
-                        .pipe(filter(event => event instanceof NavigationStart))
+                        .pipe(filter(event => event instanceof NavigationEnd))
                         .subscribe(() => this.close());
                 }
                 break;
