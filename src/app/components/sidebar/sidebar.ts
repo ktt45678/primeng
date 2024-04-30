@@ -83,7 +83,7 @@ const hideAnimation = animation([animate('{{transition}}', style({ transform: '{
                         </span>
                     </button>
                 </div>
-                <div class="p-sidebar-content" [attr.data-pc-section]="'content'">
+                <div class="p-sidebar-content" [class]="contentStyleClass" [id]="contentId" [attr.data-pc-section]="'content'">
                     <ng-content></ng-content>
                     <ng-container *ngTemplateOutlet="contentTemplate"></ng-container>
                 </div>
